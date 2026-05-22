@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWS Summit Seoul 2026 - 에이전트 성능 평가와 개선: 개발부터 운영까지</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f7fa;
+    --surface: #ffffff;
+    --border: #e3e6ed;
+    --text: #18191f;
+    --muted: #6b6e7d;
+    --dim: #9ba0b0;
+    --blue: #1a5fa8;
+    --blue-light: #e8f1fb;
+    --purple: #5340b8;
+    --purple-light: #eeedfe;
+    --teal: #0b6e56;
+    --teal-light: #e2f5ef;
+    --amber: #8a4f0b;
+    --amber-light: #faeeda;
+    --tag-bg: #f5f7ff;
+  }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.75;
+    font-size: 16px;
+    padding: 0 0 80px;
+  }
+
+  .post-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 56px 0 40px;
+    margin-bottom: 48px;
+  }
+  .post-header .inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .category-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--purple);
+    background: var(--purple-light);
+    border: 1px solid #c5bef5;
+    border-radius: 4px;
+    padding: 3px 10px;
+    margin-bottom: 20px;
+  }
+  .post-title {
+    font-size: clamp(22px, 4vw, 34px);
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--text);
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+  }
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .post-body {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 48px 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border);
+  }
+  h2:first-child { margin-top: 0; }
+  h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 28px 0 10px;
+  }
+  p {
+    color: #2e2f38;
+    margin-bottom: 16px;
+    font-size: 15.5px;
+  }
+
+  .info-box {
+    background: var(--blue-light);
+    border-left: 3px solid var(--blue);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin: 24px 0;
+    font-size: 14.5px;
+    color: #0f3d70;
+  }
+
+  blockquote {
+    border-left: 3px solid var(--purple);
+    margin: 24px 0;
+    padding: 12px 20px;
+    background: var(--purple-light);
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    color: #3a2d87;
+    font-style: italic;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    margin: 24px 0;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14.5px;
+  }
+  thead tr { background: #f0f2f7; }
+  th {
+    text-align: left;
+    padding: 10px 16px;
+    font-weight: 700;
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 0.03em;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f8f9fc; }
+
+  /* LIFECYCLE STEPS */
+  .lifecycle {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+  .lc-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .lc-item:last-child { border-bottom: none; }
+  .lc-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--purple-light);
+    color: var(--purple);
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .lc-text {
+    font-size: 14.5px;
+    color: #2e2f38;
+    line-height: 1.6;
+  }
+
+  /* EVAL TYPES */
+  .eval-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+    margin: 20px 0;
+  }
+  .eval-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+  .eval-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .eval-badge {
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.05em;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  .badge-offline {
+    background: var(--blue-light);
+    color: var(--blue);
+    border: 1px solid #a8c8f0;
+  }
+  .badge-online {
+    background: var(--teal-light);
+    color: var(--teal);
+    border: 1px solid #9de0cb;
+  }
+  .eval-card-title {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text);
+  }
+  .eval-list {
+    list-style: none;
+    padding: 0;
+  }
+  .eval-list li {
+    font-size: 13.5px;
+    color: var(--muted);
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .eval-list li:last-child { border-bottom: none; }
+  .eval-list li::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--dim);
+    flex-shrink: 0;
+  }
+
+  /* GROUND TRUTH */
+  .gt-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .gt-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .gt-label {
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    color: var(--amber);
+    background: var(--amber-light);
+    border: 1px solid #f5c888;
+    border-radius: 4px;
+    padding: 2px 8px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+  .gt-title {
+    font-weight: 700;
+    font-size: 14.5px;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .gt-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+  .gt-when {
+    font-size: 12px;
+    color: var(--dim);
+    font-style: italic;
+  }
+  .gt-eval {
+    margin-top: 8px;
+    font-size: 11.5px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--purple);
+    background: var(--purple-light);
+    border-radius: 4px;
+    padding: 3px 8px;
+    display: inline-block;
+  }
+
+  /* FLYWHEEL */
+  .flywheel {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin: 24px 0;
+    flex-wrap: wrap;
+  }
+  .fw-item {
+    flex: 1;
+    min-width: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    padding: 0 8px;
+  }
+  .fw-item:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -10px;
+    top: 18px;
+    color: var(--dim);
+    font-size: 18px;
+  }
+  .fw-dot {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  .fw-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .fw-sub {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .fw-loop {
+    text-align: center;
+    font-size: 12px;
+    color: var(--dim);
+    margin-top: 16px;
+    font-style: italic;
+  }
+
+  .summary-box {
+    background: var(--teal-light);
+    border: 1px solid #9de0cb;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 32px 0;
+  }
+  .summary-box h3 {
+    margin: 0 0 12px;
+    font-size: 15px;
+    color: var(--teal);
+  }
+  .summary-box ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+  .summary-box li {
+    font-size: 14.5px;
+    color: #084d3c;
+    margin-bottom: 6px;
+    line-height: 1.6;
+  }
+
+  .warn-box {
+    background: var(--amber-light);
+    border-left: 3px solid #ba7517;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 20px 0;
+    font-size: 14px;
+    color: var(--amber);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 40px 0 0;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .tag {
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--tag-bg);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3px 9px;
+  }
+</style>
+</head>
+<body>
+
+<div class="post-header">
+  <div class="inner">
+    <div class="category-badge">AWS Summit Seoul 2026</div>
+    <h1 class="post-title">에이전트 성능 평가와 개선:<br>개발부터 운영까지</h1>
+    <div class="post-meta">
+      <span>📅 2026년 5월 21일 오후 3:30</span>
+      <span>⏱ 20분</span>
+      <span>🎤 김무현 (데이터 사이언티스트, AWS)</span>
+    </div>
+  </div>
+</div>
+
+<div class="post-body">
+
+  <div class="info-box">
+    AI 에이전트를 만들기는 쉬운데, 제대로 동작하는지 어떻게 알 수 있을까?<br>
+    이 세션은 그 질문에 답하는 내용이었다. AgentCore Evaluations를 중심으로 개발-운영 전 주기에서 에이전트 품질을 높이는 방법을 설명했다.
+  </div>
+
+  <h2>왜 에이전트 평가가 어려운가?</h2>
+
+  <div class="warn-box">
+    ⚠️ 평가 프로세스 전체가 <strong>몇 달이 걸릴 수 있으며</strong>, 새 모델·새 에이전트 버전·새 프롬프트마다 전 과정을 반복해야 한다.
+  </div>
+
+  <p>기존 에이전트 평가 사이클은 이런 단계를 반복한다:</p>
+
+  <div class="lifecycle">
+    <div class="lc-item"><div class="lc-num">1</div><div class="lc-text">에이전트 구축</div></div>
+    <div class="lc-item"><div class="lc-num">2</div><div class="lc-text">데이터셋 찾기 및 생성</div></div>
+    <div class="lc-item"><div class="lc-num">3</div><div class="lc-text">Evaluator 선택</div></div>
+    <div class="lc-item"><div class="lc-num">4</div><div class="lc-text">에이전트를 평가할 모델 선택</div></div>
+    <div class="lc-item"><div class="lc-num">5</div><div class="lc-text">평가 수행 인프라 구축</div></div>
+    <div class="lc-item"><div class="lc-num">6</div><div class="lc-text">결과 기록 및 인사이트 종합·조정</div></div>
+    <div class="lc-item"><div class="lc-num">7</div><div class="lc-text">프로덕션 환경에서 모니터링</div></div>
+  </div>
+
+  <h2>AgentCore Evaluations 소개</h2>
+
+  <blockquote>
+    "실제 성능을 기반으로 에이전트 품질을 향상시킨다"
+  </blockquote>
+
+  <p>AWS가 공개한 AgentCore Evaluations는 세 가지를 제공한다:</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>기능</th><th>설명</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>실시간 품질 인텔리전스</strong></td>
+          <td>13개의 기본 제공 평가자로 실시간 인터랙션 샘플링 및 평가. 실제 사용자 행동 기반 인사이트 제공</td>
+        </tr>
+        <tr>
+          <td><strong>맞춤형 비즈니스 스코어링</strong></td>
+          <td>사용자 정의 평가자로 특정 유스케이스에 맞게 구축. 전체 궤적·최종 응답·개별 단계 세분화 지원</td>
+        </tr>
+        <tr>
+          <td><strong>인프라 오버헤드 없음</strong></td>
+          <td>Amazon CloudWatch 로그에서 즉시 평가 가능. 인프라 구축에 필요한 수개월 노력을 절감</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>평가 방식: 온디맨드 vs 온라인</h2>
+
+  <div class="eval-grid">
+    <div class="eval-card">
+      <div class="eval-card-header">
+        <span class="eval-badge badge-offline">온디맨드</span>
+        <span class="eval-card-title">품질 보증 (QA)</span>
+      </div>
+      <ul class="eval-list">
+        <li>타겟 테스팅: 단계별 디버그</li>
+        <li>구성 요소 검증, CI/CD 통합</li>
+        <li>벤치마크 테스트: 안정성 검증</li>
+        <li>배포 전 확인</li>
+      </ul>
+    </div>
+    <div class="eval-card">
+      <div class="eval-card-header">
+        <span class="eval-badge badge-online">온라인</span>
+        <span class="eval-card-title">지속적 모니터링</span>
+      </div>
+      <ul class="eval-list">
+        <li>프로덕션 세션 연속 샘플링</li>
+        <li>대화 품질 실시간 측정</li>
+        <li>라이브 대시보드 모니터링</li>
+        <li>구성 요소별 지표 추적</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>사용자 시뮬레이터 (Preview)</h2>
+
+  <p>평가 데이터셋이 없거나 실제 사용 데이터가 없는 상황에서도 평가할 수 있다. Amazon Bedrock FM 기반 사용자 시뮬레이터가 가상의 사용자처럼 에이전트와 대화한다.</p>
+
+  <p>시뮬레이터에 설정할 수 있는 것들:</p>
+  <ul style="padding-left: 20px; margin-bottom: 16px; font-size: 15px; color: #2e2f38;">
+    <li style="margin-bottom: 6px;"><strong>Context</strong>: 사용자의 상황·배경</li>
+    <li style="margin-bottom: 6px;"><strong>Goal</strong>: 대화의 목적</li>
+    <li style="margin-bottom: 6px;"><strong>사용자 특성</strong>: 전문성, 대화 스타일, 인내심 등</li>
+  </ul>
+
+  <p>덕분에 고정 스크립트 없이 실제 사용자 행동을 현실적으로 재현하고, 엣지 케이스를 발견할 수 있다.</p>
+
+  <h2>코드 기반 Evaluator (New!)</h2>
+
+  <blockquote>
+    "완전한 결정론적 방식. LLM 비용 없음. 맞춤형 평가 로직 직접 적용 가능"
+  </blockquote>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>LLM-as-Judge</th><th>코드 기반 Evaluator</th></tr></thead>
+      <tbody>
+        <tr><td>모든 점수에 LLM 호출 → 비용·레이턴시 증가</td><td>평가 호출당 LLM 추론 불필요 → 저렴</td></tr>
+        <tr><td>비결정적: 같은 입력에 다른 점수 가능</td><td>결정론적: 같은 입력, 항상 같은 점수</td></tr>
+        <tr><td>SQL·JSON 준수 여부를 안정적으로 검증 어려움</td><td>SQL 유효성, JSON 스키마 확인, 비즈니스 규칙 직접 적용</td></tr>
+        <tr><td>정규식·소수점 정밀도 검증 불가</td><td>정확한 수치 검증 가능 (e.g. 소수점 5자리)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Ground Truth 3가지 형태</h2>
+
+  <div class="gt-grid">
+    <div class="gt-card">
+      <div class="gt-label">어설션</div>
+      <div class="gt-title">응답이 충족해야 할 사실</div>
+      <div class="gt-desc">자유 형식 텍스트로 응답이 반드시 만족해야 하는 조건을 명시</div>
+      <div class="gt-when">규정 준수, 어조, 안전, 정확도 검증에 사용</div>
+      <div class="gt-eval">Builtin.GoalSuccessRate</div>
+    </div>
+    <div class="gt-card">
+      <div class="gt-label">예상 응답</div>
+      <div class="gt-title">최종 답변이 무엇을 말해야 하는가</div>
+      <div class="gt-desc">에이전트의 최종 답변이 어떤 내용이어야 하는지 기준을 제시</div>
+      <div class="gt-when">FAQ 봇, 수학/금융, 회귀, 턴별 추적에 사용</div>
+      <div class="gt-eval">Builtin.Correctness</div>
+    </div>
+    <div class="gt-card">
+      <div class="gt-label">예상 궤적</div>
+      <div class="gt-title">에이전트가 호출해야 할 도구 순서</div>
+      <div class="gt-desc">다단계 워크플로우에서 에이전트가 어떤 순서로 도구를 써야 하는지 정의</div>
+      <div class="gt-when">다단계 워크플로우, 보안, 감사에 사용</div>
+      <div class="gt-eval">Builtin.TrajectoryExactOrderMatch</div>
+    </div>
+  </div>
+
+  <h2>에이전트 최적화 플라이휠</h2>
+
+  <p>평가 → 수정 → 검증이 순환하는 구조를 만드는 것이 핵심이다.</p>
+
+  <div class="flywheel">
+    <div class="fw-item">
+      <div class="fw-dot" style="background:#fcebeb; font-size:20px;">🚨</div>
+      <div class="fw-title">Production Failures</div>
+      <div class="fw-sub">프로덕션에서<br>실패 감지</div>
+    </div>
+    <div class="fw-item">
+      <div class="fw-dot" style="background:#e8f1fb; font-size:20px;">🔄</div>
+      <div class="fw-title">Inner Loop</div>
+      <div class="fw-sub">원인 파악 및<br>빠른 수정 반복</div>
+    </div>
+    <div class="fw-item">
+      <div class="fw-dot" style="background:#e2f5ef; font-size:20px;">🛡️</div>
+      <div class="fw-title">Outer Loop</div>
+      <div class="fw-sub">Golden Dataset Gate<br>기준 통과 검증</div>
+    </div>
+  </div>
+  <div class="fw-loop">↻ TRACE 모니터 및 필요시 최적화 재실행 (피드백 루프)</div>
+
+  <div class="summary-box" style="margin-top: 32px;">
+    <h3>📌 세션 핵심 요약</h3>
+    <ul>
+      <li>에이전트 평가는 기존에 <strong>수개월이 걸리는 고비용 작업</strong>이었다</li>
+      <li>AgentCore Evaluations는 인프라 없이 <strong>CloudWatch 로그에서 즉시 평가</strong>를 가능하게 한다</li>
+      <li>사용자 시뮬레이터로 <strong>평가 데이터 없이도 에이전트 테스트</strong>가 가능해졌다</li>
+      <li>코드 기반 Evaluator는 <strong>LLM 없이 결정론적 평가</strong>를 제공한다</li>
+      <li>Production Failures → Fix → Gate의 <strong>플라이휠 구조</strong>로 지속적 품질 개선이 가능하다</li>
+    </ul>
+  </div>
+
+  <div class="tags">
+    <span class="tag">#aws-summit</span>
+    <span class="tag">#agentcore</span>
+    <span class="tag">#agent-evaluation</span>
+    <span class="tag">#llm-as-judge</span>
+    <span class="tag">#amazon-bedrock</span>
+    <span class="tag">#mlops</span>
+    <span class="tag">#ai-agent</span>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWS Summit Seoul 2026 - 에이전틱 AI로 레거시 시스템 전환 자동화</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f8f7f4;
+    --surface: #ffffff;
+    --border: #e5e3dd;
+    --text: #1a1917;
+    --muted: #6b6960;
+    --dim: #9b9890;
+    --orange: #e8650a;
+    --orange-light: #fff0e6;
+    --blue: #1a5fa8;
+    --blue-light: #e8f1fb;
+    --teal: #0b6e56;
+    --teal-light: #e2f5ef;
+    --code-bg: #f3f2ef;
+    --tag-bg: #fffbf5;
+  }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.75;
+    font-size: 16px;
+    padding: 0 0 80px;
+  }
+
+  /* HEADER */
+  .post-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 56px 0 40px;
+    margin-bottom: 48px;
+  }
+  .post-header .inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .category-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--orange);
+    background: var(--orange-light);
+    border: 1px solid #f5c49a;
+    border-radius: 4px;
+    padding: 3px 10px;
+    margin-bottom: 20px;
+  }
+  .post-title {
+    font-size: clamp(22px, 4vw, 34px);
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--text);
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+  }
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .post-meta span { display: flex; align-items: center; gap: 5px; }
+
+  /* BODY */
+  .post-body {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* SECTIONS */
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 48px 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border);
+  }
+  h2:first-child { margin-top: 0; }
+  h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 28px 0 10px;
+  }
+  p {
+    color: #2e2d2a;
+    margin-bottom: 16px;
+    font-size: 15.5px;
+  }
+
+  /* INFO BOX */
+  .info-box {
+    background: var(--blue-light);
+    border-left: 3px solid var(--blue);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin: 24px 0;
+    font-size: 14.5px;
+    color: #0f3d70;
+  }
+  .info-box strong { color: var(--blue); }
+
+  /* QUOTE */
+  blockquote {
+    border-left: 3px solid var(--orange);
+    margin: 24px 0;
+    padding: 12px 20px;
+    background: var(--orange-light);
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    color: #7a3510;
+    font-style: italic;
+  }
+
+  /* TABLE */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 24px 0;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14.5px;
+  }
+  thead tr {
+    background: #f3f2ef;
+  }
+  th {
+    text-align: left;
+    padding: 10px 16px;
+    font-weight: 700;
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 0.03em;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #faf9f7; }
+
+  /* METHOD CARDS */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .card-icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  .card-title {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .card-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* FLOW */
+  .flow {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin: 28px 0;
+    flex-wrap: wrap;
+  }
+  .flow-item {
+    flex: 1;
+    min-width: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+  }
+  .flow-item:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -14px;
+    top: 18px;
+    color: var(--dim);
+    font-size: 18px;
+  }
+  .flow-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  .flow-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .flow-sub {
+    font-size: 11.5px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* TAG LIST */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 40px 0 0;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .tag {
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--tag-bg);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3px 9px;
+  }
+
+  /* SUMMARY BOX */
+  .summary-box {
+    background: var(--teal-light);
+    border: 1px solid #9de0cb;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 32px 0;
+  }
+  .summary-box h3 {
+    margin: 0 0 12px;
+    font-size: 15px;
+    color: var(--teal);
+  }
+  .summary-box ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+  .summary-box li {
+    font-size: 14.5px;
+    color: #084d3c;
+    margin-bottom: 6px;
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="post-header">
+  <div class="inner">
+    <div class="category-badge">AWS Summit Seoul 2026</div>
+    <h1 class="post-title">에이전틱 AI로 레거시 시스템<br>전환 자동화</h1>
+    <div class="post-meta">
+      <span>📅 2026년 5월 21일</span>
+      <span>🎤 김윤서, 임연욱 (AWS Solutions Architect)</span>
+      <span>📍 Floor 1, Track 4, Hall D</span>
+    </div>
+  </div>
+</div>
+
+<div class="post-body">
+
+  <div class="info-box">
+    이 글은 AWS Summit Seoul 2026에서 직접 들은 세션 내용을 정리한 것이다.<br>
+    AWS의 에이전틱 AI를 활용해 레거시 시스템 현대화를 자동화하는 방법을 다뤘다.
+  </div>
+
+  <h2>AWS Transform이란?</h2>
+
+  <blockquote>
+    "어떤 도구든, 어떤 에이전트든, 단 하나의 플랫폼에서"
+  </blockquote>
+
+  <p>
+    AWS Transform은 레거시 시스템의 분석부터 코드 변환까지를 <strong>단일 플랫폼</strong>에서 처리하는 에이전틱 AI 서비스다.
+    기존에는 마이그레이션 작업에 수개월이 걸리고, 전문 인력이 많이 필요했다.
+    Transform은 이 과정을 AI 에이전트가 자동으로 처리하도록 한다.
+  </p>
+
+  <h3>사용 방식 3가지</h3>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">💻</div>
+      <div class="card-title">CLI</div>
+      <p class="card-desc">커맨드라인에서 변환을 시작하고, 웹 콘솔에서 진행 상황을 추적</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">IDE</div>
+      <p class="card-desc">에디터를 벗어나지 않고 변환 작업, 모니터링, 결과 확인까지 처리</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🤖</div>
+      <div class="card-title">코딩 에이전트</div>
+      <p class="card-desc">Kiro 등 다른 에이전트와 Transform 에이전트가 상호작용</p>
+    </div>
+  </div>
+
+  <h3>지원하는 전환 유형</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>유형</th><th>설명</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Windows 시스템 현대화</td><td>.NET Framework → Cross-platform .NET</td></tr>
+        <tr><td>Mainframe 현대화</td><td>메인프레임 레거시 코드 변환</td></tr>
+        <tr><td>VMware 마이그레이션</td><td>VMware 환경을 AWS 네이티브로 전환</td></tr>
+        <tr><td>Custom 변환</td><td>Kiro Agent 빌더로 새 에이전트 등록 및 맞춤 변환</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Windows 현대화: Before → After</h2>
+
+  <p>.NET 기반 Windows 앱을 클라우드 네이티브로 전환하는 흐름이다.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>항목</th><th>Before</th><th>After</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>앱 레이어</strong></td>
+          <td>.NET Framework 3.5+</td>
+          <td>Cross-platform .NET 8 & 10</td>
+        </tr>
+        <tr>
+          <td><strong>데이터베이스</strong></td>
+          <td>SQL Server</td>
+          <td>Amazon Aurora PostgreSQL</td>
+        </tr>
+        <tr>
+          <td><strong>인프라</strong></td>
+          <td>Windows Server 가상 머신</td>
+          <td>Amazon ECS 또는 EC2 Linux</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>변환 도구로는 AWS DMS, Visual Studio IDE 확장, 웹 콘솔을 지원한다.</p>
+
+  <h2>Transform → Kiro → Amazon Q 파이프라인</h2>
+
+  <p>세션의 핵심 메시지 중 하나는 Transform 이후의 흐름이었다. AWS Transform 혼자 모든 걸 해결하지 않는다. 이후 단계가 중요하다.</p>
+
+  <div class="flow">
+    <div class="flow-item">
+      <div class="flow-dot" style="background:#fff3e6; font-size:20px;">🔄</div>
+      <div class="flow-label">AWS Transform</div>
+      <div class="flow-sub">코드 분석 및<br>자동 변환</div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-dot" style="background:#e8f1fb; font-size:20px;">✨</div>
+      <div class="flow-label">Kiro</div>
+      <div class="flow-sub">UI 현대화<br>테스트 자동화<br>AWS 배포</div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-dot" style="background:#e2f5ef; font-size:20px;">🧠</div>
+      <div class="flow-label">Amazon Q</div>
+      <div class="flow-sub">업무 방식 자체를<br>AI 기반으로 전환</div>
+    </div>
+  </div>
+
+  <p>
+    AWS Transform이 레거시 코드를 변환한 뒤, <strong>부분 변환(Partially Transformed)</strong> 영역은 Kiro가 이어받아 UI 현대화, 자동화된 테스트, AWS 배포까지 마무리한다.
+    Amazon Q는 그 위에서 데이터와 업무 방식을 AI 중심으로 통합하는 역할이다.
+  </p>
+
+  <h2>세션 핵심 정리</h2>
+
+  <div class="summary-box">
+    <h3>📌 핵심 메시지 5가지</h3>
+    <ul>
+      <li>레거시 시스템 현대화는 <strong>더 이상 미룰 수 없는 과제</strong>다</li>
+      <li>에이전틱 AI가 마이그레이션·현대화 속도를 <strong>근본적으로 변화</strong>시킨다</li>
+      <li>AWS Transform은 풀스택 분석~변환을 <strong>단일 플랫폼</strong>에서 수행한다</li>
+      <li>Transform이 남긴 비즈니스 컨텍스트는 <strong>Kiro의 Spec-driven 방식</strong>으로 마무리된다</li>
+      <li>Amazon Q는 통합된 데이터 위에서 <strong>일하는 방식 자체를 AI 기반으로 전환</strong>한다</li>
+    </ul>
+  </div>
+
+  <div class="tags">
+    <span class="tag">#aws-summit</span>
+    <span class="tag">#agentic-ai</span>
+    <span class="tag">#aws-transform</span>
+    <span class="tag">#kiro</span>
+    <span class="tag">#amazon-q</span>
+    <span class="tag">#legacy-modernization</span>
+    <span class="tag">#dotnet</span>
+  </div>
+
+</div>
+</body>
+</html>
