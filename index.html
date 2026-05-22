@@ -4,353 +4,251 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>정리를 정리하기</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Noto+Sans+KR:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap');
+
     :root {
-      --bg: #fafaf9;
-      --fg: #1a1a18;
-      --muted: #888882;
-      --accent: #2563eb;
-      --border: #e8e8e4;
-      --tag-bg: #f0f0ec;
+      --bg: #060912;
+      --surface: #0d1426;
+      --border: #1e2d4a;
+      --accent1: #00d4ff;
+      --accent2: #ff3d8b;
+      --accent3: #7c3aed;
+      --text: #e2e8f0;
+      --muted: #64748b;
+      --aws-orange: #ff9900;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html { scroll-behavior: smooth; }
-
     body {
-      background: var(--bg);
-      color: var(--fg);
       font-family: 'Noto Sans KR', sans-serif;
-      font-weight: 300;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
 
-    a { color: inherit; text-decoration: none; }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 10% 20%, rgba(0,212,255,0.05) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 90% 80%, rgba(124,58,237,0.07) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
 
-    /* ── LAYOUT ───────────────────────────────────── */
     .wrap {
       max-width: 680px;
       margin: 0 auto;
       padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
     }
 
-    /* ── NAV ──────────────────────────────────────── */
+    /* NAV */
     nav {
-      padding: 2.4rem 0 2rem;
+      padding: 2.4rem 0 2.8rem;
       display: flex;
       justify-content: space-between;
       align-items: baseline;
+      border-bottom: 1px solid var(--border);
     }
     .nav-logo {
-      font-family: 'Instrument Serif', serif;
-      font-size: 1.25rem;
-      letter-spacing: -0.01em;
-      color: var(--fg);
-    }
-    .nav-logo span {
-      color: var(--accent);
-    }
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-    .nav-links a {
-      font-size: 0.8rem;
-      color: var(--muted);
-      letter-spacing: 0.02em;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--fg); }
-
-    /* ── INTRO ────────────────────────────────────── */
-    .intro {
-      padding: 3.5rem 0 3rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .intro-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-      margin-bottom: 1.2rem;
-    }
-    .intro h1 {
-      font-family: 'Instrument Serif', serif;
-      font-size: clamp(2rem, 5vw, 2.8rem);
-      line-height: 1.2;
-      letter-spacing: -0.02em;
-      font-weight: 400;
-      margin-bottom: 1.2rem;
-    }
-    .intro h1 em {
-      font-style: italic;
-      color: var(--accent);
-    }
-    .intro p {
+      font-family: 'Noto Sans KR', sans-serif;
       font-size: 0.95rem;
-      line-height: 1.8;
-      color: #555;
-      max-width: 480px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      text-decoration: none;
     }
-
-    /* ── FEATURED POST ────────────────────────────── */
-    .featured {
-      padding: 2.8rem 0;
-      border-bottom: 1px solid var(--border);
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 1rem;
-      align-start: start;
-      cursor: pointer;
-    }
-    .featured:hover .featured-title { color: var(--accent); }
-    .featured-eyebrow {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
-    }
-    .featured-title {
-      font-family: 'Instrument Serif', serif;
-      font-size: clamp(1.4rem, 3vw, 1.8rem);
-      line-height: 1.25;
-      font-weight: 400;
-      letter-spacing: -0.015em;
-      margin-bottom: 0.8rem;
-      transition: color 0.2s;
-    }
-    .featured-desc {
-      font-size: 0.875rem;
-      line-height: 1.75;
-      color: #666;
-      margin-bottom: 1.2rem;
-    }
-    .featured-meta {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--muted);
-      display: flex;
-      gap: 1rem;
-    }
-    .featured-badge {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--accent);
-      background: #eff6ff;
-      padding: 0.3rem 0.7rem;
-      border-radius: 2px;
-      height: fit-content;
-      white-space: nowrap;
-    }
-
-    /* ── POST LIST ────────────────────────────────── */
-    .posts-header {
-      padding: 2.4rem 0 1.2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-    }
-    .posts-header h2 {
-      font-family: 'JetBrains Mono', monospace;
+    .nav-meta {
+      font-family: 'Space Mono', monospace;
       font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
       color: var(--muted);
+      letter-spacing: 0.06em;
     }
-    .posts-header span {
-      font-family: 'JetBrains Mono', monospace;
+
+    /* POST LIST */
+    .post-list {
+      padding: 2rem 0 4rem;
+    }
+
+    .post-list-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 2rem;
+    }
+    .post-list-header .label {
+      font-family: 'Space Mono', monospace;
       font-size: 0.65rem;
+      letter-spacing: 0.12em;
       color: var(--muted);
+      text-transform: uppercase;
+    }
+    .post-list-header .line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--border), transparent);
+    }
+    .post-list-header .count {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--accent1);
+      opacity: 0.6;
     }
 
     .post-item {
-      padding: 1.4rem 0;
-      border-bottom: 1px solid var(--border);
-      display: grid;
-      grid-template-columns: 1fr auto;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
       gap: 1.5rem;
-      align-items: center;
+      padding: 1.4rem 1.4rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 12px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.18s, background 0.18s;
       cursor: pointer;
-      transition: opacity 0.2s;
     }
-    .post-item:hover { opacity: 0.65; }
-    .post-item:last-child { border-bottom: none; }
+    .post-item:hover {
+      border-color: rgba(0,212,255,0.3);
+      background: rgba(13,20,38,0.95);
+    }
+
+    .post-left { flex: 1; min-width: 0; }
 
     .post-tag {
       display: inline-block;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.58rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--muted);
-      background: var(--tag-bg);
-      padding: 0.2rem 0.55rem;
-      border-radius: 2px;
-      margin-bottom: 0.5rem;
+      color: var(--aws-orange);
+      border: 1px solid rgba(255,153,0,0.25);
+      padding: 2px 7px;
+      border-radius: 3px;
+      margin-bottom: 8px;
     }
+
     .post-title {
       font-size: 0.95rem;
-      font-weight: 400;
+      font-weight: 600;
+      color: var(--text);
       line-height: 1.5;
-      color: var(--fg);
     }
+
+    .post-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
     .post-date {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.62rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
       color: var(--muted);
       white-space: nowrap;
     }
 
-    /* ── ABOUT STRIP ──────────────────────────────── */
-    .about {
-      margin: 3rem 0;
-      padding: 2rem;
-      background: #f5f5f2;
-      border-radius: 4px;
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 1.5rem;
-      align-items: center;
-    }
-    .about-avatar {
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Instrument Serif', serif;
-      font-size: 1.3rem;
-      color: #fff;
-      flex-shrink: 0;
-    }
-    .about-name {
-      font-size: 0.9rem;
-      font-weight: 500;
-      margin-bottom: 0.3rem;
-    }
-    .about-bio {
-      font-size: 0.8rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-    .about-links {
-      display: flex;
-      gap: 1rem;
-      margin-top: 0.5rem;
-    }
-    .about-links a {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.62rem;
-      color: var(--accent);
-      letter-spacing: 0.05em;
-    }
-    .about-links a:hover { text-decoration: underline; }
-
-    /* ── FOOTER ───────────────────────────────────── */
-    footer {
-      padding: 2rem 0 3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 1px solid var(--border);
-    }
-    footer p {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.62rem;
-      color: var(--muted);
-    }
-
-    /* ── FADE IN ──────────────────────────────────── */
-    .fade {
+    .post-arrow {
+      font-size: 0.75rem;
+      color: var(--accent1);
       opacity: 0;
-      transform: translateY(14px);
-      animation: fadeUp 0.5s ease forwards;
+      transition: opacity 0.15s, transform 0.15s;
+      transform: translateX(-4px);
     }
-    .fade:nth-child(1) { animation-delay: 0.05s; }
-    .fade:nth-child(2) { animation-delay: 0.12s; }
-    .fade:nth-child(3) { animation-delay: 0.19s; }
-    .fade:nth-child(4) { animation-delay: 0.26s; }
-    .fade:nth-child(5) { animation-delay: 0.33s; }
-    .fade:nth-child(6) { animation-delay: 0.40s; }
-    @keyframes fadeUp {
-      to { opacity: 1; transform: none; }
+    .post-item:hover .post-arrow {
+      opacity: 1;
+      transform: translateX(0);
     }
 
-    @media (max-width: 480px) {
-      .featured { grid-template-columns: 1fr; }
-      .about { grid-template-columns: 1fr; }
-      .about-avatar { display: none; }
+    /* FOOTER */
+    footer {
+      padding: 2rem 0 2.8rem;
+      border-top: 1px solid var(--border);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
     }
   </style>
 </head>
 <body>
-
 <div class="wrap">
 
-  <!-- NAV -->
-  <nav class="fade">
+  <nav>
     <a href="/" class="nav-logo">정리를 정리하기</a>
-    <ul class="nav-links">
-      <li><a href="#">posts</a></li>
-      <li><a href="#">projects</a></li>
-      <li><a href="#">about</a></li>
-    </ul>
+
   </nav>
 
-  <!-- POST LIST -->
-  <div class="posts-header fade">
-    <h2>All Posts</h2>
-    <span>3 posts</span>
-  </div>
+  <div class="post-list">
+    <div class="post-list-header">
+      <span class="label">Posts</span>
+      <div class="line"></div>
+      <span class="count">4 posts</span>
+    </div>
 
-  <div class="fade">
-    <a href="2026-05-21-aws-summit-agent-eval.html" style="text-decoration:none;">
-    <article class="post-item">
-      <div>
+    <!-- Post 4: 에이전틱 AI를 위한 데이터 실무 가이드 -->
+    <a href="aws-summit-notes.html" class="post-item">
+      <div class="post-left">
         <span class="post-tag">AWS Summit 2026</span>
-        <p class="post-title">에이전트 성능 평가와 개선: 개발부터 운영까지</p>
+        <p class="post-title">에이전틱 AI를 위한 데이터 실무 가이드</p>
       </div>
-      <span class="post-date">2026.05.21</span>
-    </article>
+      <div class="post-right">
+        <span class="post-date">2026.05.22</span>
+        <span class="post-arrow">→</span>
+      </div>
     </a>
 
-    <a href="2026-05-21-aws-summit-agentic-legacy.html" style="text-decoration:none;">
-    <article class="post-item">
-      <div>
-        <span class="post-tag">AWS Summit 2026</span>
-        <p class="post-title">에이전틱 AI로 레거시 시스템 전환 자동화</p>
-      </div>
-      <span class="post-date">2026.05.21</span>
-    </article>
-    </a>
-
-    <a href="agentops-summary.html" style="text-decoration:none;">
-    <article class="post-item">
-      <div>
+    <!-- Post 3: agentops -->
+    <a href="agentops-summary.html" class="post-item">
+      <div class="post-left">
         <span class="post-tag">AWS Summit 2026</span>
         <p class="post-title">프로덕션으로 가기 위한 에이전틱 AI 아키텍처 설계</p>
       </div>
-      <span class="post-date">2026.05.21</span>
-    </article>
+      <div class="post-right">
+        <span class="post-date">2026.05.21</span>
+        <span class="post-arrow">→</span>
+      </div>
     </a>
+
+    <!-- Post 2: agent eval -->
+    <a href="2026-05-21-aws-summit-agent-eval.html" class="post-item">
+      <div class="post-left">
+        <span class="post-tag">AWS Summit 2026</span>
+        <p class="post-title">에이전트 성능 평가와 개선: 개발부터 운영까지</p>
+      </div>
+      <div class="post-right">
+        <span class="post-date">2026.05.21</span>
+        <span class="post-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Post 1: agentic legacy -->
+    <a href="2026-05-21-aws-summit-agentic-legacy.html" class="post-item">
+      <div class="post-left">
+        <span class="post-tag">AWS Summit 2026</span>
+        <p class="post-title">에이전틱 AI로 레거시 시스템 전환 자동화</p>
+      </div>
+      <div class="post-right">
+        <span class="post-date">2026.05.21</span>
+        <span class="post-arrow">→</span>
+      </div>
+    </a>
+
   </div>
 
-
-
-  <!-- FOOTER -->
   <footer>
-    <p>정리를 정리하기</p>
-    <p>© 2026 mihyekang</p>
+    정리를 정리하기 · Organized with Claude
   </footer>
 
 </div>
