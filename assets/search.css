@@ -1,0 +1,91 @@
+/* Search box in the top nav. Uses the colour tokens of index.html / study.html. */
+nav {
+  position: relative;
+  flex-wrap: wrap;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 0.9rem 1.4rem;
+}
+nav .nav-menu { margin-left: auto; }
+.nav-search { flex: 0 1 11rem; }
+.nav-search input {
+  width: 100%;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 0.8rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.45rem 0.7rem;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: border-color 0.15s;
+}
+.nav-search input::placeholder { color: var(--muted); }
+.nav-search input:focus { border-color: rgba(0, 212, 255, 0.5); }
+
+.search-results {
+  position: absolute;
+  top: calc(100% - 1.8rem);
+  left: 0;
+  right: 0;
+  z-index: 10;
+  max-height: min(70vh, 34rem);
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  padding: 0.4rem;
+}
+.search-count, .search-empty {
+  margin: 0;
+  padding: 0.6rem 0.8rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.search-empty { font-family: 'Noto Sans KR', sans-serif; font-size: 0.85rem; letter-spacing: 0; }
+.search-hit {
+  display: block;
+  padding: 0.75rem 0.8rem;
+  border-radius: 7px;
+  text-decoration: none;
+  color: inherit;
+}
+.search-hit:hover, .search-hit.is-active, .search-hit:focus-visible {
+  background: rgba(0, 212, 255, 0.07);
+  outline: none;
+}
+.search-tag {
+  display: block;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: var(--aws-orange);
+  margin-bottom: 3px;
+}
+.search-title { display: block; font-size: 0.92rem; font-weight: 600; color: var(--text); line-height: 1.5; }
+.search-snippet {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.8rem;
+  line-height: 1.65;
+  color: var(--muted);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.search-results mark {
+  background: rgba(0, 212, 255, 0.18);
+  color: var(--accent1);
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+@media (max-width: 560px) {
+  .nav-search { flex-basis: 100%; }
+  .nav-search input { font-size: 16px; } /* stops iOS zooming on focus */
+  .search-results { top: calc(100% - 1.8rem); }
+}

@@ -198,6 +198,8 @@
       letter-spacing: 0.06em;
     }
   </style>
+  <link rel="stylesheet" href="/assets/search.css" />
+  <script src="/assets/search.js" defer></script>
 </head>
 <body>
 <div class="wrap">
@@ -208,6 +210,10 @@
       <a href="/" class="active">Posts</a>
       <a href="/study.html">Study</a>
     </div>
+    <div class="nav-search">
+      <input id="site-search" type="search" placeholder="검색" autocomplete="off" aria-label="사이트 검색" aria-controls="search-results" aria-expanded="false">
+    </div>
+    <div id="search-results" class="search-results" hidden></div>
   </nav>
 
   <div class="post-list">
