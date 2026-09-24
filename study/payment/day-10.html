@@ -1,0 +1,482 @@
+<!doctype html><html lang="ko"><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>QR이라는 봉투</title>
+</head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --ground:#FFFFFF;
+  --surface:#F2F6F5;
+  --ink:#0F1513;
+  --ink-soft:#37433F;
+  --muted:#67736F;
+  --line:#DCE5E2;
+  --line-soft:#EBF1EF;
+  --key:#0A6A4C;
+  --key-soft:#E3F2EC;
+  --key-wash:#F0F8F5;
+  --late:#8A5E14;
+  --late-soft:#F7EFDE;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0C110F;
+    --surface:#151D1A;
+    --ink:#EAF1EE;
+    --ink-soft:#C3CFCB;
+    --muted:#8E9D98;
+    --line:#27332F;
+    --line-soft:#1B2522;
+    --key:#54CE9E;
+    --key-soft:#122A22;
+    --key-wash:#101B18;
+    --late:#D8AB57;
+    --late-soft:#282013;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0C110F;
+  --surface:#151D1A;
+  --ink:#EAF1EE;
+  --ink-soft:#C3CFCB;
+  --muted:#8E9D98;
+  --line:#27332F;
+  --line-soft:#1B2522;
+  --key:#54CE9E;
+  --key-soft:#122A22;
+  --key-wash:#101B18;
+  --late:#D8AB57;
+  --late-soft:#282013;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:'IBM Plex Sans KR','Apple SD Gothic Neo',system-ui,sans-serif;
+  font-size:17.5px;
+  line-height:1.9;
+  letter-spacing:-.003em;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{
+  max-width:34rem;
+  margin:0 auto;
+  padding-inline:22px;
+  padding-block:36px 80px;
+}
+
+/* ── masthead ───────────────────────── */
+.masthead{display:flex;flex-direction:column;gap:16px;margin-bottom:38px}
+.daymeta{
+  display:flex;align-items:center;gap:9px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+}
+.daymeta b{color:var(--key);font-size:14px}
+.daymeta s{text-decoration:none;color:var(--line)}
+h1{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:clamp(30px,9vw,40px);
+  line-height:1.3;
+  letter-spacing:-.015em;
+  margin:0;
+  text-wrap:balance;
+}
+.sub{margin:0;color:var(--muted);font-size:15.5px;line-height:1.7}
+
+/* ── 핵심 3줄 ───────────────────────── */
+.gist{
+  background:var(--key-wash);
+  border:1px solid var(--key-soft);
+  border-radius:10px;
+  padding:22px 20px;
+  margin-bottom:40px;
+  counter-reset:g;
+}
+.gist h2{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--key);margin:0 0 14px;border:0;padding:0;
+}
+.gist li{
+  list-style:none;position:relative;
+  padding-left:30px;
+  font-size:16.5px;line-height:1.75;
+  color:var(--ink-soft);
+}
+.gist li + li{margin-top:13px}
+.gist li::before{
+  counter-increment:g;content:counter(g);
+  position:absolute;left:0;top:.28em;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--key);color:var(--ground);
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  line-height:20px;text-align:center;
+}
+.gist ul{margin:0;padding:0}
+.gist b{color:var(--ink);font-weight:600}
+
+/* ── figure ─────────────────────────── */
+figure{margin:0 0 42px;display:flex;flex-direction:column;gap:14px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:14.5px;color:var(--muted);line-height:1.7}
+
+/* ── sections ───────────────────────── */
+section{margin-bottom:46px}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:6px;
+}
+h2{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:25px;
+  line-height:1.45;
+  letter-spacing:-.01em;
+  margin:0 0 20px;
+  text-wrap:balance;
+}
+p{margin:0 0 18px}
+p:last-child{margin-bottom:0}
+b,strong{font-weight:600;color:var(--ink)}
+.hl{background:var(--key-soft);padding:.1em .25em;border-radius:3px;font-weight:600}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:.88em;color:var(--muted)}
+.chk{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.72em;letter-spacing:.06em;
+  color:var(--late);background:var(--late-soft);
+  padding:.25em .5em;border-radius:3px;
+  white-space:nowrap;vertical-align:.12em;
+}
+
+/* takeaway line per section */
+.take{
+  display:flex;gap:12px;align-items:flex-start;
+  border-left:3px solid var(--key);
+  padding:2px 0 2px 15px;
+  margin:0 0 22px;
+  font-size:16.5px;line-height:1.7;
+  color:var(--ink-soft);
+}
+
+/* role list */
+.roles{margin:0 0 20px;padding:0}
+.roles div{
+  display:grid;
+  grid-template-columns:7.5rem 1fr;
+  gap:2px 14px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line-soft);
+  align-items:baseline;
+}
+.roles div:first-child{border-top:1px solid var(--line-soft)}
+.roles dt{font-weight:600;font-size:16px;line-height:1.5}
+.roles dd{margin:0;font-size:15.5px;color:var(--muted);line-height:1.65}
+@media(max-width:440px){
+  .roles div{grid-template-columns:1fr;gap:1px}
+}
+
+/* two-card compare */
+.split{display:flex;flex-direction:column;gap:14px;margin:0 0 22px}
+.split > div{
+  border-radius:10px;
+  padding:20px;
+  background:var(--surface);
+}
+.split h3{
+  margin:0 0 8px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+}
+.split p{font-size:16px;line-height:1.75;margin:0;color:var(--ink-soft)}
+.split p + p{margin-top:12px}
+.s-now{box-shadow:inset 3px 0 0 var(--key)}
+.s-now h3{color:var(--key)}
+.s-late{box-shadow:inset 3px 0 0 var(--late)}
+.s-late h3{color:var(--late)}
+
+/* rates table */
+.tblscroll{overflow-x:auto;margin:0 0 18px}
+.rates{width:100%;border-collapse:collapse;font-size:16px}
+.rates caption{
+  text-align:left;font-size:13.5px;color:var(--muted);
+  padding-bottom:10px;line-height:1.6;
+}
+.rates th,.rates td{padding:11px 8px;border-bottom:1px solid var(--line-soft);text-align:right;white-space:nowrap}
+.rates th:first-child,.rates td:first-child{text-align:left}
+.rates thead th{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  border-bottom-color:var(--line);
+}
+.rates td{font-variant-numeric:tabular-nums;color:var(--ink-soft)}
+.rates tbody tr:first-child td{color:var(--ink);font-weight:600}
+
+/* code-ish payload strip */
+.payload{
+  background:var(--surface);
+  border-radius:10px;
+  padding:18px 20px;
+  margin:0 0 22px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;line-height:2;
+  color:var(--ink-soft);
+  overflow-x:auto;
+}
+.payload span{color:var(--key)}
+.payload em{color:var(--muted);font-style:normal}
+
+/* pull quote */
+.pull{
+  background:var(--key-soft);
+  border-radius:10px;
+  padding:26px 22px;
+  margin-bottom:46px;
+}
+.pull span{
+  display:block;margin-bottom:12px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--key);
+}
+.pull q{
+  font-family:'Gowun Batang',serif;
+  font-size:19px;line-height:1.85;quotes:'"' '"';
+  display:block;
+}
+
+/* sources */
+.src{list-style:none;margin:0;padding:0}
+.src li{padding:15px 0;border-bottom:1px solid var(--line-soft)}
+.src li:first-child{border-top:1px solid var(--line-soft)}
+.src a{
+  color:var(--ink);text-decoration:none;font-weight:600;
+  font-size:16px;line-height:1.6;
+  box-shadow:inset 0 -2px 0 var(--key);
+}
+.src a:hover{color:var(--key)}
+.src a:focus-visible{outline:2px solid var(--key);outline-offset:3px}
+.src small{display:block;color:var(--muted);font-size:14.5px;line-height:1.65;margin-top:7px}
+
+footer{
+  margin-top:46px;
+  font-size:15px;color:var(--muted);line-height:1.8;
+  border-top:1px solid var(--line);padding-top:22px;
+}
+footer b{color:var(--ink-soft)}
+/* site nav */
+.back{display:inline-block;margin-bottom:28px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--key)}
+.pager{display:flex;gap:12px;margin-top:46px}
+.pager a{flex:1;min-width:0;display:block;padding:14px 16px;border:1px solid var(--line);border-radius:10px;color:var(--ink);text-decoration:none;font-size:15px;line-height:1.5}
+.pager a:hover{border-color:var(--key);color:var(--key)}
+.pager a small{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted)}
+.pager .next{text-align:right}
+.pager span{flex:1}
+</style>
+
+<div class="wrap">
+
+  <a class="back" href="../payment-domain-map.html">← 결제 도메인 지도</a>
+
+  <header class="masthead">
+    <div class="daymeta"><b>DAY 10</b><s>/</s>21<s>·</s>결제 수단별 프로토콜</div>
+    <h1>QR이라는 봉투</h1>
+    <p class="sub">같은 QR을 찍어도 뒷단이 둘로 갈리는 이유</p>
+  </header>
+
+  <div class="gist">
+    <h2>핵심 3줄</h2>
+    <ul>
+      <li><b>QR은 결제수단이 아니다.</b> 데이터를 눈으로 옮기는 봉투일 뿐이고, 안에 카드 토큰이 들었는지 계좌 정보가 들었는지가 전부를 가른다.</li>
+      <li><b>MPM이냐 CPM이냐</b>, 즉 누가 QR을 보여주는가가 단말 비용과 보안 모델을 통째로 바꾼다.</li>
+      <li><b>계좌 기반 결제는 카드 4자 모델을 우회</b>한다. 수수료가 싼 이유이자, 취소와 환불이 어려워지는 이유다.</li>
+    </ul>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 340 372" role="img" aria-label="QR 결제 흐름도: 스캔 이후 카드 기반 경로와 계좌 기반 경로로 갈라지는 구조">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/>
+        </marker>
+      </defs>
+
+      <text x="0" y="11" fill="var(--muted)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.4">봉투 · 공통</text>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="14.5" font-weight="500">
+        <rect x="0" y="22" width="340" height="42" rx="6" fill="var(--surface)"/>
+        <text x="16" y="48" fill="var(--ink)">QR 스캔</text>
+        <text x="324" y="48" fill="var(--muted)" font-size="11.5" font-weight="400" text-anchor="end">MPM 또는 CPM</text>
+
+        <rect x="0" y="92" width="340" height="42" rx="6" fill="var(--surface)"/>
+        <text x="16" y="118" fill="var(--ink)">봉투 열기: 안에 무엇이 들었나</text>
+      </g>
+
+      <line x1="170" y1="64" x2="170" y2="89" stroke="var(--muted)" stroke-width="1.3" marker-end="url(#ar)"/>
+      <path d="M170 134 V 150 H 60 V 172" fill="none" stroke="var(--muted)" stroke-width="1.3" marker-end="url(#ar)"/>
+      <path d="M170 134 V 150 H 280 V 172" fill="none" stroke="var(--muted)" stroke-width="1.3" marker-end="url(#ar)"/>
+
+      <text x="0" y="192" fill="var(--late)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.2">카드 토큰</text>
+      <text x="184" y="192" fill="var(--key)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.2">계좌 정보</text>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="13.5" font-weight="500">
+        <rect x="0" y="202" width="156" height="40" rx="6" fill="var(--late-soft)"/>
+        <text x="14" y="227" fill="var(--ink)">VAN 전문</text>
+        <rect x="184" y="202" width="156" height="40" rx="6" fill="var(--key-soft)"/>
+        <text x="198" y="227" fill="var(--ink)">출금이체 API</text>
+
+        <rect x="0" y="262" width="156" height="40" rx="6" fill="var(--late-soft)"/>
+        <text x="14" y="287" fill="var(--ink)">카드사 승인</text>
+        <rect x="184" y="262" width="156" height="40" rx="6" fill="var(--key-soft)"/>
+        <text x="198" y="287" fill="var(--ink)">금융결제원</text>
+
+        <rect x="0" y="322" width="156" height="40" rx="6" fill="var(--late-soft)"/>
+        <text x="14" y="347" fill="var(--ink)">매입 후 정산</text>
+        <rect x="184" y="322" width="156" height="40" rx="6" fill="var(--key-soft)"/>
+        <text x="198" y="347" fill="var(--ink)">계좌 간 이체</text>
+      </g>
+
+      <g stroke="var(--muted)" stroke-width="1.3" marker-end="url(#ar)">
+        <line x1="30" y1="242" x2="30" y2="259"/>
+        <line x1="30" y1="302" x2="30" y2="319"/>
+        <line x1="214" y1="242" x2="214" y2="259"/>
+        <line x1="214" y1="302" x2="214" y2="319"/>
+      </g>
+    </svg>
+    <figcaption>위 두 칸은 어느 QR이든 똑같다. 갈라지는 건 봉투를 연 다음이고, 수수료와 정산과 취소 방식은 전부 아래쪽에서 결정된다.</figcaption>
+  </figure>
+
+  <section>
+    <span class="eyebrow">01 · 오해 풀기</span>
+    <h2>QR은 결제수단이 아니다</h2>
+
+    <p class="take">QR이 정하는 건 데이터를 어떻게 옮기느냐뿐이다. 무엇을 옮기느냐는 따로다.</p>
+
+    <p>"QR 결제"라는 말이 문서를 읽을 때 계속 발을 건다. 카드결제, 계좌이체와 나란히 놓인 목록에 QR이 끼어 있으니 같은 층위로 보이기 때문이다.</p>
+
+    <p>실제로는 층이 다르다. <span class="hl">QR은 전송 매체고, 결제수단은 그 안에 담긴 페이로드다.</span> EMVCo가 표준화한 범위도 "QR 코드 자체와 데이터를 코드에 담는 방식"까지이고, 그 뒤의 메시징 프로토콜은 각 결제 사업자 몫으로 남겨뒀다.</p>
+
+    <p>익숙한 비유로 옮기면 간단하다. QR은 HTTP고, 카드 토큰이나 계좌 식별자는 바디다. 같은 파이프를 쓴다고 같은 서비스가 아니다.</p>
+
+    <p>그래서 "카카오페이 QR로 결제했다"와 "제로페이로 결제했다"는 겉모습만 같고 정산 경로가 완전히 다르다. 어제까지 본 4자 모델이 통째로 들어 있기도 하고, 통째로 빠져 있기도 하다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">02 · 방향</span>
+    <h2>누가 보여주고 누가 찍는가</h2>
+
+    <p class="take">화살표 방향 하나가 단말 비용, 보안 모델, 오프라인 동작을 전부 바꾼다.</p>
+
+    <div class="split">
+      <div class="s-late">
+        <h3>MPM 가맹점 제시형</h3>
+        <p>가맹점이 QR을 내놓고 고객이 스캔한다. <b>고정형</b>은 QR키트나 스티커로, 가맹점 식별자만 들어 있고 금액은 고객이 앱에서 입력한다. 단말 비용이 0원이라 보급 속도가 빠르다.</p>
+        <p><b>변동형</b>은 POS나 가맹점 앱이 거래마다 금액까지 담아 새로 생성한다. 금액 입력 실수가 사라지고, 주문 건과 결제 건을 시스템이 직접 묶을 수 있다.</p>
+      </div>
+      <div class="s-now">
+        <h3>CPM 소비자 제시형</h3>
+        <p>고객 앱이 QR이나 바코드를 띄우고 가맹점 리더기가 스캔한다. 매장에는 스캐너가 있어야 하지만, 계산 흐름은 카드를 내미는 것과 똑같아서 현장 마찰이 적다.</p>
+        <p>국내 오프라인에서 사실상 표준으로 자리잡은 쪽이 이 방식이다. 2024년 7월에는 8개 카드사 공통 QR 서비스도 이 규격 위에서 시작됐다. <span class="chk">나무위키 기준, 확인 필요</span></p>
+      </div>
+    </div>
+
+    <p>CPM 쪽 데이터는 생각보다 규격이 빡빡하다. 결제 토큰을 포함한 정보를 BER-TLV 바이너리로 만들고 BASE64로 인코딩해서 QR에 싣는다. 85 태그가 버전, 57 태그에 결제 토큰과 가상카드번호, 유효기한이 들어간다.</p>
+
+    <div class="payload">
+      <span>85</span> <em>CPV 버전</em><br>
+      <span>57</span> <em>결제 토큰 · 가상카드번호 · 유효기한</em><br>
+      <em>→ BER-TLV → BASE64 → QR</em>
+    </div>
+
+    <p>보안 모델도 여기서 갈린다. 고정형 MPM은 벽에 붙은 스티커가 곧 엔드포인트라서, 남의 QR을 덧붙여 놓는 바꿔치기가 실제 리스크다. CPM은 앱이 매번 짧게 유효한 토큰을 굽는다.</p>
+
+    <p>인프라로 옮기면 <span class="hl">고정형 MPM은 공개 URL을 벽에 붙여둔 것, CPM은 매 요청마다 presigned URL을 발급하는 것</span>이다. 전자는 배포가 쉽고 후자는 통제가 쉽다. 트레이드오프 구조가 똑같다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 · 우회로</span>
+    <h2>카드망을 비껴가는 길</h2>
+
+    <p class="take">계좌 기반 결제는 발급사와 매입사, 브랜드사를 통째로 건너뛴다.</p>
+
+    <p>제로페이가 이 구조의 교과서다. 소비자 계좌에서 가맹점 계좌로 직접 이체하는 직불 방식이라, 1주차에 외운 4자 모델의 등장인물 대부분이 사라진다. 중간에 수수료를 떼어갈 주체가 없으니 수수료가 낮아지는 건 정책 인심이 아니라 구조의 결과다.</p>
+
+    <div class="tblscroll">
+      <table class="rates">
+        <caption>제로페이 가맹점 수수료율 구간. 위키백과 정리 기준이고, 한국간편결제진흥원 공식 고시로 재확인 필요 <span class="chk">확인 필요</span></caption>
+        <thead><tr><th>연매출</th><th>수수료율</th></tr></thead>
+        <tbody>
+          <tr><td>8억 이하</td><td>0%</td></tr>
+          <tr><td>8~12억</td><td>0.3%</td></tr>
+          <tr><td>12억 초과</td><td>0.5%</td></tr>
+          <tr><td>일반 가맹점</td><td>1.2%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>온라인 쪽 대표 사례는 오픈뱅킹 기반 계좌이체다. 금융결제원이 잔액조회, 출금이체, 입금이체를 API로 열어두고, 이게 계좌 기반 결제의 공용 레일 역할을 한다.</p>
+
+    <p>토스페이먼츠 퀵계좌이체 문서를 보면 설계가 선명하다. 구매자의 출금계좌 정보는 <b>금융결제원으로 바로 전달</b>되고, PG는 이체 성공 또는 실패 결과만 받는다. 출금 계좌도 환불 계좌도 응답으로 받을 수 없고 조회도 안 된다.</p>
+
+    <dl class="roles">
+      <div><dt>수수료</dt><dd>카드결제 대비 1%p 이상 낮음</dd></div>
+      <div><dt>결제 한도</dt><dd>최소 200원, 1일 최대 1,000만원</dd></div>
+      <div><dt>환불</dt><dd>180일 이내, 출금 계좌로 환불</dd></div>
+      <div><dt>계좌 정보</dt><dd>가맹점과 PG 모두 조회 불가</dd></div>
+    </dl>
+
+    <p>정리하면 <span class="hl">카드망은 매니지드 서비스, 계좌이체는 raw 소켓</span>이다. 카드는 비싼 대신 분쟁조정, 할부, 한도 관리, 도난 카드 차단을 얹어준다. 계좌이체는 싼 대신 그 기능들이 애초에 없다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 · 현장</span>
+    <h2>POS 계좌이체 QR은 승인이 아니다</h2>
+
+    <p class="take">시스템이 입금을 확인하는 게 아니라, 사장님이 눈으로 확인하고 버튼을 누른다.</p>
+
+    <p>한 POS 사업자가 공개한 흐름은 이렇다. 사장님이 설정에서 사업자 계좌를 등록하고, 결제 방식에서 계좌이체를 고르면 포스와 프론트에 QR이 뜬다. 손님이 찍어서 토스나 은행 앱으로 송금하면, 사장님이 확인 버튼을 눌러 결제가 완료된다.</p>
+
+    <p>구조상 가장 단순한 변동형 MPM이고, 매대에 계좌번호를 써 붙여두던 관행의 디지털판이다. 공식 문구도 "매대 위에 덕지덕지 계좌번호를 적어두지 않아도 된다"는 쪽이다.</p>
+
+    <p>주목할 건 <b>승인 응답이 없다는 점</b>이다. 결제 확정의 신뢰 경계가 시스템이 아니라 사람에게 있다. 대신 계좌이체 매출을 따로 분류해주고 현금영수증 발행을 바로 붙여주는 것, 거기까지가 현재 제품의 약속이다.</p>
+
+    <p>반대 축에 토스페이 오프라인이 있다. 이쪽은 <span class="mono">POS → VAN → 토스페이</span> 경로로 제대로 승인이 돈다. 머니와 계좌는 토스페이가 직접 승인하고, 카드는 VAN이 카드사에 승인 요청을 보내는 동안 토스페이가 고객 인증을 맡는다.</p>
+
+    <p>매장 POS가 그 VAN 모듈을 이미 쓰고 있으면 대부분 별도 개발 없이 토스페이를 추가할 수 있다. 3일차에 본 "VAN이 프로토콜 게이트웨이"라는 정리가 여기서 그대로 회수된다.</p>
+
+    <p>운영 난이도는 역시 취소에서 터진다. 당일 취소는 출금 자체를 취소하면 되지만, 하루가 지나면 차액을 정산하고 소비자 계좌로 D+1 이내에 취소 대금을 입금한다. 카드의 승인취소와 매입취소 구분과 정확히 평행하다.</p>
+
+    <p>다만 계좌 쪽이 더 고약하다. <span class="hl">반대 방향 송금을 새로 만들어야 하는데, 정작 상대 계좌를 조회할 수 없다.</span> 부분취소와 분리결제까지 얹히면 왜 POS 환불 화면이 그렇게 복잡한지 납득이 된다. 17일차에 이 얘기를 제대로 판다.</p>
+  </section>
+
+
+  <section>
+    <span class="eyebrow">출처</span>
+    <h2>참조 원본</h2>
+    <ul class="src">
+      <li><a href="https://docs-pay.toss.im/offline/introduce/tosspay">오프라인 결제 소개 · 토스페이 연동가이드</a><small>POS → VAN → 토스페이 경로와 머니·계좌·카드별 승인 주체의 1차 출처</small></li>
+      <li><a href="https://tossplace.com/story/qr-transfer">이제 토스 포스로 계좌이체도 더 쉽고 간편하게 · 토스플레이스</a><small>계좌 등록부터 QR 표시, 사장님 확인 버튼까지의 실제 동작 순서</small></li>
+      <li><a href="https://docs.tosspayments.com/guides/v2/get-started/payment-methods">결제수단 정책 · 토스페이먼츠 개발자센터</a><small>퀵계좌이체의 수수료 차이, 한도, 환불 180일, 계좌 조회 불가 원문</small></li>
+      <li><a href="https://www.emvco.com/emv-technologies/qr-codes/">EMV QR Codes · EMVCo</a><small>MPM과 CPM의 공식 정의, 표준화 범위가 데이터 포맷까지라는 선 긋기</small></li>
+      <li><a href="https://m.etnews.com/20180914000177">제로페이 결제방식·수단·환불, 이렇게 한다 · 전자신문</a><small>고정형 MPM, 변동형 MPM, 변동형 CPM 3분류와 당일·익일 취소 처리</small></li>
+    </ul>
+  </section>
+
+  <nav class="pager">
+    <a class="prev" href="day-09.html"><small>← DAY 09</small>꽂지 않는 결제</a>
+    <a class="next" href="day-11.html"><small>DAY 11 →</small>페이 밑의 두 갈래</a>
+  </nav>
+
+  <footer>
+    <b>내일 Day 11</b><br>
+    간편결제의 두 얼굴. 카드 기반과 계좌 기반에서 수수료가 정확히 어디서 갈리는지, 오늘 본 우회로의 경제학을 숫자로 판다.
+  </footer>
+
+</div>
+
+</body></html>

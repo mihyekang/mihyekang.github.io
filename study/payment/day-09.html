@@ -1,0 +1,520 @@
+<!doctype html><html lang="ko"><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>꽂지 않는 결제</title>
+</head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --ground:#FFFFFF;
+  --surface:#F2F6F5;
+  --ink:#0F1513;
+  --ink-soft:#37433F;
+  --muted:#67736F;
+  --line:#DCE5E2;
+  --line-soft:#EBF1EF;
+  --key:#0A6A4C;
+  --key-soft:#E3F2EC;
+  --key-wash:#F0F8F5;
+  --late:#8A5E14;
+  --late-soft:#F7EFDE;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0C110F;
+    --surface:#151D1A;
+    --ink:#EAF1EE;
+    --ink-soft:#C3CFCB;
+    --muted:#8E9D98;
+    --line:#27332F;
+    --line-soft:#1B2522;
+    --key:#54CE9E;
+    --key-soft:#122A22;
+    --key-wash:#101B18;
+    --late:#D8AB57;
+    --late-soft:#282013;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0C110F;
+  --surface:#151D1A;
+  --ink:#EAF1EE;
+  --ink-soft:#C3CFCB;
+  --muted:#8E9D98;
+  --line:#27332F;
+  --line-soft:#1B2522;
+  --key:#54CE9E;
+  --key-soft:#122A22;
+  --key-wash:#101B18;
+  --late:#D8AB57;
+  --late-soft:#282013;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:'IBM Plex Sans KR','Apple SD Gothic Neo',system-ui,sans-serif;
+  font-size:17.5px;
+  line-height:1.9;
+  letter-spacing:-.003em;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{
+  max-width:34rem;
+  margin:0 auto;
+  padding-inline:22px;
+  padding-block:36px 80px;
+}
+
+/* ── masthead ───────────────────────── */
+.masthead{display:flex;flex-direction:column;gap:16px;margin-bottom:38px}
+.daymeta{
+  display:flex;align-items:center;gap:9px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+}
+.daymeta b{color:var(--key);font-size:14px}
+.daymeta s{text-decoration:none;color:var(--line)}
+h1{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:clamp(30px,9vw,40px);
+  line-height:1.3;
+  letter-spacing:-.015em;
+  margin:0;
+  text-wrap:balance;
+}
+.sub{margin:0;color:var(--muted);font-size:15.5px;line-height:1.7}
+
+/* ── 핵심 3줄 ───────────────────────── */
+.gist{
+  background:var(--key-wash);
+  border:1px solid var(--key-soft);
+  border-radius:10px;
+  padding:22px 20px;
+  margin-bottom:40px;
+  counter-reset:g;
+}
+.gist h2{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--key);margin:0 0 14px;border:0;padding:0;
+}
+.gist li{
+  list-style:none;position:relative;
+  padding-left:30px;
+  font-size:16.5px;line-height:1.75;
+  color:var(--ink-soft);
+}
+.gist li + li{margin-top:13px}
+.gist li::before{
+  counter-increment:g;content:counter(g);
+  position:absolute;left:0;top:.28em;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--key);color:var(--ground);
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  line-height:20px;text-align:center;
+}
+.gist ul{margin:0;padding:0}
+.gist b{color:var(--ink);font-weight:600}
+
+/* ── figure ─────────────────────────── */
+figure{margin:0 0 42px;display:flex;flex-direction:column;gap:14px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:14.5px;color:var(--muted);line-height:1.7}
+
+/* ── sections ───────────────────────── */
+section{margin-bottom:46px}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:6px;
+}
+h2{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:25px;
+  line-height:1.45;
+  letter-spacing:-.01em;
+  margin:0 0 20px;
+  text-wrap:balance;
+}
+p{margin:0 0 18px}
+p:last-child{margin-bottom:0}
+b,strong{font-weight:600;color:var(--ink)}
+.hl{background:var(--key-soft);padding:.1em .25em;border-radius:3px;font-weight:600}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:.88em;color:var(--muted)}
+.chk{
+  font-family:'IBM Plex Mono',monospace;font-size:.72em;
+  color:var(--late);background:var(--late-soft);
+  padding:.25em .5em;border-radius:3px;white-space:nowrap;
+  letter-spacing:.04em;vertical-align:.08em;
+}
+
+/* takeaway line per section */
+.take{
+  display:flex;gap:12px;align-items:flex-start;
+  border-left:3px solid var(--key);
+  padding:2px 0 2px 15px;
+  margin:0 0 22px;
+  font-size:16.5px;line-height:1.7;
+  color:var(--ink-soft);
+}
+
+/* role list */
+.roles{margin:0 0 20px;padding:0}
+.roles div{
+  display:grid;
+  grid-template-columns:8.5rem 1fr;
+  gap:2px 14px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line-soft);
+  align-items:baseline;
+}
+.roles div:first-child{border-top:1px solid var(--line-soft)}
+.roles dt{font-weight:600;font-size:16px;line-height:1.5}
+.roles dd{margin:0;font-size:15.5px;color:var(--muted);line-height:1.65}
+@media(max-width:440px){
+  .roles div{grid-template-columns:1fr;gap:1px}
+}
+
+/* two-card compare */
+.split{display:flex;flex-direction:column;gap:14px;margin:0 0 22px}
+.split > div{
+  border-radius:10px;
+  padding:20px;
+  background:var(--surface);
+}
+.split h3{
+  margin:0 0 8px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+}
+.split p{font-size:16px;line-height:1.75;margin:0;color:var(--ink-soft)}
+.s-now{box-shadow:inset 3px 0 0 var(--key)}
+.s-now h3{color:var(--key)}
+.s-late{box-shadow:inset 3px 0 0 var(--late)}
+.s-late h3{color:var(--late)}
+
+/* rates table */
+.tblscroll{overflow-x:auto;margin:0 0 18px}
+.rates{width:100%;border-collapse:collapse;font-size:16px}
+.rates caption{
+  text-align:left;font-size:13.5px;color:var(--muted);
+  padding-bottom:10px;line-height:1.6;
+}
+.rates th,.rates td{padding:11px 8px;border-bottom:1px solid var(--line-soft);text-align:right;white-space:nowrap}
+.rates th:first-child,.rates td:first-child{text-align:left;white-space:normal}
+.rates thead th{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  border-bottom-color:var(--line);
+}
+.rates td{font-variant-numeric:tabular-nums;color:var(--ink-soft)}
+.rates tbody tr:first-child td{color:var(--ink);font-weight:600}
+
+/* pull quote */
+.pull{
+  background:var(--key-soft);
+  border-radius:10px;
+  padding:26px 22px;
+  margin-bottom:46px;
+}
+.pull span{
+  display:block;margin-bottom:12px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--key);
+}
+.pull q{
+  font-family:'Gowun Batang',serif;
+  font-size:19px;line-height:1.85;quotes:'"' '"';
+  display:block;
+}
+
+/* sources */
+.src{list-style:none;margin:0;padding:0}
+.src li{padding:15px 0;border-bottom:1px solid var(--line-soft)}
+.src li:first-child{border-top:1px solid var(--line-soft)}
+.src a{
+  color:var(--ink);text-decoration:none;font-weight:600;
+  font-size:16px;line-height:1.6;
+  box-shadow:inset 0 -2px 0 var(--key);
+}
+.src a:hover{color:var(--key)}
+.src a:focus-visible{outline:2px solid var(--key);outline-offset:3px}
+.src small{display:block;color:var(--muted);font-size:14.5px;line-height:1.65;margin-top:7px}
+
+footer{
+  margin-top:46px;
+  font-size:15px;color:var(--muted);line-height:1.8;
+  border-top:1px solid var(--line);padding-top:22px;
+}
+footer b{color:var(--ink-soft)}
+/* site nav */
+.back{display:inline-block;margin-bottom:28px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--key)}
+.pager{display:flex;gap:12px;margin-top:46px}
+.pager a{flex:1;min-width:0;display:block;padding:14px 16px;border:1px solid var(--line);border-radius:10px;color:var(--ink);text-decoration:none;font-size:15px;line-height:1.5}
+.pager a:hover{border-color:var(--key);color:var(--key)}
+.pager a small{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted)}
+.pager .next{text-align:right}
+.pager span{flex:1}
+</style>
+
+<div class="wrap">
+
+  <a class="back" href="../payment-domain-map.html">← 결제 도메인 지도</a>
+
+  <header class="masthead">
+    <div class="daymeta"><b>DAY 09</b><s>/</s>21<s>·</s>결제 수단별 프로토콜</div>
+    <h1>꽂지 않는 결제</h1>
+    <p class="sub">MST, EMV 컨택리스, 그리고 애플페이가 한국에서 늦었던 진짜 이유</p>
+  </header>
+
+  <div class="gist">
+    <h2>핵심 3줄</h2>
+    <ul>
+      <li><b>MST</b>는 마그네틱을 긁을 때 나오는 신호를 자기장으로 흉내 낸 기술이다. 단말을 한 대도 안 바꿔도 돼서, 삼성페이는 출시하자마자 전국에서 됐다.</li>
+      <li><b>EMV 컨택리스</b>는 IC칩이 하던 인증 대화를 그대로 전파로 옮긴 것이다. 단말 교체가 필요한 대신, 매 거래마다 다른 암호문을 쓴다.</li>
+      <li>애플페이가 늦은 건 아이폰 탓이 아니라 <b>단말 탓</b>이다. NFC 리더 보급률이 10%대라, 단말을 새로 까는 사업자에게는 이 병목이 통째로 기회가 된다.</li>
+    </ul>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 340 434" role="img" aria-label="비접촉 결제 계층도: 결제 수단, 전송 방식, 단말 부품 세 층을 거쳐 단말기와 VAN으로 이어지는 흐름. NFC 안테나만 국내 보급률이 낮다">
+      <defs>
+        <marker id="ar9" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/>
+        </marker>
+        <marker id="ar9k" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--key)"/>
+        </marker>
+      </defs>
+
+      <g font-family="'IBM Plex Mono',monospace" font-size="10.5" letter-spacing="1.1" fill="var(--muted)">
+        <text x="12" y="20">1 · 결제 수단</text>
+        <text x="12" y="128">2 · 전송 방식</text>
+        <text x="12" y="236">3 · 단말 부품</text>
+      </g>
+
+      <rect x="0" y="0" width="340" height="80" rx="9" fill="var(--surface)"/>
+      <rect x="0" y="108" width="340" height="80" rx="9" fill="var(--surface)"/>
+      <rect x="0" y="216" width="340" height="80" rx="9" fill="var(--surface)"/>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" text-anchor="middle">
+        <!-- band 1 -->
+        <rect x="10" y="28" width="100" height="44" rx="6" fill="var(--ground)"/>
+        <text x="60" y="47" font-size="13" font-weight="600" fill="var(--ink)">실물 카드</text>
+        <text x="60" y="63" font-size="11" fill="var(--muted)">IC · 컨택리스</text>
+
+        <rect x="120" y="28" width="100" height="44" rx="6" fill="var(--ground)"/>
+        <text x="170" y="47" font-size="13" font-weight="600" fill="var(--ink)">갤럭시</text>
+        <text x="170" y="63" font-size="11" fill="var(--muted)">삼성페이</text>
+
+        <rect x="230" y="28" width="100" height="44" rx="6" fill="var(--ground)"/>
+        <text x="280" y="47" font-size="13" font-weight="600" fill="var(--ink)">아이폰</text>
+        <text x="280" y="63" font-size="11" fill="var(--muted)">애플페이</text>
+
+        <!-- band 2 -->
+        <rect x="10" y="136" width="100" height="44" rx="6" fill="var(--ground)"/>
+        <text x="60" y="155" font-size="13" font-weight="600" fill="var(--ink)">IC 접촉</text>
+        <text x="60" y="171" font-size="11" fill="var(--muted)">꽂는다</text>
+
+        <rect x="120" y="136" width="100" height="44" rx="6" fill="var(--late-soft)"/>
+        <text x="170" y="155" font-size="13" font-weight="600" fill="var(--late)">MST</text>
+        <text x="170" y="171" font-size="11" fill="var(--muted)">자기장 흉내</text>
+
+        <rect x="230" y="136" width="100" height="44" rx="6" fill="var(--key-soft)"/>
+        <text x="280" y="155" font-size="13" font-weight="600" fill="var(--key)">NFC</text>
+        <text x="280" y="171" font-size="11" fill="var(--muted)">13.56MHz</text>
+
+        <!-- band 3 -->
+        <rect x="10" y="244" width="100" height="44" rx="6" fill="var(--ground)"/>
+        <text x="60" y="263" font-size="13" font-weight="600" fill="var(--ink)">칩 리더</text>
+        <text x="60" y="279" font-size="11" fill="var(--muted)">거의 전량</text>
+
+        <rect x="120" y="244" width="100" height="44" rx="6" fill="var(--ground)"/>
+        <text x="170" y="263" font-size="13" font-weight="600" fill="var(--ink)">MR 헤드</text>
+        <text x="170" y="279" font-size="11" fill="var(--muted)">거의 전량</text>
+
+        <rect x="230" y="244" width="100" height="44" rx="6" fill="var(--key-soft)"/>
+        <text x="280" y="263" font-size="13" font-weight="600" fill="var(--key)">NFC 안테나</text>
+        <text x="280" y="279" font-size="11" fill="var(--key)">10%대</text>
+      </g>
+
+      <g stroke="var(--muted)" stroke-width="1.3" marker-end="url(#ar9)">
+        <line x1="60" y1="82" x2="60" y2="104"/>
+        <line x1="170" y1="82" x2="170" y2="104"/>
+        <line x1="60" y1="190" x2="60" y2="212"/>
+        <line x1="170" y1="190" x2="170" y2="212"/>
+      </g>
+      <g stroke="var(--key)" stroke-width="1.5" marker-end="url(#ar9k)">
+        <line x1="280" y1="82" x2="280" y2="104"/>
+        <line x1="280" y1="190" x2="280" y2="212"/>
+      </g>
+
+      <path d="M60 298 V 310 H 170 V 320" fill="none" stroke="var(--muted)" stroke-width="1.3"/>
+      <path d="M280 298 V 310 H 170" fill="none" stroke="var(--muted)" stroke-width="1.3"/>
+      <line x1="170" y1="298" x2="170" y2="310" stroke="var(--muted)" stroke-width="1.3"/>
+      <line x1="170" y1="312" x2="170" y2="320" stroke="var(--muted)" stroke-width="1.3" marker-end="url(#ar9)"/>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif">
+        <rect x="0" y="322" width="340" height="44" rx="9" fill="var(--key-wash)" stroke="var(--key-soft)"/>
+        <text x="16" y="349" font-size="14" font-weight="600" fill="var(--ink)">결제 단말기</text>
+        <text x="324" y="349" font-size="11" fill="var(--muted)" text-anchor="end">여기서부터는 다 같은 길</text>
+
+        <rect x="0" y="388" width="340" height="44" rx="9" fill="var(--surface)"/>
+        <text x="16" y="415" font-size="14" font-weight="600" fill="var(--ink)">VAN · 카드사</text>
+        <text x="324" y="415" font-size="11" fill="var(--muted)" text-anchor="end">승인 · 매입</text>
+      </g>
+
+      <line x1="170" y1="368" x2="170" y2="386" stroke="var(--muted)" stroke-width="1.3" marker-end="url(#ar9)"/>
+    </svg>
+    <figcaption>세 갈래는 단말기 앞에서 합쳐진다. 그 위쪽만 서로 다르고, 그 아래 승인·매입 경로는 Day 1에서 본 그대로다. 실선은 국내 주 경로를 단순화한 것이고, 실물 컨택리스 카드와 해외에서의 갤럭시는 NFC 레인도 함께 쓴다.</figcaption>
+  </figure>
+
+  <section>
+    <span class="eyebrow">01 · 용어 정리</span>
+    <h2>세 층을 섞어 부르니까 헷갈린다</h2>
+
+    <p class="take">NFC는 물리 계층, EMV 컨택리스는 프로토콜, 애플페이는 서비스다. 층이 다르다.</p>
+
+    <p>비접촉 결제 문서가 유독 안 읽히는 이유는 기술적으로 어려워서가 아니다. <span class="hl">서로 다른 층에 있는 이름들이 한 문장 안에 평평하게 나열되기</span> 때문이다.</p>
+
+    <dl class="roles">
+      <div><dt>NFC <span class="mono">물리</span></dt><dd>13.56MHz 근거리 무선. 10cm 안쪽에서 전파로 신호를 주고받는 규격 그 자체</dd></div>
+      <div><dt>EMV 컨택리스 <span class="mono">프로토콜</span></dt><dd>그 전파 위에 올리는 결제 대화 규약. EMVCo가 정한 국제 표준</dd></div>
+      <div><dt>KS X 6924 <span class="mono">프로토콜</span></dt><dd>국내 교통카드 규격. 같은 NFC 위에 올라가지만 EMV와 다른 언어</dd></div>
+      <div><dt>FeliCa <span class="mono">물리+</span></dt><dd>소니가 만든 일본 규격. NFC Type F. 아이폰에 별도로 들어가 있다</dd></div>
+      <div><dt>애플페이 <span class="mono">서비스</span></dt><dd>위 규약들을 골라 쓰는 상품. 한국에서는 EMV 컨택리스만 쓴다</dd></div>
+    </dl>
+
+    <p>이 표 하나로 정리되는 질문이 있다. 아이폰은 NFC 안테나가 있고 일본에서는 교통카드가 되는데, 왜 한국에서는 안 될까.</p>
+
+    <p>안테나 문제가 아니라 <b>프로토콜 문제</b>다. 국내 후불교통은 KS X 6924를 쓰고, 애플페이의 국내 지갑은 EMV 컨택리스만 말한다. 같은 주파수로 다른 언어를 떠드는 셈이다.</p>
+
+    <p>네트워크로 치면 이해가 빠르다. 물리 링크는 똑같이 붙어 있는데 한쪽은 gRPC를, 다른 쪽은 SOAP을 쓰는 상황이다. 케이블 탓이 아니다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">02 · 호환성 해킹</span>
+    <h2>MST는 카드를 긁는 소리를 흉내 냈다</h2>
+
+    <p class="take">프로토콜을 바꾸는 대신, 기존 프로토콜을 그대로 말하는 어댑터를 클라이언트에 붙였다.</p>
+
+    <p><b>MST</b>는 Magnetic Secure Transmission의 약자다. 폰 안의 코일에 전류를 흘려서, 마그네틱 띠가 리더 헤드를 지나갈 때 생기는 신호 파형을 공중에서 재현한다.</p>
+
+    <p>단말기 입장에서는 <span class="hl">누군가 카드를 긁은 것과 구분이 안 된다.</span> 그래서 삼성페이는 가맹점 단말을 한 대도 바꾸지 않고 출시 즉시 전국에서 동작했다. 이게 삼성페이가 한국에서 이긴 결정적 이유다.</p>
+
+    <p>인프라 감각으로 보면 대단히 영리한 선택이다. 서버 fleet을 전부 업그레이드하는 대신, 클라이언트에 레거시 프로토콜 어댑터를 얹은 것이다. 단말, VAN, 카드사 쪽 코드는 한 줄도 안 바뀐다.</p>
+
+    <p>대가도 분명하다. MST는 <b>단방향</b>이다. 폰에서 단말 쪽으로만 흐르고 단말의 응답을 받지 못한다. 그래서 IC칩이 하는 상호 인증이나 오프라인 검증 같은 대화형 절차를 할 수 없다.</p>
+
+    <p>보안은 다른 층에서 메운다. 실제 카드번호 대신 기기에 묶인 별도 번호를 흘려보내는 방식인데, 이 토큰화 얘기는 Day 12에서 제대로 판다.</p>
+
+    <p>MST는 구조적으로 레거시 엔드포인트다. 삼성도 글로벌 모델부터 단계적으로 빼는 방향으로 움직여 왔다. <span class="chk">국내 모델 현황 확인 필요</span></p>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 · 표준 쪽</span>
+    <h2>EMV 컨택리스는 칩 대화를 무선으로 옮긴 것</h2>
+
+    <div class="split">
+      <div class="s-late">
+        <h3>MST</h3>
+        <p>마그네틱 신호를 재현. 단말 교체 불필요, 보급 비용 0. 단방향이라 칩 수준의 인증 대화는 불가. 한국과 미국 일부에서만 통하는 우회로.</p>
+      </div>
+      <div class="s-now">
+        <h3>EMV Contactless</h3>
+        <p>IC칩과 단말이 주고받던 인증 대화를 접점 대신 전파로. 매 거래마다 새로 만든 암호문을 보내므로 복제가 안 된다. 80개국 이상에서 쓰는 국제 표준.</p>
+      </div>
+    </div>
+
+    <p>핵심은 EMV 컨택리스가 <span class="hl">새로운 보안 모델이 아니라 기존 IC 보안 모델의 물리 계층만 바꾼 것</span>이라는 점이다. 꽂느냐 대느냐만 다르고, 그 안에서 오가는 대화는 사실상 같은 계열이다.</p>
+
+    <p>그래서 안전성 논리도 그대로 따라온다. 카드번호를 평문으로 흘리지 않고, 칩이 거래마다 생성한 값이 실려 나간다. 이걸 가로채도 다음 거래에는 못 쓴다.</p>
+
+    <p>한국이 이 표준에서 비켜 서 있던 이유는 기술이 아니라 경제였다. 국내는 이미 자체 암호화 규격으로 돌아가고 있었고, EMV 인증에는 비용이 들고, 국제 브랜드사에 로열티가 나간다. 굳이 갈 이유가 없었다.</p>
+
+    <p>결과는 고전적인 갈라파고스다. 60개국 넘는 나라에서 대면 거래의 90% 이상이 컨택리스로 일어나는 동안, 한국은 계속 꽂고 있었다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 · 병목</span>
+    <h2>애플페이를 막은 건 아이폰이 아니라 단말</h2>
+
+    <p class="take">서버는 새 API를 지원하는데, 클라이언트 fleet의 10%만 업그레이드된 상황.</p>
+
+    <p>2023년 3월 현대카드와 함께 애플페이가 들어왔다. 애플페이는 EMV 컨택리스만 받는다. 그런데 국내 단말 대부분에는 NFC 리더가 아예 없었다.</p>
+
+    <div class="tblscroll">
+      <table class="rates">
+        <caption>국내 애플페이·EMV 컨택리스 관련 수치. 보도 시점이 제각각이라 연도를 같이 본다</caption>
+        <thead><tr><th>항목</th><th>값</th><th>시점</th></tr></thead>
+        <tbody>
+          <tr><td>NFC 단말 보급률</td><td>약 10%</td><td>2025.3</td></tr>
+          <tr><td>단말 1대 교체 비용</td><td>15~20만원</td><td>2025.3</td></tr>
+          <tr><td>단말 1대 가격</td><td>10~15만원</td><td>2023</td></tr>
+          <tr><td>신용카드 가맹점 수</td><td>약 290만</td><td>2023</td></tr>
+          <tr><td>EMV 컨택리스 수수료</td><td>0.15%</td><td>현대카드 부담</td></tr>
+          <tr><td>애플페이 결제액 비중</td><td>약 1%</td><td>2025.3</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>표 위 두 줄을 곱해 보면 답이 나온다. 290만 가맹점에 15만원짜리 단말을 깔면 <b>4천억원대</b>다. 이 돈을 낼 주체가 아무도 없었다.</p>
+
+    <p>수수료 0.15%도 같은 구조다. EMV 컨택리스 거래에는 브랜드사 쪽 비용이 붙는데, 국내 규제상 이걸 가맹점이나 소비자에게 전가할 수 없다. 그래서 현대카드가 떠안았다.</p>
+
+    <p>즉 <span class="hl">애플페이를 도입하는 카드사는 거래가 늘수록 비용도 같이 는다.</span> 다른 카드사들이 선뜻 못 들어온 이유가 여기 있다. 신한카드와 KB국민카드의 추진 보도는 2025년 초부터 나왔다. <span class="chk">현재 출시 여부 확인 필요</span></p>
+
+    <p>결과적으로 애플페이는 3년 가까이 지나서도 국내 카드 결제액의 1% 남짓이다. 아이폰 점유율이 30%를 넘는데도 그렇다. 기능이 있어도 받는 쪽이 없으면 트래픽은 안 흐른다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">05 · 기회</span>
+    <h2>남의 부채가 신규 진입자에겐 자산이 된다</h2>
+
+    <p class="take">이미 깔린 단말 수백만 대는 기존 VAN 진영의 자산이자 마이그레이션 부채다.</p>
+
+    <p>기존 VAN사 입장에서 NFC 전환은 순수 비용이다. 이미 잘 돌아가는 단말을 교체할 유인이 없고, 교체비를 낼 사람도 없다.</p>
+
+    <p>단말을 <b>새로 까는</b> 사업자는 계산이 정반대다. 어차피 신규 단말을 만드는데, 처음부터 NFC 안테나를 넣으면 증분 비용은 부품값 수준이다. 그러면 "애플페이 되는 집"이라는 영업 포인트가 공짜로 따라온다.</p>
+
+    <p>실제로 한 신규 POS 사업자는 이 타이밍에 정확히 서 있었다. 애플페이 국내 출시 이전인 2022년 10월에 EMV 컨택리스 인증을 받아뒀고, 2023년 4월에 애플페이 지원을 붙였다.</p>
+
+    <p>그 사업자의 고객용 단말 한 대가 IC 접촉, MST, NFC를 모두 받는다는 것도 이 맥락이다. 소상공인이 애플페이를 받으려고 별도 단말을 하나 더 두는 상황을 없앤 것이다.</p>
+
+    <p>PM 관점에서 새겨둘 건 여기다. <span class="hl">"애플페이 지원"은 소프트웨어 기능이 아니라 하드웨어 로드맵 결정</span>이다. 결제 수단 하나가 SKU, 인증 취득, 펌웨어 배포 채널, VAN 전문 스펙, 정산 처리까지 전부 건드린다.</p>
+
+    <p>쿠버네티스로 치면 그린필드 클러스터와 레거시 마이그레이션의 차이다. 새로 짜는 쪽은 처음부터 원하는 CNI를 고르면 되고, 기존 쪽은 노드를 한 대씩 갈아야 한다. 결제 단말도 정확히 같은 게임이다.</p>
+  </section>
+
+
+  <section>
+    <span class="eyebrow">출처</span>
+    <h2>참조 원본</h2>
+    <ul class="src">
+      <li><a href="https://lynlab.co.kr/blog/contactless-payments">헷갈리는 비접촉 결제 기술 용어 간단하게 훑어보기 · LYnLab</a><small>물리 · 프로토콜 · 서비스 3계층 구분의 1차 출처. 오늘 표의 뼈대</small></li>
+      <li><a href="https://www.tosspayments.com/blog/articles/semo-94">애플페이 국내 도입이 사장님에게 미치는 영향은? · 토스페이먼츠</a><small>EMV 컨택리스 수수료 0.15%, 단말 10~15만원, 가맹점 290만의 원문</small></li>
+      <li><a href="https://www.mt.co.kr/finance/2025/03/18/2025031809471532474">애플페이 두번째 파도 · 머니투데이</a><small>NFC 단말 보급률 10%, 결제액 비중 1%, 교체비 15~20만원(2025.3 기준)</small></li>
+      <li><a href="https://byline.network/2023/08/%EA%B7%B8%EA%B2%8C-%EB%AD%94%EA%B0%80%EC%9A%94-%EC%95%A0%ED%94%8C%C2%B7%EA%B5%AC%EA%B8%80%ED%8E%98%EC%9D%B4%EA%B0%80-%EC%B1%84%ED%83%9D%ED%95%9C-EMV/">애플 · 구글페이가 채택한 EMV · 바이라인네트워크</a><small>EMV 규격의 정의와 한국이 EMV 컨택리스를 안 깔았던 비용 논리</small></li>
+      <li><a href="https://toss.im/tossfeed/article/tossplace-applepay">토스플레이스, 이번 달부터 애플페이 결제된다 · 토스피드</a><small>EMV 컨택리스 인증 3단계와 토스 프론트의 IC · NFC · MST 동시 지원</small></li>
+    </ul>
+  </section>
+
+  <nav class="pager">
+    <a class="prev" href="day-08.html"><small>← DAY 08</small>카드가 계산을 시작하는 순간</a>
+    <a class="next" href="day-10.html"><small>DAY 10 →</small>QR이라는 봉투</a>
+  </nav>
+
+  <footer>
+    <b>내일 Day 10</b><br>
+    QR 결제와 계좌이체 결제. 제로페이와 간편결제 QR이 카드망을 우회하는 방식, 그리고 그게 수수료 구조를 왜 바꾸는지.
+  </footer>
+
+</div>
+
+</body></html>

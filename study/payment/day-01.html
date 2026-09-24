@@ -1,0 +1,447 @@
+<!doctype html><html lang="ko"><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>승인과 매입 사이</title>
+</head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --ground:#FFFFFF;
+  --surface:#F2F6F5;
+  --ink:#0F1513;
+  --ink-soft:#37433F;
+  --muted:#67736F;
+  --line:#DCE5E2;
+  --line-soft:#EBF1EF;
+  --key:#0A6A4C;
+  --key-soft:#E3F2EC;
+  --key-wash:#F0F8F5;
+  --late:#8A5E14;
+  --late-soft:#F7EFDE;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0C110F;
+    --surface:#151D1A;
+    --ink:#EAF1EE;
+    --ink-soft:#C3CFCB;
+    --muted:#8E9D98;
+    --line:#27332F;
+    --line-soft:#1B2522;
+    --key:#54CE9E;
+    --key-soft:#122A22;
+    --key-wash:#101B18;
+    --late:#D8AB57;
+    --late-soft:#282013;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0C110F;
+  --surface:#151D1A;
+  --ink:#EAF1EE;
+  --ink-soft:#C3CFCB;
+  --muted:#8E9D98;
+  --line:#27332F;
+  --line-soft:#1B2522;
+  --key:#54CE9E;
+  --key-soft:#122A22;
+  --key-wash:#101B18;
+  --late:#D8AB57;
+  --late-soft:#282013;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:'IBM Plex Sans KR','Apple SD Gothic Neo',system-ui,sans-serif;
+  font-size:17.5px;
+  line-height:1.9;
+  letter-spacing:-.003em;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{
+  max-width:34rem;
+  margin:0 auto;
+  padding-inline:22px;
+  padding-block:36px 80px;
+}
+
+/* ── masthead ───────────────────────── */
+.masthead{display:flex;flex-direction:column;gap:16px;margin-bottom:38px}
+.daymeta{
+  display:flex;align-items:center;gap:9px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+}
+.daymeta b{color:var(--key);font-size:14px}
+.daymeta s{text-decoration:none;color:var(--line)}
+h1{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:clamp(30px,9vw,40px);
+  line-height:1.3;
+  letter-spacing:-.015em;
+  margin:0;
+  text-wrap:balance;
+}
+.sub{margin:0;color:var(--muted);font-size:15.5px;line-height:1.7}
+
+/* ── 핵심 3줄 ───────────────────────── */
+.gist{
+  background:var(--key-wash);
+  border:1px solid var(--key-soft);
+  border-radius:10px;
+  padding:22px 20px;
+  margin-bottom:40px;
+  counter-reset:g;
+}
+.gist h2{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--key);margin:0 0 14px;border:0;padding:0;
+}
+.gist li{
+  list-style:none;position:relative;
+  padding-left:30px;
+  font-size:16.5px;line-height:1.75;
+  color:var(--ink-soft);
+}
+.gist li + li{margin-top:13px}
+.gist li::before{
+  counter-increment:g;content:counter(g);
+  position:absolute;left:0;top:.28em;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--key);color:var(--ground);
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  line-height:20px;text-align:center;
+}
+.gist ul{margin:0;padding:0}
+.gist b{color:var(--ink);font-weight:600}
+
+/* ── figure ─────────────────────────── */
+figure{margin:0 0 42px;display:flex;flex-direction:column;gap:14px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:14.5px;color:var(--muted);line-height:1.7}
+
+/* ── sections ───────────────────────── */
+section{margin-bottom:46px}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:6px;
+}
+h2{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:25px;
+  line-height:1.45;
+  letter-spacing:-.01em;
+  margin:0 0 20px;
+  text-wrap:balance;
+}
+p{margin:0 0 18px}
+p:last-child{margin-bottom:0}
+b,strong{font-weight:600;color:var(--ink)}
+.hl{background:var(--key-soft);padding:.1em .25em;border-radius:3px;font-weight:600}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:.88em;color:var(--muted)}
+
+/* takeaway line per section */
+.take{
+  display:flex;gap:12px;align-items:flex-start;
+  border-left:3px solid var(--key);
+  padding:2px 0 2px 15px;
+  margin:0 0 22px;
+  font-size:16.5px;line-height:1.7;
+  color:var(--ink-soft);
+}
+
+/* role list */
+.roles{margin:0 0 20px;padding:0}
+.roles div{
+  display:grid;
+  grid-template-columns:7.5rem 1fr;
+  gap:2px 14px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line-soft);
+  align-items:baseline;
+}
+.roles div:first-child{border-top:1px solid var(--line-soft)}
+.roles dt{font-weight:600;font-size:16px;line-height:1.5}
+.roles dd{margin:0;font-size:15.5px;color:var(--muted);line-height:1.65}
+@media(max-width:440px){
+  .roles div{grid-template-columns:1fr;gap:1px}
+}
+
+/* two-card compare */
+.split{display:flex;flex-direction:column;gap:14px;margin:0 0 22px}
+.split > div{
+  border-radius:10px;
+  padding:20px;
+  background:var(--surface);
+}
+.split h3{
+  margin:0 0 8px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+}
+.split p{font-size:16px;line-height:1.75;margin:0;color:var(--ink-soft)}
+.s-now{box-shadow:inset 3px 0 0 var(--key)}
+.s-now h3{color:var(--key)}
+.s-late{box-shadow:inset 3px 0 0 var(--late)}
+.s-late h3{color:var(--late)}
+
+/* rates table */
+.tblscroll{overflow-x:auto;margin:0 0 18px}
+.rates{width:100%;border-collapse:collapse;font-size:16px}
+.rates caption{
+  text-align:left;font-size:13.5px;color:var(--muted);
+  padding-bottom:10px;line-height:1.6;
+}
+.rates th,.rates td{padding:11px 8px;border-bottom:1px solid var(--line-soft);text-align:right;white-space:nowrap}
+.rates th:first-child,.rates td:first-child{text-align:left}
+.rates thead th{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  border-bottom-color:var(--line);
+}
+.rates td{font-variant-numeric:tabular-nums;color:var(--ink-soft)}
+.rates tbody tr:first-child td{color:var(--ink);font-weight:600}
+
+/* pull quote */
+.pull{
+  background:var(--key-soft);
+  border-radius:10px;
+  padding:26px 22px;
+  margin-bottom:46px;
+}
+.pull span{
+  display:block;margin-bottom:12px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--key);
+}
+.pull q{
+  font-family:'Gowun Batang',serif;
+  font-size:19px;line-height:1.85;quotes:'"' '"';
+  display:block;
+}
+
+/* sources */
+.src{list-style:none;margin:0;padding:0}
+.src li{padding:15px 0;border-bottom:1px solid var(--line-soft)}
+.src li:first-child{border-top:1px solid var(--line-soft)}
+.src a{
+  color:var(--ink);text-decoration:none;font-weight:600;
+  font-size:16px;line-height:1.6;
+  box-shadow:inset 0 -2px 0 var(--key);
+}
+.src a:hover{color:var(--key)}
+.src a:focus-visible{outline:2px solid var(--key);outline-offset:3px}
+.src small{display:block;color:var(--muted);font-size:14.5px;line-height:1.65;margin-top:7px}
+
+footer{
+  margin-top:46px;
+  font-size:15px;color:var(--muted);line-height:1.8;
+  border-top:1px solid var(--line);padding-top:22px;
+}
+footer b{color:var(--ink-soft)}
+/* site nav */
+.back{display:inline-block;margin-bottom:28px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--key)}
+.pager{display:flex;gap:12px;margin-top:46px}
+.pager a{flex:1;min-width:0;display:block;padding:14px 16px;border:1px solid var(--line);border-radius:10px;color:var(--ink);text-decoration:none;font-size:15px;line-height:1.5}
+.pager a:hover{border-color:var(--key);color:var(--key)}
+.pager a small{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted)}
+.pager .next{text-align:right}
+.pager span{flex:1}
+</style>
+
+<div class="wrap">
+
+  <a class="back" href="../payment-domain-map.html">← 결제 도메인 지도</a>
+
+  <header class="masthead">
+    <div class="daymeta"><b>DAY 01</b><s>/</s>21<s>·</s>결제 기본기</div>
+    <h1>승인과 매입 사이</h1>
+    <p class="sub">카드결제 한 건이 실제로 지나가는 길</p>
+  </header>
+
+  <div class="gist">
+    <h2>핵심 3줄</h2>
+    <ul>
+      <li><b>승인</b>은 수 초, <b>매입·정산</b>은 며칠. 같은 결제 한 건이 두 개의 세계에 걸쳐 있다.</li>
+      <li>카드사는 <b>발급사</b>와 <b>매입사</b> 두 얼굴을 가진다. 간판이 같아서 헷갈릴 뿐이다.</li>
+      <li><b>VAN은 데이터가</b>, <b>PG는 돈이</b> 지나간다. 요즘은 이 경계가 점점 흐려지고 있다.</li>
+    </ul>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 340 468" role="img" aria-label="카드결제 흐름도: 위쪽은 수 초 만에 끝나는 실시간 승인 경로, 아래쪽은 며칠에 걸친 배치 매입·정산 경로">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/>
+        </marker>
+        <marker id="arg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--key)"/>
+        </marker>
+      </defs>
+
+      <text x="0" y="11" fill="var(--key)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.4">실시간 · 수 초</text>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="14.5" font-weight="500">
+        <rect x="0" y="24" width="240" height="42" rx="6" fill="var(--surface)"/>
+        <text x="16" y="50" fill="var(--ink)">카드회원</text>
+
+        <rect x="0" y="98" width="240" height="42" rx="6" fill="var(--surface)"/>
+        <text x="16" y="124" fill="var(--ink)">가맹점 POS</text>
+
+        <rect x="0" y="172" width="240" height="42" rx="6" fill="var(--surface)"/>
+        <text x="16" y="198" fill="var(--ink)">VAN · PG</text>
+
+        <rect x="0" y="246" width="240" height="42" rx="6" fill="var(--surface)"/>
+        <text x="16" y="272" fill="var(--ink)">매입사</text>
+
+        <rect x="0" y="320" width="240" height="42" rx="6" fill="var(--surface)"/>
+        <text x="16" y="346" fill="var(--ink)">발급사</text>
+        <text x="226" y="346" fill="var(--key)" font-size="11.5" font-weight="400" text-anchor="end">한도 홀드</text>
+      </g>
+
+      <g stroke="var(--muted)" stroke-width="1.3" marker-end="url(#ar)">
+        <line x1="34" y1="66" x2="34" y2="95"/>
+        <line x1="34" y1="140" x2="34" y2="169"/>
+        <line x1="34" y1="214" x2="34" y2="243"/>
+        <line x1="34" y1="288" x2="34" y2="317"/>
+      </g>
+
+      <path d="M240 341 H 288 V 45 H 240" fill="none" stroke="var(--key)" stroke-width="1.5" marker-end="url(#arg)"/>
+      <text x="302" y="193" fill="var(--key)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.2" transform="rotate(-90 302 193)" text-anchor="middle">승인 응답</text>
+
+      <line x1="0" y1="388" x2="340" y2="388" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 6"/>
+
+      <text x="0" y="414" fill="var(--late)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.4">배치 · D+1 ~ D+2</text>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="14.5" font-weight="500">
+        <rect x="0" y="424" width="156" height="42" rx="6" fill="var(--late-soft)"/>
+        <text x="16" y="450" fill="var(--ink)">전표 매입</text>
+        <rect x="184" y="424" width="156" height="42" rx="6" fill="var(--late-soft)"/>
+        <text x="200" y="450" fill="var(--ink)">정산 · 입금</text>
+      </g>
+      <line x1="156" y1="445" x2="182" y2="445" stroke="var(--muted)" stroke-width="1.3" marker-end="url(#ar)"/>
+    </svg>
+    <figcaption>점선 위는 수 초 안에 끝난다. 점선 아래는 하루치 거래를 모아 며칠에 걸쳐 돈다. 결제 도메인의 난이도는 대부분 이 시차에서 나온다.</figcaption>
+  </figure>
+
+  <section>
+    <span class="eyebrow">01 · 등장인물</span>
+    <h2>넷인데 간판은 하나</h2>
+
+    <dl class="roles">
+      <div><dt>카드회원</dt><dd>카드 쓰는 사람</dd></div>
+      <div><dt>가맹점</dt><dd>돈 받는 사람</dd></div>
+      <div><dt>발급사 <span class="mono">Issuer</span></dt><dd>회원에게 카드를 발급하고 한도를 관리</dd></div>
+      <div><dt>매입사 <span class="mono">Acquirer</span></dt><dd>가맹점을 모집하고 거래를 매입해 정산</dd></div>
+    </dl>
+
+    <p>한국에서 초심자가 반드시 한 번 미끄러지는 지점. <span class="hl">발급사와 매입사가 같은 회사 이름을 달고 있다.</span></p>
+
+    <p>신한카드는 내 카드의 발급사이면서, 동시에 저 식당의 매입사다. 역할이 둘인데 간판이 하나라서 문서를 읽다 보면 "카드사"라는 단어가 문단마다 다른 걸 가리킨다.</p>
+
+    <p>인프라로 옮기면 깔끔해진다. 발급사는 <b>인증 서버</b>, 이 주체가 정당한가 쿼터는 남았나를 본다. 매입사는 <b>빌링·정산 서버</b>, 사용량을 집계해서 실제로 돈을 옮긴다. 같은 클러스터에 떠 있어도 책임 경계는 완전히 다른 컴포넌트다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">02 · 오늘의 핵심</span>
+    <h2>승인은 홀드, 매입은 청구</h2>
+
+    <p class="take">돈은 승인 때 움직이지 않는다. 며칠 뒤 매입이 확정돼야 움직인다.</p>
+
+    <div class="split">
+      <div class="s-now">
+        <h3>승인 Authorization</h3>
+        <p>"이 카드로 5만원 되나?"를 묻고 답받는 실시간 트랜잭션. 카드사는 한도만 확인하고 5만원을 <b>홀드</b>한다. 돈은 아직 아무 데도 안 움직였다. 영수증의 승인번호가 이 홀드의 ID다.</p>
+      </div>
+      <div class="s-late">
+        <h3>매입 Capture</h3>
+        <p>그 승인건을 "진짜로 청구하겠다"고 확정 통보하는 단계. 토스페이먼츠 문서 기준 <b>2~3 영업일</b>. 단말·VAN이 하루치를 모아 배치로 넘기고, 매입사가 확정한 뒤에야 가맹점 계좌에 돈이 들어간다.</p>
+      </div>
+    </div>
+
+    <p>그래서 취소가 두 종류로 갈린다.</p>
+
+    <p>결제 직후라면 <b>승인취소</b>. 홀드만 풀면 되니 명세서에 흔적이 거의 안 남는다. 며칠 지났다면 <b>매입취소, 곧 환불</b>. 이미 청구가 확정됐으니 반대 방향 거래를 하나 더 만들어야 하고, 돈이 돌아오는 데 며칠 걸린다.</p>
+
+    <p>쿠버네티스로 치면 승인은 스케줄러가 노드 리소스를 <span class="mono">reserve</span>한 상태, 매입은 Pod가 <span class="mono">Running</span>이 되어 과금이 시작된 상태다. reserve만 하고 안 띄우면 그냥 풀리는 것과 같다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 · 중계자</span>
+    <h2>VAN은 데이터가, PG는 돈이 지나간다</h2>
+
+    <p class="take">이 한 줄만 외워도 문서 읽는 속도가 달라진다.</p>
+
+    <p><b>VAN</b>은 오프라인 카드 단말기를 위해 태어났다. 본업은 단말기 보급과 관리, 전용 회선과 전문 변환, 그리고 전표를 모아 카드사에 넘기는 <b>전표매입 대행</b>이다.</p>
+
+    <p>카드사가 전국 수백만 가맹점과 일일이 회선을 맺을 수는 없다. VAN이 그 다중화 레이어다. 로드밸런서 겸 프로토콜 게이트웨이라고 보면 정확하다.</p>
+
+    <p><b>PG</b>는 온라인 결제를 위해 태어났다. 쇼핑몰마다 카드사와 가맹점 계약을 맺을 수 없으니, PG가 <b>대표가맹점</b>이 되고 쇼핑몰들을 <b>하위가맹점</b>으로 거느린다.</p>
+
+    <p>그래서 PG는 중계만 하지 않는다. <span class="hl">돈을 대신 받아 쪼개 보내는 정산 주체</span>다. VAN에는 없는 책임이고, 여기서 두 사업의 리스크 구조가 완전히 갈린다.</p>
+
+    <p>요즘은 경계가 흐려졌다. PG가 VAN 기능을 품기도 하고(토스페이먼츠), 오프라인 사업자가 정산까지 맡기도 한다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 · 현장</span>
+    <h2>사장님은 두 가지만 묻는다</h2>
+
+    <p class="take">"승인 났나" 그리고 "돈 언제 들어오나".</p>
+
+    <p>카드가 안 긁히면 사장님은 카드사가 아니라 <b>VAN 대리점</b>에 전화한다. 회선, 펌웨어, 가맹점 등록 상태가 전부 VAN 소관이기 때문이다.</p>
+
+    <p>그래서 VAN 대리점 영업망이 오프라인 결제 시장의 실질적 장악력이고, 신규 진입자가 가장 넘기 힘든 벽이다. 좋은 하드웨어를 만드는 것보다, 전국에 깔고 고장났을 때 두 시간 안에 가주는 게 훨씬 어렵다.</p>
+
+    <div class="tblscroll">
+      <table class="rates">
+        <caption>2026년 상반기 영세·중소가맹점 우대수수료율 (금융위원회)</caption>
+        <thead><tr><th>연매출</th><th>신용</th><th>체크</th><th>가맹점</th></tr></thead>
+        <tbody>
+          <tr><td>3억 이하</td><td>0.40%</td><td>0.15%</td><td>232.5만</td></tr>
+          <tr><td>3~5억</td><td>1.00%</td><td>0.75%</td><td>28.7만</td></tr>
+          <tr><td>5~10억</td><td>1.15%</td><td>0.90%</td><td>28.1만</td></tr>
+          <tr><td>10~30억</td><td>1.45%</td><td>1.15%</td><td>19.4만</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>대부분의 소상공인에게 <span class="hl">수수료율은 이미 정부가 정해놓은 상수</span>다. 그러면 POS 사업자는 수수료로 경쟁할 수가 없다.</p>
+
+    <p>대신 "돈이 언제 들어오냐"(선정산), "장부가 자동으로 맞느냐"(정산 자동화) 같은 <b>정산 경험</b>으로 경쟁하게 된다.</p>
+  </section>
+
+
+  <section>
+    <span class="eyebrow">출처</span>
+    <h2>참조 원본</h2>
+    <ul class="src">
+      <li><a href="https://docs.tosspayments.com/resources/glossary/card-payment">카드 결제 총정리 · 토스페이먼츠 개발자센터</a><small>인증·승인·매입 3단계 정의와 매입 소요기간(2~3영업일)의 1차 출처</small></li>
+      <li><a href="https://docs.tosspayments.com/guides/v2/get-started/payment-flow">결제 흐름 이해하기 · 토스페이먼츠 개발자센터</a><small>결제창부터 승인 API까지 전체 시퀀스. 앞으로 계속 돌아올 문서</small></li>
+      <li><a href="https://www.fsc.go.kr/no010101/86274">2026년 상반기 영세·중소가맹점 선정결과 · 금융위원회</a><small>위 표의 구간별 우대수수료율과 적용 가맹점 수 원문</small></li>
+      <li><a href="https://umbum.dev/990/">PG / VAN 이란? · umbum.dev</a><small>개발자 시선에서 PG와 VAN의 책임 경계를 정리한 글</small></li>
+      <li><a href="https://brunch.co.kr/@monami-7777/2">결제 이야기 #1 : VAN과 PG 그리고 결제 · brunch</a><small>업계 실무자 관점의 VAN·PG 태생 차이</small></li>
+    </ul>
+  </section>
+
+  <nav class="pager">
+    <span></span>
+    <a class="next" href="day-02.html"><small>DAY 02 →</small>카드사의 두 얼굴</a>
+  </nav>
+
+  <footer>
+    <b>내일 Day 2</b><br>
+    발급사 · 매입사 · 브랜드사(BC, 비자, 마스터)가 어떻게 나뉘는지. 오늘의 "카드사는 왜 두 얼굴인가"를 제대로 판다.
+  </footer>
+
+</div>
+
+</body></html>

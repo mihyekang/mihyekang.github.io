@@ -1,0 +1,489 @@
+<!doctype html><html lang="ko"><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>무응답이라는 세 번째 답</title>
+</head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --ground:#FFFFFF;
+  --surface:#F2F6F5;
+  --ink:#0F1513;
+  --ink-soft:#37433F;
+  --muted:#67736F;
+  --line:#DCE5E2;
+  --line-soft:#EBF1EF;
+  --key:#0A6A4C;
+  --key-soft:#E3F2EC;
+  --key-wash:#F0F8F5;
+  --late:#8A5E14;
+  --late-soft:#F7EFDE;
+  --alert:#A82A20;
+  --alert-soft:#FAE9E7;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0C110F;
+    --surface:#151D1A;
+    --ink:#EAF1EE;
+    --ink-soft:#C3CFCB;
+    --muted:#8E9D98;
+    --line:#27332F;
+    --line-soft:#1B2522;
+    --key:#54CE9E;
+    --key-soft:#122A22;
+    --key-wash:#101B18;
+    --late:#D8AB57;
+    --late-soft:#282013;
+    --alert:#F08A7E;
+    --alert-soft:#2B1512;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0C110F;
+  --surface:#151D1A;
+  --ink:#EAF1EE;
+  --ink-soft:#C3CFCB;
+  --muted:#8E9D98;
+  --line:#27332F;
+  --line-soft:#1B2522;
+  --key:#54CE9E;
+  --key-soft:#122A22;
+  --key-wash:#101B18;
+  --late:#D8AB57;
+  --late-soft:#282013;
+  --alert:#F08A7E;
+  --alert-soft:#2B1512;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:'IBM Plex Sans KR','Apple SD Gothic Neo',system-ui,sans-serif;
+  font-size:17.5px;
+  line-height:1.9;
+  letter-spacing:-.003em;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{
+  max-width:34rem;
+  margin:0 auto;
+  padding-inline:22px;
+  padding-block:36px 80px;
+}
+
+/* ── masthead ───────────────────────── */
+.masthead{display:flex;flex-direction:column;gap:16px;margin-bottom:38px}
+.daymeta{
+  display:flex;align-items:center;gap:9px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+}
+.daymeta b{color:var(--key);font-size:14px}
+.daymeta s{text-decoration:none;color:var(--line)}
+h1{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:clamp(30px,9vw,40px);
+  line-height:1.3;
+  letter-spacing:-.015em;
+  margin:0;
+  text-wrap:balance;
+}
+.sub{margin:0;color:var(--muted);font-size:15.5px;line-height:1.7}
+
+/* ── 핵심 3줄 ───────────────────────── */
+.gist{
+  background:var(--key-wash);
+  border:1px solid var(--key-soft);
+  border-radius:10px;
+  padding:22px 20px;
+  margin-bottom:40px;
+  counter-reset:g;
+}
+.gist h2{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--key);margin:0 0 14px;border:0;padding:0;
+}
+.gist li{
+  list-style:none;position:relative;
+  padding-left:30px;
+  font-size:16.5px;line-height:1.75;
+  color:var(--ink-soft);
+}
+.gist li + li{margin-top:13px}
+.gist li::before{
+  counter-increment:g;content:counter(g);
+  position:absolute;left:0;top:.28em;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--key);color:var(--ground);
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  line-height:20px;text-align:center;
+}
+.gist ul{margin:0;padding:0}
+.gist b{color:var(--ink);font-weight:600}
+
+/* ── figure ─────────────────────────── */
+figure{margin:0 0 42px;display:flex;flex-direction:column;gap:14px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:14.5px;color:var(--muted);line-height:1.7}
+
+/* ── sections ───────────────────────── */
+section{margin-bottom:46px}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:6px;
+}
+h2{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:25px;
+  line-height:1.45;
+  letter-spacing:-.01em;
+  margin:0 0 20px;
+  text-wrap:balance;
+}
+p{margin:0 0 18px}
+p:last-child{margin-bottom:0}
+b,strong{font-weight:600;color:var(--ink)}
+.hl{background:var(--key-soft);padding:.1em .25em;border-radius:3px;font-weight:600}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:.88em;color:var(--muted)}
+a.inl{color:var(--ink);text-decoration:none;box-shadow:inset 0 -2px 0 var(--key)}
+a.inl:hover{color:var(--key)}
+a.inl:focus-visible{outline:2px solid var(--key);outline-offset:3px}
+
+/* takeaway line per section */
+.take{
+  display:flex;gap:12px;align-items:flex-start;
+  border-left:3px solid var(--key);
+  padding:2px 0 2px 15px;
+  margin:0 0 22px;
+  font-size:16.5px;line-height:1.7;
+  color:var(--ink-soft);
+}
+
+/* role list */
+.roles{margin:0 0 20px;padding:0}
+.roles div{
+  display:grid;
+  grid-template-columns:8.5rem 1fr;
+  gap:2px 14px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line-soft);
+  align-items:baseline;
+}
+.roles div:first-child{border-top:1px solid var(--line-soft)}
+.roles dt{font-weight:600;font-size:16px;line-height:1.5}
+.roles dd{margin:0;font-size:15.5px;color:var(--muted);line-height:1.65}
+@media(max-width:440px){
+  .roles div{grid-template-columns:1fr;gap:1px}
+}
+
+/* two-card compare */
+.split{display:flex;flex-direction:column;gap:14px;margin:0 0 22px}
+.split > div{
+  border-radius:10px;
+  padding:20px;
+  background:var(--surface);
+}
+.split h3{
+  margin:0 0 8px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+}
+.split p{font-size:16px;line-height:1.75;margin:0;color:var(--ink-soft)}
+.s-now{box-shadow:inset 3px 0 0 var(--key)}
+.s-now h3{color:var(--key)}
+.s-late{box-shadow:inset 3px 0 0 var(--late)}
+.s-late h3{color:var(--late)}
+.s-bad{box-shadow:inset 3px 0 0 var(--alert)}
+.s-bad h3{color:var(--alert)}
+
+/* code table */
+.tblscroll{overflow-x:auto;margin:0 0 18px}
+.rates{width:100%;border-collapse:collapse;font-size:16px}
+.rates caption{
+  text-align:left;font-size:13.5px;color:var(--muted);
+  padding-bottom:10px;line-height:1.6;
+}
+.rates th,.rates td{padding:11px 8px;border-bottom:1px solid var(--line-soft);text-align:left;white-space:nowrap}
+.rates thead th{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  border-bottom-color:var(--line);
+}
+.rates td{color:var(--ink-soft)}
+.rates td.c{
+  font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;
+  color:var(--ink);font-weight:600;
+}
+.rates td.soft{color:var(--late)}
+.rates td.hard{color:var(--alert)}
+.rates td.ok{color:var(--key)}
+
+/* pull quote */
+.pull{
+  background:var(--key-soft);
+  border-radius:10px;
+  padding:26px 22px;
+  margin-bottom:46px;
+}
+.pull span{
+  display:block;margin-bottom:12px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--key);
+}
+.pull q{
+  font-family:'Gowun Batang',serif;
+  font-size:19px;line-height:1.85;quotes:'"' '"';
+  display:block;
+}
+
+/* sources */
+.src{list-style:none;margin:0;padding:0}
+.src li{padding:15px 0;border-bottom:1px solid var(--line-soft)}
+.src li:first-child{border-top:1px solid var(--line-soft)}
+.src a{
+  color:var(--ink);text-decoration:none;font-weight:600;
+  font-size:16px;line-height:1.6;
+  box-shadow:inset 0 -2px 0 var(--key);
+}
+.src a:hover{color:var(--key)}
+.src a:focus-visible{outline:2px solid var(--key);outline-offset:3px}
+.src small{display:block;color:var(--muted);font-size:14.5px;line-height:1.65;margin-top:7px}
+
+footer{
+  margin-top:46px;
+  font-size:15px;color:var(--muted);line-height:1.8;
+  border-top:1px solid var(--line);padding-top:22px;
+}
+footer b{color:var(--ink-soft)}
+/* site nav */
+.back{display:inline-block;margin-bottom:28px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--key)}
+.pager{display:flex;gap:12px;margin-top:46px}
+.pager a{flex:1;min-width:0;display:block;padding:14px 16px;border:1px solid var(--line);border-radius:10px;color:var(--ink);text-decoration:none;font-size:15px;line-height:1.5}
+.pager a:hover{border-color:var(--key);color:var(--key)}
+.pager a small{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted)}
+.pager .next{text-align:right}
+.pager span{flex:1}
+</style>
+
+<div class="wrap">
+
+  <a class="back" href="../payment-domain-map.html">← 결제 도메인 지도</a>
+
+  <header class="masthead">
+    <div class="daymeta"><b>DAY 13</b><s>/</s>21<s>·</s>결제 수단별 프로토콜</div>
+    <h1>무응답이라는 세 번째 답</h1>
+    <p class="sub">거절 코드, 타임아웃, 그리고 망취소</p>
+  </header>
+
+  <div class="gist">
+    <h2>핵심 3줄</h2>
+    <ul>
+      <li>승인 응답은 둘이 아니라 셋이다. <b>승인, 거절, 그리고 답이 안 옴</b>. 결제 사고는 거의 전부 세 번째에서 난다.</li>
+      <li>거절도 두 종류다. 다시 시도하면 붙을 수 있는 거절과, <b>다시 긁으면 안 되는 거절</b>이 같은 실패 응답에 섞여 있다.</li>
+      <li><b>망취소</b>는 승인번호를 못 받은 상태에서 "방금 그거 없던 일로"를 보내는 보상 트랜잭션이다. 그래서 주문번호가 키가 된다.</li>
+    </ul>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 340 386" role="img" aria-label="승인 요청 흐름도. 가맹점 POS에서 VAN·PG를 거쳐 발급사로 간 요청이 승인, 거절, 응답 없음 세 갈래로 갈리고, 응답 없음에서 망취소 전문이 발급사로 되돌아간다">
+      <defs>
+        <marker id="ar13" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/>
+        </marker>
+        <marker id="ax13" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--alert)"/>
+        </marker>
+      </defs>
+
+      <text x="0" y="10" fill="var(--key)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.4">승인 요청 · 수 초</text>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="14.5" font-weight="500">
+        <rect x="0" y="22" width="236" height="40" rx="6" fill="var(--surface)"/>
+        <text x="16" y="47" fill="var(--ink)">가맹점 POS</text>
+
+        <rect x="0" y="90" width="236" height="40" rx="6" fill="var(--surface)"/>
+        <text x="16" y="115" fill="var(--ink)">VAN · PG</text>
+
+        <rect x="0" y="158" width="236" height="40" rx="6" fill="var(--surface)"/>
+        <text x="16" y="183" fill="var(--ink)">발급사</text>
+      </g>
+
+      <g stroke="var(--muted)" stroke-width="1.3" marker-end="url(#ar13)">
+        <line x1="34" y1="62" x2="34" y2="86"/>
+        <line x1="34" y1="130" x2="34" y2="154"/>
+      </g>
+
+      <text x="0" y="224" fill="var(--muted)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.4">응답은 셋</text>
+
+      <path d="M10 198 V 352" fill="none" stroke="var(--muted)" stroke-width="1.3"/>
+      <g stroke="var(--muted)" stroke-width="1.3" marker-end="url(#ar13)">
+        <line x1="10" y1="256" x2="21" y2="256"/>
+        <line x1="10" y1="304" x2="21" y2="304"/>
+        <line x1="10" y1="352" x2="21" y2="352"/>
+      </g>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="14.5" font-weight="500">
+        <rect x="24" y="236" width="236" height="40" rx="6" fill="var(--key-soft)"/>
+        <text x="40" y="261" fill="var(--ink)" font-family="'IBM Plex Mono',monospace">00</text>
+        <text x="72" y="261" fill="var(--ink)">승인</text>
+        <text x="246" y="261" fill="var(--key)" font-size="11.5" font-weight="400" text-anchor="end">홀드 성립</text>
+
+        <rect x="24" y="284" width="236" height="40" rx="6" fill="var(--late-soft)"/>
+        <text x="40" y="309" fill="var(--ink)" font-family="'IBM Plex Mono',monospace">05 51</text>
+        <text x="106" y="309" fill="var(--ink)">거절</text>
+        <text x="246" y="309" fill="var(--late)" font-size="11.5" font-weight="400" text-anchor="end">홀드 없음</text>
+
+        <rect x="24" y="332" width="236" height="40" rx="6" fill="var(--alert-soft)"/>
+        <text x="40" y="357" fill="var(--ink)" font-family="'IBM Plex Mono',monospace">--</text>
+        <text x="72" y="357" fill="var(--ink)">응답 없음</text>
+        <text x="246" y="357" fill="var(--alert)" font-size="11.5" font-weight="400" text-anchor="end">홀드 모름</text>
+      </g>
+
+      <path d="M260 352 H 300 V 178 H 238" fill="none" stroke="var(--alert)" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#ax13)"/>
+      <text x="316" y="266" fill="var(--alert)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.2" transform="rotate(-90 316 266)" text-anchor="middle">망취소 0400</text>
+    </svg>
+    <figcaption>위 두 갈래는 답이 왔으니 처리하면 끝이다. 문제는 세 번째. 승인이 났는지 안 났는지 모르는 채로 다음 행동을 정해야 하고, 그 행동이 점선 화살표인 망취소다.</figcaption>
+  </figure>
+
+  <section>
+    <span class="eyebrow">01 · 응답 코드</span>
+    <h2>거절에도 등급이 있다</h2>
+
+    <p class="take">같은 실패라도 다시 시도해야 하는 실패와, 다시 시도하면 사고가 되는 실패가 있다.</p>
+
+    <p>카드 승인 응답은 ISO 8583 전문의 <b>DE 39</b>, 두 자리 응답코드로 온다. <span class="mono">00</span>이 승인이고 나머지는 전부 거절이다. 딱 두 글자에 모든 사연이 눌려 담긴다.</p>
+
+    <div class="tblscroll">
+      <table class="rates">
+        <caption>ISO 8583 DE39 주요 응답코드. 분류는 <a class="inl" href="https://docs.ebanx.com/docs/pay-in/dev-tools/response-codes/iso8583-codes">EBANX 응답코드 문서</a> 기준</caption>
+        <thead><tr><th>코드</th><th>의미</th><th>성격</th></tr></thead>
+        <tbody>
+          <tr><td class="c">00</td><td>Approved</td><td class="ok">승인</td></tr>
+          <tr><td class="c">05</td><td>Do not honor</td><td class="soft">소프트</td></tr>
+          <tr><td class="c">51</td><td>Insufficient funds</td><td class="soft">소프트</td></tr>
+          <tr><td class="c">61</td><td>Exceeds withdrawal limit</td><td class="soft">소프트</td></tr>
+          <tr><td class="c">91</td><td>Issuer or switch inoperative</td><td class="soft">소프트</td></tr>
+          <tr><td class="c">96</td><td>System malfunction</td><td class="soft">소프트</td></tr>
+          <tr><td class="c">54</td><td>Expired card</td><td class="hard">데이터</td></tr>
+          <tr><td class="c">41</td><td>Lost card</td><td class="hard">하드</td></tr>
+          <tr><td class="c">43</td><td>Stolen card</td><td class="hard">하드</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>소프트 디클라인</b>은 상황이 바뀌면 붙는다. 잔액이 없어서, 한도를 넘어서, 발급사 스위치가 잠깐 죽어서. 재시도나 다른 수단 유도가 의미 있다.</p>
+
+    <p><b>하드 디클라인</b>은 다르다. <span class="mono">41</span>·<span class="mono">43</span>은 분실·도난 카드라는 뜻이고, 여기서 자동 재시도를 도는 건 부정거래 시도로 기록된다는 뜻이다. <span class="hl">재시도 로직이 코드를 구분하지 않으면 그 자체가 리스크</span>다.</p>
+
+    <p>토스페이먼츠 API는 이걸 문자열 코드로 한 겹 감싸서 내려준다. 한도초과·잔액부족은 <span class="mono">REJECT_CARD_PAYMENT</span>, 분실·도난은 <span class="mono">INVALID_CARD_LOST_OR_STOLEN</span>, 정지 카드는 <span class="mono">INVALID_STOPPED_CARD</span>다.</p>
+
+    <p>HTTP 상태코드에 익숙하면 여기서 한 번 미끄러진다. <span class="mono">REJECT_CARD_COMPANY</span>는 403인데 재시도해봐야 소용없고, <span class="mono">FAILED_CARD_COMPANY_RESPONSE</span>는 500인데 "잠시 후 다시 시도"가 정답이다. 4xx는 클라이언트 잘못, 5xx는 백오프라는 공식이 결제에서는 통하지 않는다. <b>코드별 정책 테이블을 따로 들고 있어야 한다.</b></p>
+  </section>
+
+  <section>
+    <span class="eyebrow">02 · 타임아웃</span>
+    <h2>실패가 아니라 모름</h2>
+
+    <p class="take">타임아웃은 "실패했다"는 응답이 아니다. 아무 응답도 없는 상태다.</p>
+
+    <p>결제 서버는 카드사 호출에 타임아웃을 건다. 손님이 카운터 앞에 서 있으니 무한정 기다릴 수가 없다. 실무 사례에서는 외부 결제 호출을 <b>5초</b> 선에서 끊는다.</p>
+
+    <p>그런데 5초가 지나 커넥션을 끊는 순간, 카드사 쪽에서는 이미 승인이 떨어져 한도가 홀드됐을 수도 있다. 응답 패킷만 돌아오지 못한 것이다. <span class="hl">내 시스템은 실패로 알고, 카드사는 성공으로 안다.</span></p>
+
+    <p>토스페이먼츠가 이 상태에 따로 코드를 파놓은 이유다. <span class="mono">UNKNOWN_PAYMENT_ERROR</span>는 "결제에 실패했어요"라고 쓰여 있지만 실제로는 결과를 모른다는 뜻이고, <span class="mono">FAILED_PAYMENT_INTERNAL_SYSTEM_PROCESSING</span>도 같은 계열이다. 토스페이 쪽은 <span class="mono">COMMON_TIMEOUT</span>과 <span class="mono">TRANSACTION_PENDING_ERROR</span>로 갈라둔다.</p>
+
+    <p>여기서 그냥 재시도를 때리면 <b>이중승인</b>이다. 손님 카드에 5만원이 두 번 잡힌다.</p>
+
+    <div class="split">
+      <div class="s-now">
+        <h3>멱등키 Idempotency-Key</h3>
+        <p>같은 키로 다시 요청하면 새로 처리하지 않고 첫 응답을 그대로 돌려준다. 토스페이먼츠는 모든 POST API에 적용 가능하고, 키는 <b>최대 300자, 첫 요청일로부터 15일</b> 유효하다. 첫 요청이 아직 처리 중이면 <span class="mono">409 IDEMPOTENT_REQUEST_PROCESSING</span>이 온다. 이건 실패가 아니라 "아직 돌고 있다"는 신호다.</p>
+      </div>
+      <div class="s-bad">
+        <h3>키 없는 재시도</h3>
+        <p>같은 결제 요청이 그냥 한 번 더 들어간다. 카드사 입장에서는 별개의 두 거래다. 승인이 두 건 잡히고, 취소는 수동으로 들어가고, 사장님은 VAN 대리점에 전화한다. Day 1에서 봤듯 이 전화는 카드사로 가지 않는다.</p>
+      </div>
+    </div>
+
+    <p>쿠버네티스에서 <span class="mono">kubectl apply</span>가 타임아웃 났을 때 마음 편히 다시 때릴 수 있는 건 선언형이고 멱등이기 때문이다. 결제 승인은 기본이 명령형이다. 멱등성을 <b>공짜로 얻는 게 아니라 키를 직접 붙여서 사는</b> 구조라고 보면 된다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 · 망취소</span>
+    <h2>없던 일로 만드는 역방향 전문</h2>
+
+    <p class="take">결제의 롤백은 롤백이 아니다. 반대 방향 거래를 하나 더 만드는 일이다.</p>
+
+    <p>ISO 8583에서 <span class="mono">x4xx</span> 계열이 리버설이다. 명세 표현 그대로 "Reverses the action of a previous authorization". 매입사가 보내는 <span class="mono">0400</span> Acquirer Reversal Request가 나가고 <span class="mono">0410</span>으로 응답이 온다. 한국 현장 용어로는 <b>망취소</b>, 또는 망상취소다.</p>
+
+    <p>일반 취소와 결정적으로 다른 지점이 하나 있다. 일반 취소는 승인번호를 받아둔 다음에 그 번호로 취소한다. 망취소는 <span class="hl">승인번호를 못 받았기 때문에 부르는 것</span>이다. 취소할 대상의 ID가 없는 상태에서 취소를 해야 한다.</p>
+
+    <p>그래서 원거래를 다른 좌표로 찾는다. ISO 8583은 <b>DE 90</b>, 42자리 Original Data Elements 필드에 원 MTI 4자리, 원 STAN 6자리, 원 전송일시 10자리, 원 매입기관 코드 11자리, 원 중계기관 코드 11자리를 실어 보낸다. 승인번호가 아니라 "내가 아까 보냈던 그 요청"의 주소로 지목하는 방식이다.</p>
+
+    <p>국내 API도 같은 사상이다.</p>
+
+    <dl class="roles">
+      <div><dt>나이스페이</dt><dd>망취소가 아예 별도 엔드포인트다. <span class="mono">/v1/payments/netcancel</span>, 필수값은 <b>orderId</b> 하나, 유효기간 1시간</dd></div>
+      <div><dt>KICC VAN</dt><dd>취소키 유형 <span class="mono">wcc</span>로 VAN 거래일련번호(T)와 가맹점 거래일련번호(G) 중 선택. 원승인일자·원승인번호가 필수</dd></div>
+    </dl>
+
+    <p>여기서 초심자가 가장 많이 밟는 지뢰. <b>타임아웃 나자마자 망취소를 쏘면 실패한다.</b> 카드사 쪽 원거래 처리가 아직 안 끝나서 "그런 거래 없는데요"가 돌아온다.</p>
+
+    <p>그래서 실무 구현은 즉시 호출이 아니라 지연과 재시도다. 실패건을 이벤트 테이블에 쌓고 <b>1분 주기 배치</b>로 긁어서 망취소를 걸고, 성공할 때까지 반복하는 방식이 흔하다. 결제 도메인에서 "보낸다"는 건 대부분 "보내질 때까지 관리한다"는 뜻이다.</p>
+
+    <p>정리하면 무응답 한 건에 장치가 셋 붙는다. 요청 단계의 <b>멱등키</b>, 사후 확인용 <b>결제 조회</b>, 그래도 못 살리면 <b>망취소</b>. 여기에 마지막으로 하루치를 맞춰보는 대사(reconciliation) 배치가 깔린다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 · 현장</span>
+    <h2>재시도가 장애를 키운다</h2>
+
+    <p class="take">무응답을 처리하려고 넣은 코드가, 다음 장애의 원인이 된다.</p>
+
+    <p>2026년 6월 26일, 한 대형 POS 사업자의 단말기에 결제 장애가 났다. 오전 11시 40분부터 세 차례, 이후 오후 3시 18분과 5시 40분에 또. 하필 점심과 저녁 피크 시간이었다.</p>
+
+    <p>회사 설명은 두 단계였다. 처음에는 "일부 서비스에서 비정상적으로 대용량 요청이 과도하게 전송되면서 서버가 과부하"됐고, 그 다음에 <span class="hl">"재시도 요청으로 인해 인프라 구간이 과부하돼 처리 제한 문제가 발생"</span>했다.</p>
+
+    <p>뒷문장이 오늘의 주제다. 응답이 없으면 단말은 재시도한다. 그게 정상 동작이다. 그런데 전국 <b>약 30만 곳</b>의 포스가 동시에 같은 판단을 내리면, 복구 중인 서버에 재시도 트래픽이 한 번 더 몰린다. 인프라 하던 사람에게는 익숙한 모양이다. 재시도 폭풍, thundering herd.</p>
+
+    <p>보상은 매출 손실액 전액에 위로금 10%를 더한 금액을 현금으로. 직전 3주 평균 매출로 손실을 추정하고, 접수 후 2영업일 내 지급이었다. 1만원 이하는 1만원, 신규 입점은 일괄 5만원으로 보장했다.</p>
+
+    <p>그래서 결제 클라이언트의 재시도는 "몇 번 할까"가 아니라 <b>지수 백오프 + 지터 + 서킷브레이커</b>가 기본 세트다. 게다가 POS는 재시도를 안 할 수도 없다. 안 하면 미승인이나 이중승인이 남고, 하면 서버를 때린다. <span class="hl">이 균형점을 어디에 두느냐가 POS 결제 엔진의 실력</span>이다.</p>
+  </section>
+
+
+  <section>
+    <span class="eyebrow">출처</span>
+    <h2>참조 원본</h2>
+    <ul class="src">
+      <li><a href="https://docs.tosspayments.com/reference/error-codes">API 에러 코드 · 토스페이먼츠 개발자센터</a><small>REJECT_CARD_PAYMENT, INVALID_CARD_LOST_OR_STOLEN, UNKNOWN_PAYMENT_ERROR 등 코드와 안내 문구의 1차 출처</small></li>
+      <li><a href="https://en.wikipedia.org/wiki/ISO_8583">ISO 8583 · Wikipedia</a><small>MTI x4xx 리버설 정의와 DE 90 Original Data Elements 42자리 구성</small></li>
+      <li><a href="https://docs.tosspayments.com/reference/using-api/idempotency-key">멱등키 · 토스페이먼츠 개발자센터</a><small>최대 300자, 15일 유효, 처리 중 409 IDEMPOTENT_REQUEST_PROCESSING</small></li>
+      <li><a href="https://github.com/nicepayments/nicepay-manual/blob/main/api/cancel.md">취소·환불·망취소 · 나이스페이먼츠 매뉴얼</a><small>망취소 전용 엔드포인트와 orderId 단일 키 구조. 부분취소 제약도 함께</small></li>
+      <li><a href="https://www.fnnews.com/news/202606290814085770">토스플레이스, 단말기 결제 장애 · 파이낸셜뉴스</a><small>2026년 6월 장애 경위와 재시도 과부하 설명, 손실 110% 보상안 원문</small></li>
+    </ul>
+  </section>
+
+  <nav class="pager">
+    <a class="prev" href="day-12.html"><small>← DAY 12</small>카드번호가 사라지는 자리</a>
+    <a class="next" href="day-14.html"><small>DAY 14 →</small>꽂고, 대고, 찍고</a>
+  </nav>
+
+  <footer>
+    <b>내일 Day 14</b><br>
+    2주차 복습. IC·NFC·MST·QR·토큰화·거절코드·망취소까지, 결제 수단별 프로토콜 한 주치를 한 장으로 접는다.
+  </footer>
+
+</div>
+
+</body></html>

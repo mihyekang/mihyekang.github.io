@@ -1,0 +1,458 @@
+<!doctype html><html lang="ko"><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>단말기 뒤의 회사</title>
+</head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --ground:#FFFFFF;
+  --surface:#F2F6F5;
+  --ink:#0F1513;
+  --ink-soft:#37433F;
+  --muted:#67736F;
+  --line:#DCE5E2;
+  --line-soft:#EBF1EF;
+  --key:#0A6A4C;
+  --key-soft:#E3F2EC;
+  --key-wash:#F0F8F5;
+  --late:#8A5E14;
+  --late-soft:#F7EFDE;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0C110F;
+    --surface:#151D1A;
+    --ink:#EAF1EE;
+    --ink-soft:#C3CFCB;
+    --muted:#8E9D98;
+    --line:#27332F;
+    --line-soft:#1B2522;
+    --key:#54CE9E;
+    --key-soft:#122A22;
+    --key-wash:#101B18;
+    --late:#D8AB57;
+    --late-soft:#282013;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0C110F;
+  --surface:#151D1A;
+  --ink:#EAF1EE;
+  --ink-soft:#C3CFCB;
+  --muted:#8E9D98;
+  --line:#27332F;
+  --line-soft:#1B2522;
+  --key:#54CE9E;
+  --key-soft:#122A22;
+  --key-wash:#101B18;
+  --late:#D8AB57;
+  --late-soft:#282013;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:'IBM Plex Sans KR','Apple SD Gothic Neo',system-ui,sans-serif;
+  font-size:17.5px;
+  line-height:1.9;
+  letter-spacing:-.003em;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{
+  max-width:34rem;
+  margin:0 auto;
+  padding-inline:22px;
+  padding-block:36px 80px;
+}
+
+/* ── masthead ───────────────────────── */
+.masthead{display:flex;flex-direction:column;gap:16px;margin-bottom:38px}
+.daymeta{
+  display:flex;align-items:center;gap:9px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+}
+.daymeta b{color:var(--key);font-size:14px}
+.daymeta s{text-decoration:none;color:var(--line)}
+h1{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:clamp(30px,9vw,40px);
+  line-height:1.3;
+  letter-spacing:-.015em;
+  margin:0;
+  text-wrap:balance;
+}
+.sub{margin:0;color:var(--muted);font-size:15.5px;line-height:1.7}
+.catchup{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.06em;
+  color:var(--late);background:var(--late-soft);
+  border-radius:5px;padding:3px 8px;align-self:flex-start;
+}
+
+/* ── 핵심 3줄 ───────────────────────── */
+.gist{
+  background:var(--key-wash);
+  border:1px solid var(--key-soft);
+  border-radius:10px;
+  padding:22px 20px;
+  margin-bottom:40px;
+  counter-reset:g;
+}
+.gist h2{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--key);margin:0 0 14px;border:0;padding:0;
+}
+.gist li{
+  list-style:none;position:relative;
+  padding-left:30px;
+  font-size:16.5px;line-height:1.75;
+  color:var(--ink-soft);
+}
+.gist li + li{margin-top:13px}
+.gist li::before{
+  counter-increment:g;content:counter(g);
+  position:absolute;left:0;top:.28em;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--key);color:var(--ground);
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  line-height:20px;text-align:center;
+}
+.gist ul{margin:0;padding:0}
+.gist b{color:var(--ink);font-weight:600}
+
+/* ── figure ─────────────────────────── */
+figure{margin:0 0 42px;display:flex;flex-direction:column;gap:14px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:14.5px;color:var(--muted);line-height:1.7}
+
+/* ── sections ───────────────────────── */
+section{margin-bottom:46px}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:6px;
+}
+h2{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:25px;
+  line-height:1.45;
+  letter-spacing:-.01em;
+  margin:0 0 20px;
+  text-wrap:balance;
+}
+p{margin:0 0 18px}
+p:last-child{margin-bottom:0}
+b,strong{font-weight:600;color:var(--ink)}
+.hl{background:var(--key-soft);padding:.1em .25em;border-radius:3px;font-weight:600}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:.88em;color:var(--muted)}
+
+/* takeaway line per section */
+.take{
+  display:flex;gap:12px;align-items:flex-start;
+  border-left:3px solid var(--key);
+  padding:2px 0 2px 15px;
+  margin:0 0 22px;
+  font-size:16.5px;line-height:1.7;
+  color:var(--ink-soft);
+}
+
+/* role list */
+.roles{margin:0 0 20px;padding:0}
+.roles div{
+  display:grid;
+  grid-template-columns:7.5rem 1fr;
+  gap:2px 14px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line-soft);
+  align-items:baseline;
+}
+.roles div:first-child{border-top:1px solid var(--line-soft)}
+.roles dt{font-weight:600;font-size:16px;line-height:1.5}
+.roles dd{margin:0;font-size:15.5px;color:var(--muted);line-height:1.65}
+@media(max-width:440px){
+  .roles div{grid-template-columns:1fr;gap:1px}
+}
+
+/* two-card compare */
+.split{display:flex;flex-direction:column;gap:14px;margin:0 0 22px}
+.split > div{
+  border-radius:10px;
+  padding:20px;
+  background:var(--surface);
+}
+.split h3{
+  margin:0 0 8px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+}
+.split p{font-size:16px;line-height:1.75;margin:0;color:var(--ink-soft)}
+.s-now{box-shadow:inset 3px 0 0 var(--key)}
+.s-now h3{color:var(--key)}
+.s-late{box-shadow:inset 3px 0 0 var(--late)}
+.s-late h3{color:var(--late)}
+
+/* rates table */
+.tblscroll{overflow-x:auto;margin:0 0 18px}
+.rates{width:100%;border-collapse:collapse;font-size:16px}
+.rates caption{
+  text-align:left;font-size:13.5px;color:var(--muted);
+  padding-bottom:10px;line-height:1.6;
+}
+.rates th,.rates td{padding:11px 8px;border-bottom:1px solid var(--line-soft);text-align:right;white-space:nowrap}
+.rates th:first-child,.rates td:first-child{text-align:left}
+.rates thead th{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  border-bottom-color:var(--line);
+}
+.rates td{font-variant-numeric:tabular-nums;color:var(--ink-soft)}
+.rates td.em{color:var(--ink);font-weight:600}
+
+/* pull quote */
+.pull{
+  background:var(--key-soft);
+  border-radius:10px;
+  padding:26px 22px;
+  margin-bottom:46px;
+}
+.pull span{
+  display:block;margin-bottom:12px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--key);
+}
+.pull q{
+  font-family:'Gowun Batang',serif;
+  font-size:19px;line-height:1.85;quotes:'"' '"';
+  display:block;
+}
+
+/* sources */
+.src{list-style:none;margin:0;padding:0}
+.src li{padding:15px 0;border-bottom:1px solid var(--line-soft)}
+.src li:first-child{border-top:1px solid var(--line-soft)}
+.src a{
+  color:var(--ink);text-decoration:none;font-weight:600;
+  font-size:16px;line-height:1.6;
+  box-shadow:inset 0 -2px 0 var(--key);
+}
+.src a:hover{color:var(--key)}
+.src a:focus-visible{outline:2px solid var(--key);outline-offset:3px}
+.src small{display:block;color:var(--muted);font-size:14.5px;line-height:1.65;margin-top:7px}
+
+footer{
+  margin-top:46px;
+  font-size:15px;color:var(--muted);line-height:1.8;
+  border-top:1px solid var(--line);padding-top:22px;
+}
+footer b{color:var(--ink-soft)}
+footer p{margin:0 0 14px}
+footer p:last-child{margin-bottom:0}
+/* site nav */
+.back{display:inline-block;margin-bottom:28px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--key)}
+.pager{display:flex;gap:12px;margin-top:46px}
+.pager a{flex:1;min-width:0;display:block;padding:14px 16px;border:1px solid var(--line);border-radius:10px;color:var(--ink);text-decoration:none;font-size:15px;line-height:1.5}
+.pager a:hover{border-color:var(--key);color:var(--key)}
+.pager a small{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted)}
+.pager .next{text-align:right}
+.pager span{flex:1}
+</style>
+
+<div class="wrap">
+
+  <a class="back" href="../payment-domain-map.html">← 결제 도메인 지도</a>
+
+  <header class="masthead">
+    <div class="daymeta"><b>DAY 03</b><s>/</s>21<s>·</s>결제 기본기</div>
+    <h1>단말기 뒤의 회사</h1>
+    <p class="sub">VAN이 실제로 하는 네 가지 일</p>
+    <span class="catchup">누락분 보강 · 원래 9월 13일자</span>
+  </header>
+
+  <div class="gist">
+    <h2>핵심 3줄</h2>
+    <ul>
+      <li>VAN은 통신 회사다. 돈을 만지지 않고, 수수료도 가맹점이 아니라 <b>카드사에서 받는다</b>.</li>
+      <li>하는 일은 넷. 단말기, 회선, <b>전문 변환(ISO 8583)</b>, 전표매입 대행. 이 중 셋은 기술이고 하나는 영업이다.</li>
+      <li>진입장벽은 전산이 아니라 <b>대리점망</b>이다. 단말기 무상 지원에는 2016년부터 규제가 걸려 있다.</li>
+    </ul>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 340 470" role="img" aria-label="ISO 8583 승인요청 전문의 구조: MTI, 비트맵, 카드번호·금액·STAN·단말기 ID 필드가 차례로 쌓이고, VAN이 이를 변환해 카드사로 보내면 응답코드가 담긴 0110 전문이 돌아온다">
+      <defs>
+        <marker id="ar3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/>
+        </marker>
+      </defs>
+
+      <text x="0" y="11" fill="var(--key)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.2">단말기 → 승인요청 · MTI 0100</text>
+
+      <g>
+        <rect x="0" y="20" width="340" height="30" rx="5" fill="var(--key-soft)"/>
+        <text x="12" y="40" fill="var(--key)" font-family="'IBM Plex Mono',monospace" font-size="11">MTI</text>
+        <text x="94" y="40" fill="var(--ink)" font-family="'IBM Plex Sans KR',sans-serif" font-size="12.5" font-weight="500">0100 · 승인요청</text>
+
+        <rect x="0" y="56" width="340" height="30" rx="5" fill="var(--key-soft)"/>
+        <text x="12" y="76" fill="var(--key)" font-family="'IBM Plex Mono',monospace" font-size="11">BITMAP</text>
+        <text x="94" y="76" fill="var(--ink)" font-family="'IBM Plex Sans KR',sans-serif" font-size="12.5" font-weight="500">담긴 필드 목록</text>
+
+        <rect x="0" y="92" width="340" height="30" rx="5" fill="var(--surface)"/>
+        <text x="12" y="112" fill="var(--muted)" font-family="'IBM Plex Mono',monospace" font-size="11">DE 2</text>
+        <text x="94" y="112" fill="var(--ink)" font-family="'IBM Plex Sans KR',sans-serif" font-size="12.5" font-weight="500">카드번호</text>
+
+        <rect x="0" y="128" width="340" height="30" rx="5" fill="var(--surface)"/>
+        <text x="12" y="148" fill="var(--muted)" font-family="'IBM Plex Mono',monospace" font-size="11">DE 4</text>
+        <text x="94" y="148" fill="var(--ink)" font-family="'IBM Plex Sans KR',sans-serif" font-size="12.5" font-weight="500">거래금액</text>
+
+        <rect x="0" y="164" width="340" height="30" rx="5" fill="var(--surface)"/>
+        <text x="12" y="184" fill="var(--muted)" font-family="'IBM Plex Mono',monospace" font-size="11">DE 11</text>
+        <text x="94" y="184" fill="var(--ink)" font-family="'IBM Plex Sans KR',sans-serif" font-size="12.5" font-weight="500">STAN · 요청 고유번호</text>
+
+        <rect x="0" y="200" width="340" height="30" rx="5" fill="var(--surface)"/>
+        <text x="12" y="220" fill="var(--muted)" font-family="'IBM Plex Mono',monospace" font-size="11">DE 41</text>
+        <text x="94" y="220" fill="var(--ink)" font-family="'IBM Plex Sans KR',sans-serif" font-size="12.5" font-weight="500">단말기 ID</text>
+      </g>
+
+      <line x1="24" y1="234" x2="24" y2="260" stroke="var(--muted)" stroke-width="1.3" marker-end="url(#ar3)"/>
+
+      <rect x="0" y="264" width="340" height="40" rx="6" fill="var(--surface)" stroke="var(--line)" stroke-width="1.3" stroke-dasharray="4 4"/>
+      <text x="12" y="289" fill="var(--ink)" font-family="'IBM Plex Sans KR',sans-serif" font-size="13.5" font-weight="500">VAN · 전문 변환과 라우팅</text>
+
+      <line x1="24" y1="306" x2="24" y2="332" stroke="var(--muted)" stroke-width="1.3" marker-end="url(#ar3)"/>
+
+      <rect x="0" y="336" width="340" height="40" rx="6" fill="var(--surface)"/>
+      <text x="12" y="361" fill="var(--ink)" font-family="'IBM Plex Sans KR',sans-serif" font-size="13.5" font-weight="500">매입사 → 발급사</text>
+
+      <line x1="0" y1="400" x2="340" y2="400" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 6"/>
+
+      <text x="0" y="424" fill="var(--late)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.2">카드사 → 승인응답 · MTI 0110</text>
+
+      <rect x="0" y="434" width="340" height="32" rx="5" fill="var(--late-soft)"/>
+      <text x="12" y="455" fill="var(--late)" font-family="'IBM Plex Mono',monospace" font-size="11">DE 39</text>
+      <text x="94" y="455" fill="var(--ink)" font-family="'IBM Plex Sans KR',sans-serif" font-size="12.5" font-weight="500">응답코드 00 · 승인</text>
+    </svg>
+    <figcaption>전문 한 줄의 구조다. 맨 앞 네 자리가 메시지 종류, 다음 비트맵이 어떤 필드가 담겼는지 알려주고, 나머지가 값이다. VAN은 이 전문을 카드사 규격으로 변환해 해당 카드사로 보내고, 돌아온 응답코드를 단말기에 전달한다.</figcaption>
+  </figure>
+
+  <section>
+    <span class="eyebrow">01 · 정체</span>
+    <h2>돈을 만지지 않는 중계자</h2>
+
+    <p class="take">가맹점은 VAN에 수수료를 내지 않는다. 카드사가 낸다.</p>
+
+    <p>VAN은 Value Added Network, 법적으로는 <b>부가통신사업자</b>다. 이름부터 통신 회사다. 결제 회사가 아니라는 게 출발점이다.</p>
+
+    <p>카드사가 전국 수백만 가맹점과 직접 회선을 맺을 수는 없다. 그 다중화 레이어를 VAN이 맡는다. 국내에 13개 사업자가 있고, 한국정보통신(KICC), 나이스정보통신, KSNET, 스마트로가 주요 플레이어다. <span class="mono">사업자 수는 출처마다 차이, 확인 필요</span></p>
+
+    <p>중요한 건 돈의 방향이다. <span class="hl">VAN은 카드사에서 수수료를 받는다.</span> 가맹점 입장에서 VAN 이용료는 따로 청구되지 않는다. Day 4에서 PG와 갈린 지점이 정확히 이거다. 돈이 VAN 통장을 지나가지 않는다.</p>
+
+    <p>그래서 VAN에는 미수금 리스크가 없다. 대신 가용성 리스크를 진다. 회선이 끊기면 그 순간 수만 개 가맹점에서 카드가 안 긁힌다. 정산 책임이 아니라 SLA를 지는 레이어라는 점에서 로드밸런서와 같은 종류의 리스크다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">02 · 전문</span>
+    <h2>ISO 8583이라는 공통 언어</h2>
+
+    <p class="take">카드 결제의 프로토콜 버퍼다. 1987년에 정의된 규격을 지금도 쓴다.</p>
+
+    <p>단말기가 카드사로 보내는 건 JSON이 아니다. ISO 8583 규격의 바이트 스트림이다. 구조는 세 층이다. <b>MTI, 비트맵, 데이터 엘리먼트.</b></p>
+
+    <p>MTI는 네 자리 숫자로 메시지 종류를 말한다. 첫 자리가 규격 버전, 둘째가 클래스, 셋째가 요청인지 응답인지, 넷째가 누가 보냈는지다.</p>
+
+    <dl class="roles">
+      <div><dt class="mono">0100</dt><dd>승인요청. 이 카드로 결제해도 되나</dd></div>
+      <div><dt class="mono">0110</dt><dd>승인응답. 된다 또는 안 된다</dd></div>
+      <div><dt class="mono">0400</dt><dd>취소요청. Day 13의 망취소가 이 클래스를 쓴다</dd></div>
+      <div><dt class="mono">0800</dt><dd>네트워크 관리. 사실상 헬스체크</dd></div>
+    </dl>
+
+    <p>비트맵이 이 규격의 핵심이다. 128비트 체크리스트로 <span class="hl">"이 메시지에 몇 번 필드가 들어있다"를 먼저 알려준다.</span> 스키마를 매번 보내지 않고 필드 번호로만 참조하는 방식이다.</p>
+
+    <p>protobuf의 필드 태그와 같은 아이디어다. 대역폭이 비쌌던 시절의 설계이고, 전용회선 위에서 초당 수만 건을 흘려야 하는 조건에서는 지금도 합리적이다.</p>
+
+    <p>실무에서 가장 중요한 필드는 <b>DE 11, STAN</b>이다. 요청과 응답을 짝짓는 키로, 분산 트레이싱의 request ID와 같은 역할을 한다. 응답이 유실됐을 때 이 거래가 승인된 건지 판단하는 근거가 이 번호다. Day 13에서 다시 다룬다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 · 전표매입</span>
+    <h2>전표매입 대행</h2>
+
+    <p class="take">VAN의 두 번째 수입원이고, 승인 중계보다 오래된 업무다.</p>
+
+    <p>과거에는 가맹점이 종이 전표를 모아 카드사에 제출했다. 지금은 전자화됐지만 절차 이름은 그대로다. VAN이 하루치 거래를 모아 카드사에 매입을 청구하는 일, 이게 <b>전표매입 대행</b>이다.</p>
+
+    <p>Day 1에서 승인과 매입이 분리돼 있다고 했던 그 매입이다. 승인은 실시간 중계, 매입은 배치 집계. VAN은 두 일을 한 회사에서 다 한다.</p>
+
+    <div class="split">
+      <div class="s-now">
+        <h3>승인 중계</h3>
+        <p>실시간 요청 응답. 지연과 가용성이 품질의 전부다. 전문 변환, 라우팅, 회선 이중화가 여기에 들어간다.</p>
+      </div>
+      <div class="s-late">
+        <h3>전표매입 대행</h3>
+        <p>하루치 거래를 모아 카드사에 청구하는 배치. 대조와 정합성이 품질이다. 건수가 안 맞으면 가맹점 입금이 틀린다.</p>
+      </div>
+    </div>
+
+    <p>대가는 카드사가 낸다. 과거엔 정액제로 <b>건당 70~150원</b>, 관행적으로 100원이 자주 인용됐다. 2018년 7월 31일부터 결제금액 평균 <b>0.28% 정률제</b>로 바뀌었다.</p>
+
+    <p>적용 대상은 원가 이하 우대수수료율이 적용되지 않는 일반가맹점이다. 당시 기준으로 전체 약 267만 개 중 약 35만 개, 13% 수준이다.</p>
+
+    <p>이 전환이 VAN 사업 구조를 흔들었다. 소액 다건 가맹점에서 건당 100원씩 받던 수입이 사라졌기 때문이다. 편의점 결제 건수는 그대로인데 VAN 수입만 줄어든 셈이다.</p>
+
+    <p>Day 5의 적격비용 표에 밴수수료가 한 칸으로 들어가 있던 이유도 여기다. <span class="hl">가맹점 수수료를 내리려면 VAN에 주는 돈부터 깎는다.</span> VAN은 규제 가격 구조의 하류에 있다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 · 장벽</span>
+    <h2>진입장벽은 전산이 아니라 대리점망</h2>
+
+    <p class="take">ISO 8583 파서는 만들면 된다. 전국 AS 조직은 만들기 어렵다.</p>
+
+    <p>VAN 사업의 진입장벽은 기술이 아니다. 전문 파서와 라우터는 개발 가능한 범위다. 장벽은 단말기 보급과 AS다.</p>
+
+    <p>카드가 안 긁히면 사장님은 카드사가 아니라 <b>VAN 대리점</b>에 전화한다. 가맹점 등록, 회선, 펌웨어, 단말 교체가 전부 대리점 소관이다. 전국에 깔고 고장나면 출동하는 영업 조직이 이 사업의 실질 자산이다.</p>
+
+    <p>그래서 이 시장은 오랫동안 단말기 보급 경쟁이었다. 여기에 규제가 붙었다.</p>
+
+    <p>2016년 4월 25일부터 VAN사와 카드사는 대형가맹점에 <b>현금 보상, 단말기, POS, 서명패드, 회선비 등 어떤 형태의 지원도 제공할 수 없다.</b> 개정 이전 계약에 근거한 리베이트도 금지다. 명칭이나 방법을 불문하고 카드거래와 관련된 대가는 모두 부당 보상금에 포함된다는 게 조문 취지다.</p>
+
+    <p>여기서 하나 주의할 게 있다. 업계 안내문은 이 규제의 대형가맹점 기준이 연매출 3억원 초과로 내려갔다고 설명하는데, 여전법 본문의 대형가맹점 정의와 숫자가 다르다. <span class="mono">조항별 적용 범위는 원문 확인 필요</span></p>
+  </section>
+
+
+  <section>
+    <span class="eyebrow">출처</span>
+    <h2>참조 원본</h2>
+    <ul class="src">
+      <li><a href="https://connieya.github.io/understanding-iso-8583/">ISO 8583, 전 세계 결제를 이어주는 공통 언어</a><small>MTI 자리별 의미, 비트맵 동작, DE 2·4·11·39·41 정의와 실제 전문 예시의 1차 출처</small></li>
+      <li><a href="https://brunch.co.kr/@smj3667/11">VAN사와 PG사의 개념과 현황 · brunch</a><small>국내 VAN 사업자 13곳, KICC·나이스·KSNET·스마트로 등 주요 업체와 VAN이 정산을 하지 않는다는 서술</small></li>
+      <li><a href="https://dic.hankyung.com/economy/view/?seq=11177">VAN 수수료 · 한경 용어사전</a><small>정액제 건당 70~150원, 2018년 7월 31일 정률제 전환, 일반가맹점 35만 개의 근거</small></li>
+      <li><a href="https://www.korea.kr/news/reporterView.do?newsId=148852001">밴 수수료 개편 · 대한민국 정책브리핑</a><small>정률제 평균 0.28%와 소액 다건 업종에 정액제가 불리했던 이유</small></li>
+      <li><a href="https://www.laserpro.or.kr/bbs/board.php?bo_table=new&wr_id=52">여신전문금융업법 시행령 개정, 카드 단말기 리베이트 금지 안내</a><small>2016년 4월 25일 시행, 금지되는 지원 목록(단말기·POS·서명패드·회선비)과 소급 적용 범위</small></li>
+    </ul>
+  </section>
+
+  <nav class="pager">
+    <a class="prev" href="day-02.html"><small>← DAY 02</small>카드사의 두 얼굴</a>
+    <a class="next" href="day-04.html"><small>DAY 04 →</small>대표가맹점이라는 우산</a>
+  </nav>
+
+  <footer>
+    <p><b>이 회차는 누락분 보강</b><br>
+    원래 9월 13일자다. VAN 요약은 Day 4의 02 섹션에 임시로 넣어뒀었고, 이 페이지가 정식 Day 3이다.</p>
+    <p><b>다음은 Day 6</b><br>
+    정산 사이클. D+2 입금은 왜 D+2인지, 선정산과 빠른정산이 정확히 무엇을 당겨주는 것이고 그 리스크는 누가 지는지.</p>
+  </footer>
+
+</div>
+
+</body></html>

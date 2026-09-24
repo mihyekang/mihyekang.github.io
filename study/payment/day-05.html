@@ -1,0 +1,442 @@
+<!doctype html><html lang="ko"><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>적격비용이라는 상수</title>
+</head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --ground:#FFFFFF;
+  --surface:#F2F6F5;
+  --ink:#0F1513;
+  --ink-soft:#37433F;
+  --muted:#67736F;
+  --line:#DCE5E2;
+  --line-soft:#EBF1EF;
+  --key:#0A6A4C;
+  --key-soft:#E3F2EC;
+  --key-wash:#F0F8F5;
+  --late:#8A5E14;
+  --late-soft:#F7EFDE;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0C110F;
+    --surface:#151D1A;
+    --ink:#EAF1EE;
+    --ink-soft:#C3CFCB;
+    --muted:#8E9D98;
+    --line:#27332F;
+    --line-soft:#1B2522;
+    --key:#54CE9E;
+    --key-soft:#122A22;
+    --key-wash:#101B18;
+    --late:#D8AB57;
+    --late-soft:#282013;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0C110F;
+  --surface:#151D1A;
+  --ink:#EAF1EE;
+  --ink-soft:#C3CFCB;
+  --muted:#8E9D98;
+  --line:#27332F;
+  --line-soft:#1B2522;
+  --key:#54CE9E;
+  --key-soft:#122A22;
+  --key-wash:#101B18;
+  --late:#D8AB57;
+  --late-soft:#282013;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:'IBM Plex Sans KR','Apple SD Gothic Neo',system-ui,sans-serif;
+  font-size:17.5px;
+  line-height:1.9;
+  letter-spacing:-.003em;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{
+  max-width:34rem;
+  margin:0 auto;
+  padding-inline:22px;
+  padding-block:36px 80px;
+}
+
+/* ── masthead ───────────────────────── */
+.masthead{display:flex;flex-direction:column;gap:16px;margin-bottom:38px}
+.daymeta{
+  display:flex;align-items:center;gap:9px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+}
+.daymeta b{color:var(--key);font-size:14px}
+.daymeta s{text-decoration:none;color:var(--line)}
+h1{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:clamp(30px,9vw,40px);
+  line-height:1.3;
+  letter-spacing:-.015em;
+  margin:0;
+  text-wrap:balance;
+}
+.sub{margin:0;color:var(--muted);font-size:15.5px;line-height:1.7}
+
+/* ── 핵심 3줄 ───────────────────────── */
+.gist{
+  background:var(--key-wash);
+  border:1px solid var(--key-soft);
+  border-radius:10px;
+  padding:22px 20px;
+  margin-bottom:40px;
+  counter-reset:g;
+}
+.gist h2{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--key);margin:0 0 14px;border:0;padding:0;
+}
+.gist li{
+  list-style:none;position:relative;
+  padding-left:30px;
+  font-size:16.5px;line-height:1.75;
+  color:var(--ink-soft);
+}
+.gist li + li{margin-top:13px}
+.gist li::before{
+  counter-increment:g;content:counter(g);
+  position:absolute;left:0;top:.28em;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--key);color:var(--ground);
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  line-height:20px;text-align:center;
+}
+.gist ul{margin:0;padding:0}
+.gist b{color:var(--ink);font-weight:600}
+
+/* ── figure ─────────────────────────── */
+figure{margin:0 0 42px;display:flex;flex-direction:column;gap:14px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:14.5px;color:var(--muted);line-height:1.7}
+
+/* ── sections ───────────────────────── */
+section{margin-bottom:46px}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:6px;
+}
+h2{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:25px;
+  line-height:1.45;
+  letter-spacing:-.01em;
+  margin:0 0 20px;
+  text-wrap:balance;
+}
+p{margin:0 0 18px}
+p:last-child{margin-bottom:0}
+b,strong{font-weight:600;color:var(--ink)}
+.hl{background:var(--key-soft);padding:.1em .25em;border-radius:3px;font-weight:600}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:.88em;color:var(--muted)}
+
+/* takeaway line per section */
+.take{
+  display:flex;gap:12px;align-items:flex-start;
+  border-left:3px solid var(--key);
+  padding:2px 0 2px 15px;
+  margin:0 0 22px;
+  font-size:16.5px;line-height:1.7;
+  color:var(--ink-soft);
+}
+
+/* role list */
+.roles{margin:0 0 20px;padding:0}
+.roles div{
+  display:grid;
+  grid-template-columns:7.5rem 1fr;
+  gap:2px 14px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line-soft);
+  align-items:baseline;
+}
+.roles div:first-child{border-top:1px solid var(--line-soft)}
+.roles dt{font-weight:600;font-size:16px;line-height:1.5}
+.roles dd{margin:0;font-size:15.5px;color:var(--muted);line-height:1.65}
+@media(max-width:440px){
+  .roles div{grid-template-columns:1fr;gap:1px}
+}
+
+/* two-card compare */
+.split{display:flex;flex-direction:column;gap:14px;margin:0 0 22px}
+.split > div{
+  border-radius:10px;
+  padding:20px;
+  background:var(--surface);
+}
+.split h3{
+  margin:0 0 8px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+}
+.split p{font-size:16px;line-height:1.75;margin:0;color:var(--ink-soft)}
+.s-now{box-shadow:inset 3px 0 0 var(--key)}
+.s-now h3{color:var(--key)}
+.s-late{box-shadow:inset 3px 0 0 var(--late)}
+.s-late h3{color:var(--late)}
+
+/* rates table */
+.tblscroll{overflow-x:auto;margin:0 0 18px}
+.rates{width:100%;border-collapse:collapse;font-size:16px}
+.rates caption{
+  text-align:left;font-size:13.5px;color:var(--muted);
+  padding-bottom:10px;line-height:1.6;
+}
+.rates th,.rates td{padding:11px 8px;border-bottom:1px solid var(--line-soft);text-align:right;white-space:nowrap}
+.rates th:first-child,.rates td:first-child{text-align:left}
+.rates thead th{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  border-bottom-color:var(--line);
+}
+.rates td{font-variant-numeric:tabular-nums;color:var(--ink-soft)}
+.rates tbody tr:last-child td{color:var(--ink);font-weight:600}
+
+/* pull quote */
+.pull{
+  background:var(--key-soft);
+  border-radius:10px;
+  padding:26px 22px;
+  margin-bottom:46px;
+}
+.pull span{
+  display:block;margin-bottom:12px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--key);
+}
+.pull q{
+  font-family:'Gowun Batang',serif;
+  font-size:19px;line-height:1.85;quotes:'"' '"';
+  display:block;
+}
+
+/* sources */
+.src{list-style:none;margin:0;padding:0}
+.src li{padding:15px 0;border-bottom:1px solid var(--line-soft)}
+.src li:first-child{border-top:1px solid var(--line-soft)}
+.src a{
+  color:var(--ink);text-decoration:none;font-weight:600;
+  font-size:16px;line-height:1.6;
+  box-shadow:inset 0 -2px 0 var(--key);
+}
+.src a:hover{color:var(--key)}
+.src a:focus-visible{outline:2px solid var(--key);outline-offset:3px}
+.src small{display:block;color:var(--muted);font-size:14.5px;line-height:1.65;margin-top:7px}
+
+footer{
+  margin-top:46px;
+  font-size:15px;color:var(--muted);line-height:1.8;
+  border-top:1px solid var(--line);padding-top:22px;
+}
+footer b{color:var(--ink-soft)}
+/* site nav */
+.back{display:inline-block;margin-bottom:28px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--key)}
+.pager{display:flex;gap:12px;margin-top:46px}
+.pager a{flex:1;min-width:0;display:block;padding:14px 16px;border:1px solid var(--line);border-radius:10px;color:var(--ink);text-decoration:none;font-size:15px;line-height:1.5}
+.pager a:hover{border-color:var(--key);color:var(--key)}
+.pager a small{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted)}
+.pager .next{text-align:right}
+.pager span{flex:1}
+</style>
+
+<div class="wrap">
+
+  <a class="back" href="../payment-domain-map.html">← 결제 도메인 지도</a>
+
+  <header class="masthead">
+    <div class="daymeta"><b>DAY 05</b><s>/</s>21<s>·</s>결제 기본기</div>
+    <h1>적격비용이라는 상수</h1>
+    <p class="sub">가맹점 수수료율은 누가, 어떻게 정하는가</p>
+  </header>
+
+  <div class="gist">
+    <h2>핵심 3줄</h2>
+    <ul>
+      <li>가맹점 수수료율은 시장 가격이 아니다. <b>적격비용</b>이라는 원가 계산의 산출물이다.</li>
+      <li>원가는 여섯 칸으로 쪼개져 있고, 카드사가 당장 줄일 수 있는 칸은 <b>일반관리비와 마케팅비</b> 정도다.</li>
+      <li>가맹점 <b>96%</b>가 우대수수료율을 받는다. POS 사업자에게 수수료율은 경쟁 변수가 아니라 상수다.</li>
+    </ul>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 340 384" role="img" aria-label="적격비용 산정 흐름도: 여섯 개 원가 항목을 합산하고 회계법인 검증을 거쳐 금융위가 우대수수료율을 고시하며, 가맹점 96퍼센트에 적용된다. 재산정 주기는 3년에서 6년으로 늘었다.">
+      <defs>
+        <marker id="ar5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/>
+        </marker>
+        <marker id="ar5g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--key)"/>
+        </marker>
+      </defs>
+
+      <text x="0" y="11" fill="var(--muted)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.4">원가 · 적격비용 6항목</text>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="12.5" font-weight="500">
+        <rect x="0" y="20" width="120" height="36" rx="6" fill="var(--surface)"/>
+        <text x="12" y="43" fill="var(--ink)">자금조달비용</text>
+        <rect x="144" y="20" width="120" height="36" rx="6" fill="var(--surface)"/>
+        <text x="156" y="43" fill="var(--ink)">위험관리비용</text>
+
+        <rect x="0" y="64" width="120" height="36" rx="6" fill="var(--surface)"/>
+        <text x="12" y="87" fill="var(--ink)">일반관리비용</text>
+        <rect x="144" y="64" width="120" height="36" rx="6" fill="var(--surface)"/>
+        <text x="156" y="87" fill="var(--ink)">밴수수료</text>
+
+        <rect x="0" y="108" width="120" height="36" rx="6" fill="var(--surface)"/>
+        <text x="12" y="131" fill="var(--ink)">마케팅비용</text>
+        <rect x="144" y="108" width="120" height="36" rx="6" fill="var(--surface)"/>
+        <text x="156" y="131" fill="var(--ink)">조정비용</text>
+      </g>
+
+      <line x1="132" y1="150" x2="132" y2="172" stroke="var(--muted)" stroke-width="1.3" marker-end="url(#ar5)"/>
+
+      <rect x="0" y="178" width="264" height="46" rx="6" fill="var(--surface)"/>
+      <text x="12" y="200" fill="var(--ink)" font-family="'IBM Plex Sans KR',sans-serif" font-size="13.5" font-weight="500">합산 · 회계법인 검증</text>
+      <text x="12" y="216" fill="var(--muted)" font-family="'IBM Plex Sans KR',sans-serif" font-size="11">감독규정 별표 4가 항목의 원문</text>
+
+      <line x1="132" y1="224" x2="132" y2="246" stroke="var(--muted)" stroke-width="1.3" marker-end="url(#ar5)"/>
+
+      <rect x="0" y="252" width="264" height="48" rx="6" fill="var(--key-soft)"/>
+      <text x="12" y="274" fill="var(--ink)" font-family="'IBM Plex Sans KR',sans-serif" font-size="13.5" font-weight="500">금융위 우대수수료율 고시</text>
+      <text x="12" y="291" fill="var(--key)" font-family="'IBM Plex Mono',monospace" font-size="11.5">신용 0.40 ~ 1.45%</text>
+
+      <line x1="132" y1="300" x2="132" y2="322" stroke="var(--muted)" stroke-width="1.3" marker-end="url(#ar5)"/>
+
+      <rect x="0" y="328" width="264" height="42" rx="6" fill="var(--late-soft)"/>
+      <text x="12" y="354" fill="var(--ink)" font-family="'IBM Plex Sans KR',sans-serif" font-size="13" font-weight="500">전체 가맹점의 96%</text>
+      <text x="252" y="354" fill="var(--muted)" font-family="'IBM Plex Mono',monospace" font-size="11" text-anchor="end">309.4만</text>
+
+      <path d="M264 276 H302 V126 H268" fill="none" stroke="var(--key)" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#ar5g)"/>
+      <text x="316" y="200" fill="var(--key)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.2" transform="rotate(-90 316 200)" text-anchor="middle">재산정 3년 → 6년</text>
+    </svg>
+    <figcaption>위쪽 여섯 칸이 법으로 정해둔 원가표다. 이걸 합산하고 검증하면 우대수수료율이 나오고, 가맹점 96%가 그 값을 받는다. 오른쪽 점선이 이 계산을 다시 돌리는 주기인데, 2024년 12월에 3년에서 6년으로 늘어났다.</figcaption>
+  </figure>
+
+  <section>
+    <span class="eyebrow">01 · 원가표</span>
+    <h2>여섯 칸으로 쪼갠 원가</h2>
+
+    <p class="take">수수료율은 협상의 결과가 아니라, 이 여섯 칸을 더한 값이다.</p>
+
+    <p>여신전문금융업법과 감독규정은 가맹점 수수료율을 <b>적격비용</b>에 근거해 정하도록 한다. 적격비용은 카드 결제 한 건을 처리하는 원가를 법에 목록으로 정해둔 것이다.</p>
+
+    <dl class="roles">
+      <div><dt>자금조달비용</dt><dd>결제일부터 회원 대금 회수까지 카드사가 대신 깔아둔 돈의 이자</dd></div>
+      <div><dt>위험관리비용</dt><dd>못 받을 채권과 부정사용 손실에 대한 충당</dd></div>
+      <div><dt>일반관리비용</dt><dd>인건비, 전산, 시스템 운영 같은 고정비</dd></div>
+      <div><dt>밴수수료</dt><dd>VAN사에 지급하는 중계와 전표매입 대가</dd></div>
+      <div><dt>마케팅비용</dt><dd>포인트, 할인, 무이자 할부에 들어간 돈</dd></div>
+      <div><dt>조정비용</dt><dd>위 항목으로 안 잡히는 잔여 조정분</dd></div>
+    </dl>
+
+    <p>여섯 번째 칸은 기사마다 <b>조정비용</b> 또는 <b>조달비용</b>으로 표기가 갈린다. 정확한 명칭과 산식은 여신전문금융업감독규정 별표 4가 원문이다. <span class="mono">항목별 비중은 비공개, 확인 필요</span></p>
+
+    <p>구조만 보면 <span class="hl">감독기관이 직접 운영하는 cost-plus 요금제</span>다. 클라우드 요금을 사업자가 정하는 게 아니라, 규제기관이 전기료·감가상각·네트워크 비용을 항목별로 합산하고 그 위에 마진을 얹어 상한을 고시하는 방식이다.</p>
+
+    <p>그래서 카드사가 단기적으로 손댈 수 있는 칸이 얼마 없다. 자금조달비용은 금리가 정하고, 위험관리비용은 연체율이 정한다. 남는 건 일반관리비와 마케팅비다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">02 · 산정 절차</span>
+    <h2>3년마다 열리던 요금 심사</h2>
+
+    <p class="take">2024년 12월, 그 주기가 6년으로 늘었다.</p>
+
+    <p>절차 자체는 단순하다. 카드사가 원가 데이터를 제출하고, 회계법인 검증을 거치고, 금융위가 적격비용을 확정한 뒤 우대수수료율을 고시한다.</p>
+
+    <p>2024년 12월 17일 개편방안의 숫자는 이렇다. 연매출 10억원 이하는 신용카드 <b>0.1%p</b>, 10~30억원은 <b>0.05%p</b> 인하. 체크카드는 전 구간 0.1%p 인하. 영세·중소가맹점 약 <b>304만 6천 개</b>가 평균 8.7% 경감, 연 3,000억원 규모다.</p>
+
+    <p>같은 발표에서 재산정 주기를 3년에서 원칙 6년으로 바꿨다. 다만 <span class="hl">3년마다 재산정 필요성은 검토한다</span>는 조건이 붙었다. 완전히 손을 뗀 게 아니라, 기본 릴리즈 주기만 늘려둔 상태로 읽으면 된다.</p>
+
+    <p>우대 대상 범위가 지금처럼 넓어진 건 2019년이다. 기준을 연매출 5억원 이하에서 30억원 이하로 올리면서 적용 비중이 84%에서 96%로 뛰었다. 요즘 자료에 반복해서 나오는 "96%"는 그때 만들어진 숫자다.</p>
+
+    <p>2026년 하반기 기준으로도 이 비율은 유지된다. 전체 카드 가맹점 약 <b>323만 5천 개</b> 중 96%가 우대 구간이고, 신용 0.40~1.45%, 체크 0.15~1.15%가 적용된다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 · 약발</span>
+    <h2>인하 여력이 줄었다</h2>
+
+    <p class="take">승인금액은 두 배 가까이 늘었는데, 수수료 수익은 오히려 줄었다.</p>
+
+    <div class="tblscroll">
+      <table class="rates">
+        <caption>재산정별 연간 가맹점 수수료 경감 규모 (파이낸셜뉴스 정리, 2025년 4월)</caption>
+        <thead><tr><th>적용 시기</th><th>연간 경감액</th></tr></thead>
+        <tbody>
+          <tr><td>2013 ~ 2015</td><td>3,300억원</td></tr>
+          <tr><td>2018 ~ 2020</td><td>1조 4,000억원</td></tr>
+          <tr><td>2021 ~ 2023</td><td>6,700억원</td></tr>
+          <tr><td>2025 ~</td><td>3,000억원</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>카드 승인금액은 2014년 562조원에서 2022년 956조원으로 늘었다. 같은 기간 가맹점수수료 수익은 <b>7조 1,300억원에서 4조 8,100억원으로 줄었다.</b> 12년 누적 경감액은 9조원을 넘는다.</p>
+
+    <p>원가 기반 산정의 구조적 한계가 여기서 드러난다. 트래픽은 늘어도 단가를 스스로 정할 수 없으니, 거래가 늘어난 만큼 매출이 따라오지 않는다.</p>
+
+    <p>재산정 주기를 6년으로 늘린 배경도 이 수치다. 파이낸셜뉴스 보도에 따르면 금융당국도 카드사에 추가 부담을 요구하기 어렵다는 입장을 밝혔다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 · 제품 관점</span>
+    <h2>수수료율이 상수인 시장</h2>
+
+    <p class="take">가격은 정부가 정한다. 제품은 가격 외의 축에서 경쟁해야 한다.</p>
+
+    <p>마케팅비용 칸은 오래된 논쟁거리다. 대형가맹점에 돌아간 마케팅비가 결국 일반가맹점 수수료로 전가된다는 지적이다. 2019년 국회 제출 자료 기준으로는 대형가맹점 실질 수수료율이 0.17% 수준이라는 주장까지 나왔다. <span class="mono">오래된 숫자, 현재값 확인 필요</span></p>
+
+    <p>밴수수료 칸에서는 이미 구조가 한 번 바뀌었다. 2018년 7월 31일부터 <b>건당 100원 정액제</b>가 결제금액 <b>평균 0.28% 정률제</b>로 전환됐다.</p>
+
+    <p>이유는 단순하다. 정액제에서는 1,000원 결제에도 100원이 붙는다. 소액 다건 업종이 구조적으로 불리했던 것이다. 개편 후 편의점은 연 361만원, 슈퍼마켓은 531만원 부담이 줄었고, 수수료 상한도 2.5%에서 2.3%로 내려갔다.</p>
+
+    <p>정리하면, 대부분의 가맹점에서 수수료율은 <span class="hl">POS 사업자가 만질 수 없는 상수</span>다. 단말을 바꿔도 요율은 그대로다.</p>
+
+    <p>남는 경쟁 축은 정산 속도, 장부 자동화, 부가서비스다.</p>
+  </section>
+
+
+  <section>
+    <span class="eyebrow">출처</span>
+    <h2>참조 원본</h2>
+    <ul class="src">
+      <li><a href="https://www.fsc.go.kr/no010101/83642">2024년 12월 17일 카드수수료 개편방안 · 금융위원회</a><small>구간별 인하폭, 연 3,000억원 경감, 재산정 주기 3년에서 6년 조정의 1차 출처</small></li>
+      <li><a href="https://www.news1.kr/finance/insurance-card/5634376">적격비용 재산정 주기 3년에서 6년 · 뉴스1</a><small>영세·중소가맹점 304만 6천 개, 평균 8.7% 경감 수치</small></li>
+      <li><a href="https://www.fnnews.com/news/202504131834177435">카드사, 적격비용 제도 발목 · 파이낸셜뉴스</a><small>재산정별 경감액 추이와 승인금액 대비 수수료 수익 감소 데이터</small></li>
+      <li><a href="https://www.korea.kr/news/reporterView.do?newsId=148852001">밴 수수료 개편 · 대한민국 정책브리핑</a><small>정액제에서 정률제 전환, 건당 100원에서 평균 0.28%, 업종별 경감액</small></li>
+      <li><a href="https://www.fnnews.com/news/202608111126558372">2026년 하반기 영세·중소가맹점 96% 우대수수료율 · 파이낸셜뉴스</a><small>전체 323만 5천 개, 직가맹 309만 4천 개, 구간별 요율 범위</small></li>
+    </ul>
+  </section>
+
+  <nav class="pager">
+    <a class="prev" href="day-04.html"><small>← DAY 04</small>대표가맹점이라는 우산</a>
+    <a class="next" href="day-06.html"><small>DAY 06 →</small>매출과 입금 사이</a>
+  </nav>
+
+  <footer>
+    <b>내일 Day 6</b><br>
+    정산 사이클. D+2 입금은 왜 D+2인지, 선정산과 빠른정산은 정확히 무엇을 당겨주는 것이고 그 리스크는 누가 지는지.
+  </footer>
+
+</div>
+
+</body></html>

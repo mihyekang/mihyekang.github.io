@@ -1,0 +1,468 @@
+<!doctype html><html lang="ko"><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>카드번호가 사라지는 자리</title>
+</head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --ground:#FFFFFF;
+  --surface:#F2F6F5;
+  --ink:#0F1513;
+  --ink-soft:#37433F;
+  --muted:#67736F;
+  --line:#DCE5E2;
+  --line-soft:#EBF1EF;
+  --key:#0A6A4C;
+  --key-soft:#E3F2EC;
+  --key-wash:#F0F8F5;
+  --late:#8A5E14;
+  --late-soft:#F7EFDE;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0C110F;
+    --surface:#151D1A;
+    --ink:#EAF1EE;
+    --ink-soft:#C3CFCB;
+    --muted:#8E9D98;
+    --line:#27332F;
+    --line-soft:#1B2522;
+    --key:#54CE9E;
+    --key-soft:#122A22;
+    --key-wash:#101B18;
+    --late:#D8AB57;
+    --late-soft:#282013;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0C110F;
+  --surface:#151D1A;
+  --ink:#EAF1EE;
+  --ink-soft:#C3CFCB;
+  --muted:#8E9D98;
+  --line:#27332F;
+  --line-soft:#1B2522;
+  --key:#54CE9E;
+  --key-soft:#122A22;
+  --key-wash:#101B18;
+  --late:#D8AB57;
+  --late-soft:#282013;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:'IBM Plex Sans KR','Apple SD Gothic Neo',system-ui,sans-serif;
+  font-size:17.5px;
+  line-height:1.9;
+  letter-spacing:-.003em;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{
+  max-width:34rem;
+  margin:0 auto;
+  padding-inline:22px;
+  padding-block:36px 80px;
+}
+
+/* ── masthead ───────────────────────── */
+.masthead{display:flex;flex-direction:column;gap:16px;margin-bottom:38px}
+.daymeta{
+  display:flex;align-items:center;gap:9px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+}
+.daymeta b{color:var(--key);font-size:14px}
+.daymeta s{text-decoration:none;color:var(--line)}
+h1{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:clamp(30px,9vw,40px);
+  line-height:1.3;
+  letter-spacing:-.015em;
+  margin:0;
+  text-wrap:balance;
+}
+.sub{margin:0;color:var(--muted);font-size:15.5px;line-height:1.7}
+
+/* ── 핵심 3줄 ───────────────────────── */
+.gist{
+  background:var(--key-wash);
+  border:1px solid var(--key-soft);
+  border-radius:10px;
+  padding:22px 20px;
+  margin-bottom:40px;
+  counter-reset:g;
+}
+.gist h2{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--key);margin:0 0 14px;border:0;padding:0;
+}
+.gist li{
+  list-style:none;position:relative;
+  padding-left:30px;
+  font-size:16.5px;line-height:1.75;
+  color:var(--ink-soft);
+}
+.gist li + li{margin-top:13px}
+.gist li::before{
+  counter-increment:g;content:counter(g);
+  position:absolute;left:0;top:.28em;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--key);color:var(--ground);
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  line-height:20px;text-align:center;
+}
+.gist ul{margin:0;padding:0}
+.gist b{color:var(--ink);font-weight:600}
+
+/* ── figure ─────────────────────────── */
+figure{margin:0 0 42px;display:flex;flex-direction:column;gap:14px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:14.5px;color:var(--muted);line-height:1.7}
+
+/* ── sections ───────────────────────── */
+section{margin-bottom:46px}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:6px;
+}
+h2{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:25px;
+  line-height:1.45;
+  letter-spacing:-.01em;
+  margin:0 0 20px;
+  text-wrap:balance;
+}
+p{margin:0 0 18px}
+p:last-child{margin-bottom:0}
+b,strong{font-weight:600;color:var(--ink)}
+.hl{background:var(--key-soft);padding:.1em .25em;border-radius:3px;font-weight:600}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:.88em;color:var(--muted)}
+
+/* takeaway line per section */
+.take{
+  display:flex;gap:12px;align-items:flex-start;
+  border-left:3px solid var(--key);
+  padding:2px 0 2px 15px;
+  margin:0 0 22px;
+  font-size:16.5px;line-height:1.7;
+  color:var(--ink-soft);
+}
+
+/* role list */
+.roles{margin:0 0 20px;padding:0}
+.roles div{
+  display:grid;
+  grid-template-columns:7.5rem 1fr;
+  gap:2px 14px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line-soft);
+  align-items:baseline;
+}
+.roles div:first-child{border-top:1px solid var(--line-soft)}
+.roles dt{font-weight:600;font-size:16px;line-height:1.5}
+.roles dd{margin:0;font-size:15.5px;color:var(--muted);line-height:1.65}
+@media(max-width:440px){
+  .roles div{grid-template-columns:1fr;gap:1px}
+}
+
+/* two-card compare */
+.split{display:flex;flex-direction:column;gap:14px;margin:0 0 22px}
+.split > div{
+  border-radius:10px;
+  padding:20px;
+  background:var(--surface);
+}
+.split h3{
+  margin:0 0 8px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+}
+.split p{font-size:16px;line-height:1.75;margin:0;color:var(--ink-soft)}
+.s-now{box-shadow:inset 3px 0 0 var(--key)}
+.s-now h3{color:var(--key)}
+.s-late{box-shadow:inset 3px 0 0 var(--late)}
+.s-late h3{color:var(--late)}
+
+/* rates table */
+.tblscroll{overflow-x:auto;margin:0 0 18px}
+.rates{width:100%;border-collapse:collapse;font-size:16px}
+.rates caption{
+  text-align:left;font-size:13.5px;color:var(--muted);
+  padding-bottom:10px;line-height:1.6;
+}
+.rates th,.rates td{padding:11px 8px;border-bottom:1px solid var(--line-soft);text-align:right;white-space:nowrap}
+.rates th:first-child,.rates td:first-child{text-align:left}
+.rates thead th{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  border-bottom-color:var(--line);
+}
+.rates td{font-variant-numeric:tabular-nums;color:var(--ink-soft)}
+.rates tbody tr:first-child td{color:var(--ink);font-weight:600}
+
+/* pull quote */
+.pull{
+  background:var(--key-soft);
+  border-radius:10px;
+  padding:26px 22px;
+  margin-bottom:46px;
+}
+.pull span{
+  display:block;margin-bottom:12px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--key);
+}
+.pull q{
+  font-family:'Gowun Batang',serif;
+  font-size:19px;line-height:1.85;quotes:'"' '"';
+  display:block;
+}
+
+/* sources */
+.src{list-style:none;margin:0;padding:0}
+.src li{padding:15px 0;border-bottom:1px solid var(--line-soft)}
+.src li:first-child{border-top:1px solid var(--line-soft)}
+.src a{
+  color:var(--ink);text-decoration:none;font-weight:600;
+  font-size:16px;line-height:1.6;
+  box-shadow:inset 0 -2px 0 var(--key);
+}
+.src a:hover{color:var(--key)}
+.src a:focus-visible{outline:2px solid var(--key);outline-offset:3px}
+.src small{display:block;color:var(--muted);font-size:14.5px;line-height:1.65;margin-top:7px}
+
+/* 확인 필요 플래그 */
+.todo{
+  display:inline-block;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;letter-spacing:.08em;
+  color:var(--late);background:var(--late-soft);
+  padding:.15em .5em;border-radius:3px;
+  vertical-align:.08em;
+}
+
+footer{
+  margin-top:46px;
+  font-size:15px;color:var(--muted);line-height:1.8;
+  border-top:1px solid var(--line);padding-top:22px;
+}
+footer b{color:var(--ink-soft)}
+/* site nav */
+.back{display:inline-block;margin-bottom:28px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--key)}
+.pager{display:flex;gap:12px;margin-top:46px}
+.pager a{flex:1;min-width:0;display:block;padding:14px 16px;border:1px solid var(--line);border-radius:10px;color:var(--ink);text-decoration:none;font-size:15px;line-height:1.5}
+.pager a:hover{border-color:var(--key);color:var(--key)}
+.pager a small{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted)}
+.pager .next{text-align:right}
+.pager span{flex:1}
+</style>
+
+<div class="wrap">
+
+  <a class="back" href="../payment-domain-map.html">← 결제 도메인 지도</a>
+
+  <header class="masthead">
+    <div class="daymeta"><b>DAY 12</b><s>/</s>21<s>·</s>결제 수단별 프로토콜</div>
+    <h1>카드번호가 사라지는 자리</h1>
+    <p class="sub">토큰화와 PCI DSS, 결제 보안 설계의 두 축</p>
+  </header>
+
+  <div class="gist">
+    <h2>핵심 3줄</h2>
+    <ul>
+      <li>토큰화는 카드번호를 숨기는 게 아니라, <b>쓸 수 있는 범위를 미리 못 박은 대체값</b>으로 바꾸는 일이다.</li>
+      <li>같은 "토큰"이라도 <b>PG가 발급한 빌링키</b>와 <b>카드 네트워크가 발급한 네트워크 토큰</b>은 다른 물건이다. 이식성과 PCI 범위가 갈린다.</li>
+      <li>PCI DSS는 점수가 아니라 <b>스위치</b>다. 카드번호가 닿는 시스템에서만 켜진다. 그래서 보안 설계의 본질은 범위 축소다.</li>
+    </ul>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 340 486" role="img" aria-label="토큰화 흐름도: 카드번호가 토큰 금고를 지나 토큰으로 바뀌고, 그 아래부터는 PCI DSS 범위 밖에서 유통된다">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/>
+        </marker>
+        <marker id="arg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--key)"/>
+        </marker>
+      </defs>
+
+      <text x="270" y="11" text-anchor="end" fill="var(--late)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.2">PCI DSS 범위 안</text>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="14.5" font-weight="500">
+        <rect x="0" y="24" width="240" height="42" rx="6" fill="var(--late-soft)"/>
+        <text x="16" y="50" fill="var(--ink)">카드번호 PAN</text>
+
+        <rect x="0" y="98" width="240" height="42" rx="6" fill="var(--late-soft)"/>
+        <text x="16" y="124" fill="var(--ink)">토큰 요청자</text>
+        <text x="226" y="124" fill="var(--late)" font-size="11.5" font-weight="400" text-anchor="end">지갑앱 · PG · 단말</text>
+
+        <rect x="0" y="172" width="240" height="42" rx="6" fill="var(--key-soft)"/>
+        <text x="16" y="198" fill="var(--ink)">TSP · 토큰 금고</text>
+      </g>
+
+      <g stroke="var(--muted)" stroke-width="1.3" marker-end="url(#ar)">
+        <line x1="34" y1="66" x2="34" y2="95"/>
+        <line x1="34" y1="140" x2="34" y2="169"/>
+        <line x1="34" y1="214" x2="34" y2="237"/>
+        <line x1="34" y1="256" x2="34" y2="291"/>
+        <line x1="34" y1="336" x2="34" y2="365"/>
+        <line x1="34" y1="410" x2="34" y2="439"/>
+      </g>
+
+      <line x1="0" y1="246" x2="270" y2="246" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 6"/>
+      <text x="270" y="277" text-anchor="end" fill="var(--key)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.2">범위 밖 · 털려도 재사용 불가</text>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="14.5" font-weight="500">
+        <rect x="0" y="294" width="240" height="42" rx="6" fill="var(--surface)"/>
+        <text x="16" y="320" fill="var(--ink)">토큰 DPAN</text>
+        <text x="226" y="320" fill="var(--key)" font-size="11.5" font-weight="400" text-anchor="end">+ 크립토그램</text>
+
+        <rect x="0" y="368" width="240" height="42" rx="6" fill="var(--surface)"/>
+        <text x="16" y="394" fill="var(--ink)">가맹점 · 단말 보관</text>
+
+        <rect x="0" y="442" width="240" height="42" rx="6" fill="var(--surface)"/>
+        <text x="16" y="468" fill="var(--ink)">발급사 승인</text>
+      </g>
+
+      <path d="M240 193 H 300 V 463 H 244" fill="none" stroke="var(--key)" stroke-width="1.5" marker-end="url(#arg)"/>
+      <text x="316" y="330" fill="var(--key)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.2" transform="rotate(-90 316 330)" text-anchor="middle">역토큰화</text>
+    </svg>
+    <figcaption>점선 위에서만 진짜 카드번호가 흐른다. 아래로 내려간 토큰은 매핑 테이블 없이는 카드번호로 되돌릴 수 없고, 그래서 가맹점 서버와 단말은 PCI DSS 심사 대상에서 빠진다. 보안 설계라기보다 경계 설계에 가깝다.</figcaption>
+  </figure>
+
+  <section>
+    <span class="eyebrow">용어</span>
+    <h2>먼저 이름표부터</h2>
+
+    <dl class="roles">
+      <div><dt>PAN</dt><dd>Primary Account Number. 카드 앞면에 찍힌 진짜 카드번호</dd></div>
+      <div><dt>DPAN</dt><dd>PAN을 대신하는 토큰. 기기나 가맹점에 묶인 대체 번호</dd></div>
+      <div><dt>TSP</dt><dd>Token Service Provider. 토큰을 발급하고 매핑을 보관하는 주체</dd></div>
+      <div><dt>TRID</dt><dd>Token Requestor ID. 누가 이 토큰을 요청했는지 식별</dd></div>
+      <div><dt>PAR</dt><dd>Payment Account Reference. 여러 토큰을 원래 PAN 하나로 되묶는 참조값</dd></div>
+      <div><dt>크립토그램</dt><dd>거래마다 붙는 일회성 값. 토큰이 아직 살아있음을 증명</dd></div>
+    </dl>
+
+    <p>이 여섯 개만 잡아두면 EMVCo 스펙 문서가 읽히기 시작한다. 반대로 이걸 모르면 "토큰"이라는 단어가 문단마다 다른 걸 가리켜서 Day 1의 "카드사" 함정을 그대로 반복하게 된다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">01 · 원리</span>
+    <h2>훔쳐도 못 쓰는 숫자 만들기</h2>
+
+    <p class="take">토큰화의 목적은 감추는 게 아니라, 쓸 수 있는 범위를 미리 못 박는 것이다.</p>
+
+    <p>EMVCo의 정의는 짧다. <span class="hl">PAN을 "어디서 어떻게 쓸지 정의된 고유한 대체값"으로 교체하는 과정</span>이다. 핵심은 뒷부분이다. 대체값이라서 안전한 게 아니라, 쓸 수 있는 범위가 좁아서 안전하다.</p>
+
+    <p>토큰은 특정 가맹점, 특정 기기, 특정 결제 시나리오로 제한된다. 이걸 Token Domain Restriction이라고 부른다. 그래서 내 아이폰에 든 토큰이 유출돼도 남의 단말에서는 승인이 안 난다.</p>
+
+    <p>암호화와는 다른 물건이다. 암호화는 키만 있으면 원문이 복원된다. 토큰화는 금고의 매핑 테이블이 없으면 아무리 계산해도 PAN이 안 나온다. 쿠버네티스로 치면 <span class="mono">Sealed Secret</span>이 아니라 외부 시크릿 매니저의 <span class="mono">reference</span>를 파드에 꽂아주는 쪽이다.</p>
+
+    <p>여기서 문제가 하나 생긴다. 같은 사람의 카드가 아이폰, 워치, 온라인 가맹점마다 다른 토큰을 갖게 되면 카드사 입장에서 "같은 계좌"라는 걸 알 수가 없다. 부정거래 탐지도, 로열티 적립도, 대중교통 정산도 깨진다.</p>
+
+    <p>그래서 <b>PAR</b>가 있다. 토큰들을 원래 PAN 하나로 되묶는 참조값인데, 그 자체로는 결제에 쓸 수 없다. EMVCo가 BIN Controller 등록 프로그램으로 전 세계에서 겹치지 않게 ID를 배분한다. 식별자는 주되 권한은 안 주는, 익숙한 패턴이다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">02 · 두 갈래</span>
+    <h2>빌링키와 네트워크 토큰은 다른 물건이다</h2>
+
+    <p class="take">누가 발급했느냐에 따라 이식성, PCI 범위, 그리고 벤더 락인이 갈린다.</p>
+
+    <div class="split">
+      <div class="s-late">
+        <h3>볼트 토큰 · PG가 발급</h3>
+        <p>토스페이먼츠 <b>빌링키</b>가 여기 속한다. 문서 표현 그대로 "카드번호, 유효기간, CVC, 계좌번호 등 결제 정보를 암호화한 값"이다. 가맹점은 <span class="mono">customerKey</span>와 빌링키만 들고 있으면 되고, 카드 정보는 PG가 보관한다. 대신 <b>그 PG 안에서만 유효</b>하다.</p>
+      </div>
+      <div class="s-now">
+        <h3>네트워크 토큰 · 카드 네트워크가 발급</h3>
+        <p>Visa VTS, Mastercard MDES 같은 카드 네트워크가 직접 발급한다. 13~19자리에 Luhn 검증을 통과하고 BIN까지 포함해서 겉보기엔 카드번호와 똑같지만, <b>PCI DSS 범위 밖</b>으로 취급된다. PSP를 갈아타도 토큰은 따라온다.</p>
+      </div>
+    </div>
+
+    <p>차이가 실무에서 드러나는 곳은 두 군데다.</p>
+
+    <p>첫째는 <b>마이그레이션</b>이다. 볼트 토큰만 쓰고 있으면 PG를 바꿀 때 고객 카드를 전부 다시 등록받거나, PG 간 토큰 이관을 협상해야 한다. 구독 서비스라면 이 시점에 이탈이 통째로 발생한다. 네트워크 토큰은 이 문제가 구조적으로 없다.</p>
+
+    <p>둘째는 <b>카드 갱신</b>이다. 카드가 재발급되면 기존 카드번호는 죽는다. 기존 방식인 Account Updater는 배치로 요청하고 48시간쯤 기다리며 카드당 약 0.25달러를 낸다. 네트워크 토큰의 CALM은 재발급 시점에 실시간 웹훅으로 알려주고, 보통 무료다.</p>
+
+    <p>승인율 얘기도 빠지지 않는다. Deloitte 조사 기준 네트워크 토큰 도입 후 승인율이 평균 <b>2.1%p</b> 올랐고 사기율은 <b>26%</b> 줄었다는 수치가 자주 인용된다. 다만 이건 2차 인용이고 구간도 1%에서 4%까지 넓게 관찰된다. 인용할 때는 "글로벌 사례 기준"이라고 단서를 다는 게 안전하다.</p>
+
+    <p>국내 카드사와 PG의 네트워크 토큰 실제 도입 현황은 공개 자료로 확인되지 않았다. <span class="todo">확인 필요</span> 국내는 카드사 앱카드와 간편결제 사업자가 각자 토큰 체계를 운영해온 역사가 길어서, 글로벌 네트워크 토큰 도입 경로가 다를 가능성이 크다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 · 컴플라이언스</span>
+    <h2>PCI DSS는 점수가 아니라 스위치다</h2>
+
+    <p class="take">카드번호가 닿는 시스템에서만 켜진다. 그래서 전략은 언제나 범위 축소다.</p>
+
+    <p>PCI DSS는 비자, 마스터카드 등 글로벌 카드사들이 공동으로 만든 카드 결제 보안 표준이다. 6개 목표 아래 12개 요구사항으로 구성되고, 현재 버전은 v4.0.1이다. 4.x에서 유예됐던 이른바 future-dated 요구사항들은 2025년 3월 31일자로 전부 의무화됐다.</p>
+
+    <p>중요한 건 조문 내용이 아니라 <span class="hl">적용 대상을 정하는 방식</span>이다. 심사 범위는 CDE, 즉 카드 데이터 환경이다. 카드번호를 저장하거나, 처리하거나, 전송하는 시스템만 들어간다.</p>
+
+    <p>뒤집으면 이렇게 된다. 시스템에서 카드번호를 걷어내면 그 시스템은 심사 대상 자체가 아니게 된다. 결제창, SDK, 빌링키 구조가 "개발 편의 기능"이 아니라 <b>범위 축소 장치</b>인 이유가 여기 있다.</p>
+
+    <p>인프라 감각으로는 블라스트 레이디어스 축소와 같다. 모든 파드를 하드닝하는 대신, 시크릿을 만지는 파드만 남기고 나머지는 네트워크 폴리시로 잘라내는 쪽이다. 감사 비용도 똑같이 줄어든다.</p>
+
+    <p>규모 감이 필요하면 토스페이먼츠 사례가 좋다. 2021년 10월 <b>415개 항목</b> 심사를 거쳐 PCI DSS 최상위 등급인 <b>Level 1</b>을 취득했다. 같은 시기 KISA의 ISMS는 102개 항목이었다. 네 배쯤 되는 이 격차가 카드정보를 직접 다루는 대가다.</p>
+
+    <p>국내에서 PCI DSS가 법정 의무인지, 카드 브랜드와의 계약상 요구인지는 정리해둘 필요가 있다. <span class="todo">확인 필요</span> 실무 감각으로는 후자에 가깝지만, 단정하기 전에 여신금융협회나 금융위 자료로 확인하는 게 낫다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 · 오프라인</span>
+    <h2>단말기는 카드번호를 들고 있지 않아야 한다</h2>
+
+    <p class="take">온라인은 토큰으로 범위를 자르고, 오프라인은 단말 암호화로 자른다.</p>
+
+    <p>오프라인은 사정이 다르다. 카드를 꽂거나 대는 순간 물리적으로 PAN이 단말에 들어온다. 토큰화만으로는 이 구간이 안 없어진다.</p>
+
+    <p>그래서 나온 게 <b>P2PE</b>, Point-to-Point Encryption이다. 단말이 카드를 읽는 그 순간 암호화해서, 복호화 키를 가진 쪽에 도달할 때까지 평문이 존재하지 않게 만든다. 가맹점 POS 소프트웨어도 네트워크도 암호문만 본다.</p>
+
+    <p>그 아래를 받치는 게 <b>SRED</b>, Secure Reading and Exchange of Data다. PCI SSC 표현으로는 PTS 승인 단말이 계좌 데이터 암호화 기능을 제공하기 위해 추가로 평가받는 항목이고, 다수 PTS 기기에서는 선택 사항이다.</p>
+
+    <p>여기 함정이 하나 있다. PCI SSC는 <span class="hl">SRED가 달린 PTS 단말을 쓰는 것만으로는 범위 축소가 자동으로 되지 않는다</span>고 못 박는다. PCI가 등재한 P2PE 솔루션의 일부로 쓰여야 한다. 하드웨어 스펙이 아니라 솔루션 등록이 요건인 셈이다.</p>
+
+    <p>국내 오프라인은 여기에 층이 하나 더 있다. 카드사 앱카드가 바코드, QR, NFC로 갈리고 NFC 안에서도 JUSTOUCH, KLSC, EMV Contactless가 카드사별로 다르다. 단말 하나가 이 조합을 다 받아야 한다.</p>
+
+    <p>단말을 직접 설계하고 직접 배포하는 사업자에게 이건 부담이자 지렛대다. 펌웨어와 키 관리를 자사가 쥐고 있으니 SRED나 P2PE 수준을 스스로 정할 수 있다.</p>
+  </section>
+
+
+  <section>
+    <span class="eyebrow">출처</span>
+    <h2>참조 원본</h2>
+    <ul class="src">
+      <li><a href="https://www.emvco.com/emv-technologies/payment-tokenisation/">EMV Payment Tokenisation · EMVCo</a><small>토큰 정의, PAR, TSP 및 BIN Controller 등록 프로그램의 1차 출처. 스펙 최신판은 v2.4, 2026년 7월 9일 공개</small></li>
+      <li><a href="https://docs.tosspayments.com/guides/v2/billing">자동결제(빌링) 이해하기 · 토스페이먼츠 개발자센터</a><small>빌링키 정의와 발급 흐름, customerKey 매핑 구조의 원문</small></li>
+      <li><a href="https://www.pcisecuritystandards.org/faqs/1301/">PTS, SRED, P2PE 관계 FAQ · PCI Security Standards Council</a><small>"SRED 단말만으로는 범위 축소가 안 된다"는 단서의 1차 출처</small></li>
+      <li><a href="https://toss.im/tossfeed/article/tosspayments-security">토스페이먼츠, PCI-DSS 및 ISMS 보안 인증 취득 · 토스피드</a><small>Level 1, 415개 심사 항목, ISMS 102개 항목의 출처. 국내 PG 기준 감사 규모 감각</small></li>
+      <li><a href="https://evervault.com/blog/what-are-network-tokens-and-how-do-they-work">What are Network Tokens and how do they work? · Evervault</a><small>볼트 토큰과 네트워크 토큰 비교, TRID, CALM, Deloitte 수치의 2차 인용처</small></li>
+    </ul>
+  </section>
+
+  <nav class="pager">
+    <a class="prev" href="day-11.html"><small>← DAY 11</small>페이 밑의 두 갈래</a>
+    <a class="next" href="day-13.html"><small>DAY 13 →</small>무응답이라는 세 번째 답</a>
+  </nav>
+
+  <footer>
+    <b>내일 Day 13</b><br>
+    승인 거절 코드, 타임아웃, 망취소(reversal). 결제가 실패했을 때 시스템이 무엇을 되돌리고 무엇을 못 되돌리는지. 분산 트랜잭션 감각이 그대로 먹히는 날이다.
+  </footer>
+
+</div>
+
+</body></html>

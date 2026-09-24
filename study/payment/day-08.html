@@ -1,0 +1,467 @@
+<!doctype html><html lang="ko"><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>카드가 계산을 시작하는 순간</title>
+</head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --ground:#FFFFFF;
+  --surface:#F2F6F5;
+  --ink:#0F1513;
+  --ink-soft:#37433F;
+  --muted:#67736F;
+  --line:#DCE5E2;
+  --line-soft:#EBF1EF;
+  --key:#0A6A4C;
+  --key-soft:#E3F2EC;
+  --key-wash:#F0F8F5;
+  --late:#8A5E14;
+  --late-soft:#F7EFDE;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0C110F;
+    --surface:#151D1A;
+    --ink:#EAF1EE;
+    --ink-soft:#C3CFCB;
+    --muted:#8E9D98;
+    --line:#27332F;
+    --line-soft:#1B2522;
+    --key:#54CE9E;
+    --key-soft:#122A22;
+    --key-wash:#101B18;
+    --late:#D8AB57;
+    --late-soft:#282013;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0C110F;
+  --surface:#151D1A;
+  --ink:#EAF1EE;
+  --ink-soft:#C3CFCB;
+  --muted:#8E9D98;
+  --line:#27332F;
+  --line-soft:#1B2522;
+  --key:#54CE9E;
+  --key-soft:#122A22;
+  --key-wash:#101B18;
+  --late:#D8AB57;
+  --late-soft:#282013;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:'IBM Plex Sans KR','Apple SD Gothic Neo',system-ui,sans-serif;
+  font-size:17.5px;
+  line-height:1.9;
+  letter-spacing:-.003em;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{
+  max-width:34rem;
+  margin:0 auto;
+  padding-inline:22px;
+  padding-block:36px 80px;
+}
+
+/* ── masthead ───────────────────────── */
+.masthead{display:flex;flex-direction:column;gap:16px;margin-bottom:38px}
+.daymeta{
+  display:flex;align-items:center;gap:9px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+}
+.daymeta b{color:var(--key);font-size:14px}
+.daymeta s{text-decoration:none;color:var(--line)}
+h1{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:clamp(30px,9vw,40px);
+  line-height:1.3;
+  letter-spacing:-.015em;
+  margin:0;
+  text-wrap:balance;
+}
+.sub{margin:0;color:var(--muted);font-size:15.5px;line-height:1.7}
+
+/* ── 핵심 3줄 ───────────────────────── */
+.gist{
+  background:var(--key-wash);
+  border:1px solid var(--key-soft);
+  border-radius:10px;
+  padding:22px 20px;
+  margin-bottom:40px;
+  counter-reset:g;
+}
+.gist h2{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--key);margin:0 0 14px;border:0;padding:0;
+}
+.gist li{
+  list-style:none;position:relative;
+  padding-left:30px;
+  font-size:16.5px;line-height:1.75;
+  color:var(--ink-soft);
+}
+.gist li + li{margin-top:13px}
+.gist li::before{
+  counter-increment:g;content:counter(g);
+  position:absolute;left:0;top:.28em;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--key);color:var(--ground);
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  line-height:20px;text-align:center;
+}
+.gist ul{margin:0;padding:0}
+.gist b{color:var(--ink);font-weight:600}
+
+/* ── figure ─────────────────────────── */
+figure{margin:0 0 42px;display:flex;flex-direction:column;gap:14px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:14.5px;color:var(--muted);line-height:1.7}
+
+/* ── sections ───────────────────────── */
+section{margin-bottom:46px}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:6px;
+}
+h2{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:25px;
+  line-height:1.45;
+  letter-spacing:-.01em;
+  margin:0 0 20px;
+  text-wrap:balance;
+}
+p{margin:0 0 18px}
+p:last-child{margin-bottom:0}
+b,strong{font-weight:600;color:var(--ink)}
+.hl{background:var(--key-soft);padding:.1em .25em;border-radius:3px;font-weight:600}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:.88em;color:var(--muted)}
+
+/* takeaway line per section */
+.take{
+  display:flex;gap:12px;align-items:flex-start;
+  border-left:3px solid var(--key);
+  padding:2px 0 2px 15px;
+  margin:0 0 22px;
+  font-size:16.5px;line-height:1.7;
+  color:var(--ink-soft);
+}
+
+/* role list */
+.roles{margin:0 0 20px;padding:0}
+.roles div{
+  display:grid;
+  grid-template-columns:7.5rem 1fr;
+  gap:2px 14px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line-soft);
+  align-items:baseline;
+}
+.roles div:first-child{border-top:1px solid var(--line-soft)}
+.roles dt{font-weight:600;font-size:16px;line-height:1.5}
+.roles dd{margin:0;font-size:15.5px;color:var(--muted);line-height:1.65}
+@media(max-width:440px){
+  .roles div{grid-template-columns:1fr;gap:1px}
+}
+
+/* two-card compare */
+.split{display:flex;flex-direction:column;gap:14px;margin:0 0 22px}
+.split > div{
+  border-radius:10px;
+  padding:20px;
+  background:var(--surface);
+}
+.split h3{
+  margin:0 0 8px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+}
+.split p{font-size:16px;line-height:1.75;margin:0;color:var(--ink-soft)}
+.s-now{box-shadow:inset 3px 0 0 var(--key)}
+.s-now h3{color:var(--key)}
+.s-late{box-shadow:inset 3px 0 0 var(--late)}
+.s-late h3{color:var(--late)}
+
+/* rates table */
+.tblscroll{overflow-x:auto;margin:0 0 18px}
+.rates{width:100%;border-collapse:collapse;font-size:16px}
+.rates caption{
+  text-align:left;font-size:13.5px;color:var(--muted);
+  padding-bottom:10px;line-height:1.6;
+}
+.rates th,.rates td{padding:11px 8px;border-bottom:1px solid var(--line-soft);text-align:right;white-space:nowrap}
+.rates th:first-child,.rates td:first-child{text-align:left;white-space:normal}
+.rates thead th{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  border-bottom-color:var(--line);
+}
+.rates td{font-variant-numeric:tabular-nums;color:var(--ink-soft)}
+
+/* pull quote */
+.pull{
+  background:var(--key-soft);
+  border-radius:10px;
+  padding:26px 22px;
+  margin-bottom:46px;
+}
+.pull span{
+  display:block;margin-bottom:12px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--key);
+}
+.pull q{
+  font-family:'Gowun Batang',serif;
+  font-size:19px;line-height:1.85;quotes:'"' '"';
+  display:block;
+}
+
+/* sources */
+.src{list-style:none;margin:0;padding:0}
+.src li{padding:15px 0;border-bottom:1px solid var(--line-soft)}
+.src li:first-child{border-top:1px solid var(--line-soft)}
+.src a{
+  color:var(--ink);text-decoration:none;font-weight:600;
+  font-size:16px;line-height:1.6;
+  box-shadow:inset 0 -2px 0 var(--key);
+}
+.src a:hover{color:var(--key)}
+.src a:focus-visible{outline:2px solid var(--key);outline-offset:3px}
+.src small{display:block;color:var(--muted);font-size:14.5px;line-height:1.65;margin-top:7px}
+
+footer{
+  margin-top:46px;
+  font-size:15px;color:var(--muted);line-height:1.8;
+  border-top:1px solid var(--line);padding-top:22px;
+}
+footer b{color:var(--ink-soft)}
+/* site nav */
+.back{display:inline-block;margin-bottom:28px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--key)}
+.pager{display:flex;gap:12px;margin-top:46px}
+.pager a{flex:1;min-width:0;display:block;padding:14px 16px;border:1px solid var(--line);border-radius:10px;color:var(--ink);text-decoration:none;font-size:15px;line-height:1.5}
+.pager a:hover{border-color:var(--key);color:var(--key)}
+.pager a small{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted)}
+.pager .next{text-align:right}
+.pager span{flex:1}
+</style>
+
+<div class="wrap">
+
+  <a class="back" href="../payment-domain-map.html">← 결제 도메인 지도</a>
+
+  <header class="masthead">
+    <div class="daymeta"><b>DAY 08</b><s>/</s>21<s>·</s>결제 수단별 프로토콜</div>
+    <h1>카드가 계산을 시작하는 순간</h1>
+    <p class="sub">긁기에서 꽂기로, 정적 데이터에서 동적 암호문으로</p>
+  </header>
+
+  <div class="gist">
+    <h2>핵심 3줄</h2>
+    <ul>
+      <li>마그네틱은 <b>정적 데이터</b>다. 읽을 수 있으면 복제할 수 있다. 암호화도 서명도 없다.</li>
+      <li>IC 카드는 칩 안에서 <b>거래마다 새 암호문(ARQC)</b>을 계산한다. 비밀키는 칩 밖으로 나오지 않는다.</li>
+      <li>국내는 <b>2015년 7월 21일</b> 개정 여전법으로 IC 우선, 3년 계도 후 <b>2018년 7월 전환율 98.5%</b>.</li>
+    </ul>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 340 596" role="img" aria-label="마그네틱과 IC 결제 비교 흐름도. 위쪽 마그네틱은 카드에 기록된 정적 데이터를 단말기가 읽어 그대로 전송한다. 아래쪽 IC는 단말기가 금액과 난수를 카드에 넘기고, 카드가 세션키로 ARQC 암호문을 만들어 발급사가 검증한 뒤 ARPC로 응답한다.">
+      <defs>
+        <marker id="d8ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/>
+        </marker>
+      </defs>
+
+      <text x="0" y="11" fill="var(--late)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.4">정적 · 읽으면 복제</text>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif">
+        <rect x="0" y="24" width="340" height="52" rx="6" fill="var(--late-soft)"/>
+        <text x="16" y="45" fill="var(--ink)" font-size="14" font-weight="500">마그네틱 트랙</text>
+        <text x="16" y="64" fill="var(--muted)" font-size="11.5" font-family="'IBM Plex Mono',monospace">PAN · 유효기간 · 서비스코드</text>
+
+        <rect x="0" y="98" width="340" height="52" rx="6" fill="var(--late-soft)"/>
+        <text x="16" y="119" fill="var(--ink)" font-size="14" font-weight="500">단말기 판독</text>
+        <text x="16" y="138" fill="var(--muted)" font-size="11.5">읽은 값을 그대로 전송</text>
+        <text x="324" y="126" fill="var(--late)" font-size="11" text-anchor="end">복사 = 원본</text>
+      </g>
+
+      <line x1="34" y1="78" x2="34" y2="95" stroke="var(--muted)" stroke-width="1.3" marker-end="url(#d8ar)"/>
+
+      <line x1="0" y1="178" x2="340" y2="178" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 6"/>
+
+      <text x="0" y="205" fill="var(--key)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.4">동적 · 매 거래 새 암호문</text>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif">
+        <rect x="0" y="218" width="340" height="52" rx="6" fill="var(--surface)"/>
+        <text x="16" y="239" fill="var(--ink)" font-size="14" font-weight="500">단말기 → 카드</text>
+        <text x="16" y="258" fill="var(--muted)" font-size="11.5" font-family="'IBM Plex Mono',monospace">GENERATE AC · 금액 · 난수(UN)</text>
+
+        <rect x="0" y="292" width="340" height="52" rx="6" fill="var(--surface)"/>
+        <text x="16" y="313" fill="var(--ink)" font-size="14" font-weight="500">칩 내부 계산</text>
+        <text x="16" y="332" fill="var(--muted)" font-size="11.5" font-family="'IBM Plex Mono',monospace">SK = KDF(MK, ATC)</text>
+        <text x="324" y="320" fill="var(--key)" font-size="11" text-anchor="end">키는 안 나감</text>
+
+        <rect x="0" y="366" width="340" height="52" rx="6" fill="var(--key-soft)"/>
+        <text x="16" y="387" fill="var(--ink)" font-size="14" font-weight="600">ARQC 생성</text>
+        <text x="16" y="406" fill="var(--key)" font-size="11.5" font-family="'IBM Plex Mono',monospace">MAC(SK, 금액+통화+UN+ATC)</text>
+
+        <rect x="0" y="440" width="340" height="52" rx="6" fill="var(--surface)"/>
+        <text x="16" y="461" fill="var(--ink)" font-size="14" font-weight="500">발급사 HSM 검증</text>
+        <text x="16" y="480" fill="var(--muted)" font-size="11.5">같은 값 재계산 후 ARPC 응답</text>
+
+        <rect x="0" y="514" width="340" height="52" rx="6" fill="var(--surface)"/>
+        <text x="16" y="535" fill="var(--ink)" font-size="14" font-weight="500">카드가 ARPC 확인</text>
+        <text x="16" y="554" fill="var(--muted)" font-size="11.5">→ TC 생성, 거래 확정</text>
+      </g>
+
+      <g stroke="var(--muted)" stroke-width="1.3" marker-end="url(#d8ar)">
+        <line x1="34" y1="272" x2="34" y2="289"/>
+        <line x1="34" y1="346" x2="34" y2="363"/>
+        <line x1="34" y1="420" x2="34" y2="437"/>
+        <line x1="34" y1="494" x2="34" y2="511"/>
+      </g>
+    </svg>
+    <figcaption>위는 두 단계로 끝난다. 아래는 다섯 단계를 거치는데, 그 대가로 훔친 데이터만으로는 다음 거래를 만들 수 없다. 카드가 수동 저장장치에서 연산 주체로 바뀐 게 EMV의 전부다.</figcaption>
+  </figure>
+
+  <section>
+    <span class="eyebrow">01 · 매체</span>
+    <h2>띠에는 비밀이 없다</h2>
+
+    <p class="take">마그네틱 트랙은 암호화 없이 평문을 적어둔 저장 매체다.</p>
+
+    <p>마그네틱 카드의 검은 띠에는 카드번호, 유효기간, 서비스 코드가 <span class="hl">암호화 없이 그대로</span> 기록돼 있다. 판독기만 있으면 누구나 읽고, 읽은 값을 공카드에 그대로 쓸 수 있다.</p>
+
+    <p>복제본과 원본을 구분할 방법이 프로토콜 차원에 없다. 그래서 오랫동안 카드사는 서명과 홀로그램 육안 확인에 의존했다. 위키백과 EMV 항목의 표현대로, 마그네틱 거래의 검증 수단은 "서명과 카드 외형 확인"이 전부였다.</p>
+
+    <p>인프라로 옮기면 익숙한 장면이다. <span class="mono">config.yaml</span>에 API 키를 평문으로 박아두고 클라이언트마다 뿌리는 것과 같다. 유출되면 끝이고, 유출됐는지도 알 수 없다.</p>
+
+    <p>IC 카드는 저장장치가 아니라 <b>마이크로프로세서</b>다. 안에 비밀키가 들어앉아 있고, 요청을 받으면 연산해서 응답한다. 키를 뿌리는 대신 서명을 받아오는 구조로 바뀐 것이다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">02 · 프로토콜</span>
+    <h2>ARQC, 거래마다 다시 쓰는 서명</h2>
+
+    <p class="take">금액과 난수와 카운터를 묶어 MAC을 만든다. 같은 값이 두 번 나올 수 없다.</p>
+
+    <p>카드를 꽂으면 단말기가 <span class="mono">GENERATE AC</span> 명령과 함께 거래 정보를 칩에 넘긴다. 무엇을 넘길지는 카드가 <span class="mono">CDOL1</span>이라는 목록으로 지정한다. 금액, 통화 코드, 국가 코드, 거래일자, 단말기가 만든 난수 <span class="mono">UN</span>이 들어간다.</p>
+
+    <p>칩은 그 자리에서 세션키를 만든다. 발급사 마스터키에서 파생된 카드 키와 <b>ATC</b>, 즉 거래마다 1씩 올라가는 카운터를 재료로 쓴다. 그 세션키로 거래 데이터에 MAC을 걸면 <b>ARQC</b>가 나온다. 알고리즘은 3DES 또는 AES의 CBC-MAC 모드다.</p>
+
+    <dl class="roles">
+      <div><dt>ARQC</dt><dd>온라인 승인 요청용. 카드가 "이 거래 맞다"고 서명한 값</dd></div>
+      <div><dt>ARPC</dt><dd>발급사 응답 서명. 카드가 이걸 검증해 상대가 진짜 발급사인지 확인</dd></div>
+      <div><dt>TC</dt><dd>거래 확정 증서. 정산에 올라가는 최종 기록</dd></div>
+      <div><dt>AAC</dt><dd>카드가 스스로 거절할 때 내놓는 값</dd></div>
+    </dl>
+
+    <p>여기서 핵심은 <span class="hl">상호 인증</span>이다. 카드만 자기를 증명하는 게 아니라, 발급사도 ARPC로 자기를 증명해야 카드가 거래를 확정한다. 중간에서 승인 응답을 위조해도 칩이 안 넘어간다.</p>
+
+    <p>재생 공격이 막히는 이유는 ATC다. 카운터가 단조 증가하고 발급사는 지난 값을 거부한다. 요청마다 nonce를 섞어 서명하는 HMAC 인증과 정확히 같은 발상이고, ATC는 리플레이 방지용 시퀀스 번호다.</p>
+
+    <p>금액도 MAC 입력에 들어간다. 그래서 중간에서 5만원을 50만원으로 고치면 서명이 깨진다. 마그네틱 시절에는 이걸 막을 방법이 프로토콜에 없었다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 · 오프라인</span>
+    <h2>SDA, DDA, CDA의 세 단계</h2>
+
+    <p class="take">망이 끊겨도 단말기가 카드를 검증해야 한다. 그 방법이 세 등급으로 나뉜다.</p>
+
+    <p>승인은 온라인이 원칙이지만, 통신이 죽거나 소액이면 단말기가 자체 판단해야 한다. 그때 쓰는 게 <b>오프라인 데이터 인증(ODA)</b>이다.</p>
+
+    <div class="split">
+      <div class="s-late">
+        <h3>SDA — 정적</h3>
+        <p>발급사가 카드 데이터에 미리 서명해두고, 단말기가 인증서로 검증한다. 데이터 위조는 막지만 <b>복제는 막지 못한다</b>. 서명까지 통째로 베끼면 그대로 통과한다.</p>
+      </div>
+      <div class="s-now">
+        <h3>DDA — 동적</h3>
+        <p>카드가 단말기 난수를 자기 RSA 개인키로 서명한다. 개인키는 칩을 떠나지 않으니, 정적 데이터를 다 베껴도 이 연산을 재현할 수 없다.</p>
+      </div>
+      <div class="s-now">
+        <h3>CDA — 결합</h3>
+        <p>DDA 서명 범위에 ARQC까지 포함한다. 금액이나 암호문을 중간에서 갈아끼우는 공격까지 닫힌다. 현재 권장 등급.</p>
+      </div>
+    </div>
+
+    <p>단말기 쪽에도 자기 판단 로직이 있다. <b>플로어 리밋</b>을 넘으면 강제로 온라인, 일정 비율은 무작위로 온라인 승인, 그리고 검증 결과를 <span class="mono">TVR</span> 비트맵에 기록한다.</p>
+
+    <p>서킷브레이커와 로컬 폴백 정책을 떠올리면 된다. 중앙 인증 서버가 죽었을 때 무조건 거절할 것인가, 로컬 캐시로 소액만 통과시킬 것인가. 결제 업계는 후자를 택했고, 그 정책을 카드와 단말기가 나눠 들고 있다.</p>
+
+    <p>이 구조는 3주차 Day 20 오프라인 우선 설계로 그대로 이어진다. 인터넷이 끊긴 매장에서 결제가 되는지는 POS 제품의 핵심 질문이다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 · 국내</span>
+    <h2>꽂기로 바꾸는 데 걸린 3년</h2>
+
+    <p class="take">기술이 아니라 전국 단말기 교체가 병목이었다.</p>
+
+    <p>국내는 2002년부터 EMV 기반 금융 IC카드를 시범 도입했다. 현금카드 2005년, 신용카드 2008년 전면 교체가 목표였는데 계속 밀렸다.</p>
+
+    <p>실제 강제력이 생긴 건 개정 여신전문금융업법이 시행된 <span class="hl">2015년 7월 21일</span>이다. 이후 새로 설치하거나 교체하는 단말기는 IC 승인을 우선 적용해야 하고, 단말기는 여신금융협회에 등록된 기술 기준 적합 제품이어야 한다.</p>
+
+    <p>마그네틱은 완전히 금지된 게 아니라 <b>예외</b>로 내려앉았다. IC칩이 훼손돼 IC 거래가 불가능한 경우에만 허용한다. 이걸 업계에서는 폴백 거래라고 부르고, 폴백률은 부정거래 탐지의 신호로 쓴다.</p>
+
+    <div class="tblscroll">
+      <table class="rates">
+        <caption>국내 IC 전환 타임라인 (여신전문금융업법 개정 기준)</caption>
+        <thead><tr><th>시점</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td>2002</td><td>EMV 기반 금융IC카드 시범 도입</td></tr>
+          <tr><td>2015.07.21</td><td>개정 여전법 시행, 신규·교체 단말기 IC 우선</td></tr>
+          <tr><td>2018.07</td><td>3년 계도기간 종료, 전환율 98.5%</td></tr>
+          <tr><td>2020.07</td><td>셀프주유소·LPG 충전소 키오스크 유예 종료</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>돈이 문제였다. 여신금융협회가 <b>1000억원 기금</b>을 만들어 연매출 3억원 이하 영세가맹점의 단말기 교체 비용을 지원했다. 수천만원대 키오스크를 쓰는 셀프주유소는 2020년 7월까지 유예를 받았다.</p>
+
+    <p>현장에서는 다른 일도 생겼다. 카드를 꽂아야 하니 <b>중복 결제 사고가 줄었다</b>. 대신 편의점 직원 증언 기준 다섯 명 중 한 명은 카드를 제대로 끝까지 꽂지 않고, 단말기에 카드를 두고 가는 사람도 늘었다.</p>
+
+    <p>POS 제품 관점에서 중요한 건 이 지점이다. IC는 카드와 단말기가 주고받는 프로토콜이라 <span class="hl">단말기 자체가 인증 대상</span>이 된다. 하드웨어에 규격 인증과 등록이 걸리는 만큼 신규 진입 장벽이 높다.</p>
+
+    <p class="mono">확인 필요: EMVCo Level 1·2 인증과 국내 단말기 기술 기준의 정확한 관계, 국내 규격(KLSC)과 EMV의 차이는 원문 확인이 필요하다.</p>
+  </section>
+
+
+  <section>
+    <span class="eyebrow">출처</span>
+    <h2>참조 원본</h2>
+    <ul class="src">
+      <li><a href="https://en.wikipedia.org/wiki/EMV">EMV · Wikipedia</a><small>EMVCo 구성, 12단계 거래 흐름, SDA·DDA·CDA 정의와 TC·ARQC·AAC 구분의 1차 정리</small></li>
+      <li><a href="https://pratikdhanave.com/blog/posts/fintech-emv-cryptogram-arqc.html">EMV Cryptograms: ARQC, ARPC, and Offline Data Authentication</a><small>세션키 파생(MK·ATC), CDOL1 입력 필드, ARQC·ARPC 상호 인증 시퀀스</small></li>
+      <li><a href="https://www.seoul.co.kr/news/economy/2015/05/13/20150513800143">7월부터 '긁지 않고 끼워넣는' IC카드 단말기 우선 보급 · 서울신문</a><small>2015년 7월 21일 개정 여전법 시행, 단말기 등록제, 1000억 기금, 3년 계도기간 원문</small></li>
+      <li><a href="https://www.sisajournal-e.com/news/articleView.html?idxno=187215">"카드 긁어주세요" 사라진 가맹점 · 시사저널e</a><small>2018년 7월 전환율 98.5%, 연매출 3억 이하 지원 기준, 현장 반응</small></li>
+      <li><a href="https://namu.wiki/w/%EA%B8%88%EC%9C%B5IC%EC%B9%B4%EB%93%9C">금융IC카드 · 나무위키</a><small>2002년 시범 도입, 계도기간 종료 시점, 셀프주유소 2020년 7월 유예</small></li>
+      <li><a href="https://docs.tosspayments.com/resources/glossary/card-payment">카드 결제 총정리 · 토스페이먼츠 개발자센터</a><small>Day 1의 승인·매입 3단계와 오늘의 프로토콜 계층을 연결해 읽을 기준 문서</small></li>
+    </ul>
+  </section>
+
+  <nav class="pager">
+    <a class="prev" href="day-07.html"><small>← DAY 07</small>결제 한 건의 일생</a>
+    <a class="next" href="day-09.html"><small>DAY 09 →</small>꽂지 않는 결제</a>
+  </nav>
+
+  <footer>
+    <b>내일 Day 9</b><br>
+    NFC 컨택리스, 삼성페이 MST, 그리고 애플페이 국내 도입 구조. 꽂는 대신 대는 결제가 오늘의 ARQC를 어떻게 그대로 쓰는지 본다.
+  </footer>
+
+</div>
+
+</body></html>

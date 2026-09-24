@@ -1,0 +1,470 @@
+<!doctype html><html lang="ko"><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>페이 밑의 두 갈래</title>
+</head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --ground:#FFFFFF;
+  --surface:#F2F6F5;
+  --ink:#0F1513;
+  --ink-soft:#37433F;
+  --muted:#67736F;
+  --line:#DCE5E2;
+  --line-soft:#EBF1EF;
+  --key:#0A6A4C;
+  --key-soft:#E3F2EC;
+  --key-wash:#F0F8F5;
+  --late:#8A5E14;
+  --late-soft:#F7EFDE;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0C110F;
+    --surface:#151D1A;
+    --ink:#EAF1EE;
+    --ink-soft:#C3CFCB;
+    --muted:#8E9D98;
+    --line:#27332F;
+    --line-soft:#1B2522;
+    --key:#54CE9E;
+    --key-soft:#122A22;
+    --key-wash:#101B18;
+    --late:#D8AB57;
+    --late-soft:#282013;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0C110F;
+  --surface:#151D1A;
+  --ink:#EAF1EE;
+  --ink-soft:#C3CFCB;
+  --muted:#8E9D98;
+  --line:#27332F;
+  --line-soft:#1B2522;
+  --key:#54CE9E;
+  --key-soft:#122A22;
+  --key-wash:#101B18;
+  --late:#D8AB57;
+  --late-soft:#282013;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:'IBM Plex Sans KR','Apple SD Gothic Neo',system-ui,sans-serif;
+  font-size:17.5px;
+  line-height:1.9;
+  letter-spacing:-.003em;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{
+  max-width:34rem;
+  margin:0 auto;
+  padding-inline:22px;
+  padding-block:36px 80px;
+}
+
+/* ── masthead ───────────────────────── */
+.masthead{display:flex;flex-direction:column;gap:16px;margin-bottom:38px}
+.daymeta{
+  display:flex;align-items:center;gap:9px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+}
+.daymeta b{color:var(--key);font-size:14px}
+.daymeta s{text-decoration:none;color:var(--line)}
+h1{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:clamp(30px,9vw,40px);
+  line-height:1.3;
+  letter-spacing:-.015em;
+  margin:0;
+  text-wrap:balance;
+}
+.sub{margin:0;color:var(--muted);font-size:15.5px;line-height:1.7}
+
+/* ── 핵심 3줄 ───────────────────────── */
+.gist{
+  background:var(--key-wash);
+  border:1px solid var(--key-soft);
+  border-radius:10px;
+  padding:22px 20px;
+  margin-bottom:40px;
+  counter-reset:g;
+}
+.gist h2{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--key);margin:0 0 14px;border:0;padding:0;
+}
+.gist li{
+  list-style:none;position:relative;
+  padding-left:30px;
+  font-size:16.5px;line-height:1.75;
+  color:var(--ink-soft);
+}
+.gist li + li{margin-top:13px}
+.gist li::before{
+  counter-increment:g;content:counter(g);
+  position:absolute;left:0;top:.28em;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--key);color:var(--ground);
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  line-height:20px;text-align:center;
+}
+.gist ul{margin:0;padding:0}
+.gist b{color:var(--ink);font-weight:600}
+
+/* ── figure ─────────────────────────── */
+figure{margin:0 0 42px;display:flex;flex-direction:column;gap:14px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:14.5px;color:var(--muted);line-height:1.7}
+
+/* ── sections ───────────────────────── */
+section{margin-bottom:46px}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:6px;
+}
+h2{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:25px;
+  line-height:1.45;
+  letter-spacing:-.01em;
+  margin:0 0 20px;
+  text-wrap:balance;
+}
+p{margin:0 0 18px}
+p:last-child{margin-bottom:0}
+b,strong{font-weight:600;color:var(--ink)}
+.hl{background:var(--key-soft);padding:.1em .25em;border-radius:3px;font-weight:600}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:.88em;color:var(--muted)}
+
+/* takeaway line per section */
+.take{
+  display:flex;gap:12px;align-items:flex-start;
+  border-left:3px solid var(--key);
+  padding:2px 0 2px 15px;
+  margin:0 0 22px;
+  font-size:16.5px;line-height:1.7;
+  color:var(--ink-soft);
+}
+
+/* role list */
+.roles{margin:0 0 20px;padding:0}
+.roles div{
+  display:grid;
+  grid-template-columns:7.5rem 1fr;
+  gap:2px 14px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line-soft);
+  align-items:baseline;
+}
+.roles div:first-child{border-top:1px solid var(--line-soft)}
+.roles dt{font-weight:600;font-size:16px;line-height:1.5}
+.roles dd{margin:0;font-size:15.5px;color:var(--muted);line-height:1.65}
+@media(max-width:440px){
+  .roles div{grid-template-columns:1fr;gap:1px}
+}
+
+/* two-card compare */
+.split{display:flex;flex-direction:column;gap:14px;margin:0 0 22px}
+.split > div{
+  border-radius:10px;
+  padding:20px;
+  background:var(--surface);
+}
+.split h3{
+  margin:0 0 8px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+}
+.split p{font-size:16px;line-height:1.75;margin:0;color:var(--ink-soft)}
+.s-now{box-shadow:inset 3px 0 0 var(--key)}
+.s-now h3{color:var(--key)}
+.s-late{box-shadow:inset 3px 0 0 var(--late)}
+.s-late h3{color:var(--late)}
+
+/* rates table */
+.tblscroll{overflow-x:auto;margin:0 0 18px}
+.rates{width:100%;border-collapse:collapse;font-size:16px}
+.rates caption{
+  text-align:left;font-size:13.5px;color:var(--muted);
+  padding-bottom:10px;line-height:1.6;
+}
+.rates th,.rates td{padding:11px 8px;border-bottom:1px solid var(--line-soft);text-align:right;white-space:nowrap}
+.rates th:first-child,.rates td:first-child{text-align:left}
+.rates thead th{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  border-bottom-color:var(--line);
+}
+.rates td{font-variant-numeric:tabular-nums;color:var(--ink-soft)}
+.rates tbody tr:first-child td{color:var(--ink);font-weight:600}
+
+/* pull quote */
+.pull{
+  background:var(--key-soft);
+  border-radius:10px;
+  padding:26px 22px;
+  margin-bottom:46px;
+}
+.pull span{
+  display:block;margin-bottom:12px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--key);
+}
+.pull q{
+  font-family:'Gowun Batang',serif;
+  font-size:19px;line-height:1.85;quotes:'"' '"';
+  display:block;
+}
+
+/* sources */
+.src{list-style:none;margin:0;padding:0}
+.src li{padding:15px 0;border-bottom:1px solid var(--line-soft)}
+.src li:first-child{border-top:1px solid var(--line-soft)}
+.src a{
+  color:var(--ink);text-decoration:none;font-weight:600;
+  font-size:16px;line-height:1.6;
+  box-shadow:inset 0 -2px 0 var(--key);
+}
+.src a:hover{color:var(--key)}
+.src a:focus-visible{outline:2px solid var(--key);outline-offset:3px}
+.src small{display:block;color:var(--muted);font-size:14.5px;line-height:1.65;margin-top:7px}
+
+footer{
+  margin-top:46px;
+  font-size:15px;color:var(--muted);line-height:1.8;
+  border-top:1px solid var(--line);padding-top:22px;
+}
+footer b{color:var(--ink-soft)}
+/* site nav */
+.back{display:inline-block;margin-bottom:28px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--key)}
+.pager{display:flex;gap:12px;margin-top:46px}
+.pager a{flex:1;min-width:0;display:block;padding:14px 16px;border:1px solid var(--line);border-radius:10px;color:var(--ink);text-decoration:none;font-size:15px;line-height:1.5}
+.pager a:hover{border-color:var(--key);color:var(--key)}
+.pager a small{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted)}
+.pager .next{text-align:right}
+.pager span{flex:1}
+</style>
+
+<div class="wrap">
+
+  <a class="back" href="../payment-domain-map.html">← 결제 도메인 지도</a>
+
+  <header class="masthead">
+    <div class="daymeta"><b>DAY 11</b><s>/</s>21<s>·</s>결제 수단별 프로토콜</div>
+    <h1>페이 밑의 두 갈래</h1>
+    <p class="sub">같은 QR인데 원가 구조가 완전히 다른 이유</p>
+  </header>
+
+  <div class="gist">
+    <h2>핵심 3줄</h2>
+    <ul>
+      <li>간편결제는 결제수단이 아니라 <b>UX 레이어</b>다. 그 밑에 카드망과 계좌망, 완전히 다른 두 길이 깔려 있다.</li>
+      <li><b>카드 기반</b>은 카드 가맹점수수료가 원가로 깔린다. 페이사는 그 위에 얹을 뿐, 그 밑으로는 못 내려간다.</li>
+      <li><b>계좌 기반</b>은 원가가 정률이 아니라 <b>건당 정액</b>이다. 정률로 팔수록 마진이 벌어지는 구조가 여기서 나온다.</li>
+    </ul>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 340 476" role="img" aria-label="간편결제 분기도: 하나의 페이 앱 결제가 카드 기반과 계좌·선불 기반 두 경로로 갈라지고, 각 경로의 원가 단위가 정률과 정액으로 다르다">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/>
+        </marker>
+      </defs>
+
+      <text x="0" y="11" fill="var(--muted)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.4">사장님 화면은 하나</text>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="14.5" font-weight="500">
+        <rect x="0" y="20" width="340" height="42" rx="6" fill="var(--surface)"/>
+        <text x="16" y="46" fill="var(--ink)">페이 앱 · QR 한 번</text>
+      </g>
+
+      <g stroke="var(--muted)" stroke-width="1.3" fill="none" marker-end="url(#ar)">
+        <path d="M170 62 V 74 H 34 V 90"/>
+        <path d="M170 62 V 74 H 216 V 90"/>
+      </g>
+
+      <text x="0" y="108" fill="var(--key)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.2">카드 기반</text>
+      <text x="182" y="108" fill="var(--late)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.2">계좌 · 선불 기반</text>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="13.5" font-weight="500">
+        <rect x="0" y="118" width="158" height="40" rx="6" fill="var(--key-wash)"/>
+        <text x="14" y="143" fill="var(--ink)">등록된 카드</text>
+        <rect x="182" y="118" width="158" height="40" rx="6" fill="var(--late-soft)"/>
+        <text x="196" y="143" fill="var(--ink)">충전금 · 계좌</text>
+
+        <rect x="0" y="176" width="158" height="40" rx="6" fill="var(--key-wash)"/>
+        <text x="14" y="201" fill="var(--ink)">카드사 승인망</text>
+        <rect x="182" y="176" width="158" height="40" rx="6" fill="var(--late-soft)"/>
+        <text x="196" y="201" fill="var(--ink)">은행 출금이체</text>
+
+        <rect x="0" y="234" width="158" height="40" rx="6" fill="var(--key-wash)"/>
+        <text x="14" y="259" fill="var(--ink)">매입사 정산</text>
+        <rect x="182" y="234" width="158" height="40" rx="6" fill="var(--late-soft)"/>
+        <text x="196" y="259" fill="var(--ink)">페이사 정산</text>
+      </g>
+
+      <g stroke="var(--muted)" stroke-width="1.3" marker-end="url(#ar)">
+        <line x1="34" y1="158" x2="34" y2="173"/>
+        <line x1="216" y1="158" x2="216" y2="173"/>
+        <line x1="34" y1="216" x2="34" y2="231"/>
+        <line x1="216" y1="216" x2="216" y2="231"/>
+      </g>
+
+      <line x1="0" y1="298" x2="340" y2="298" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 6"/>
+      <text x="0" y="322" fill="var(--muted)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.4">원가의 단위</text>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="13.5">
+        <rect x="0" y="332" width="158" height="58" rx="6" fill="var(--surface)"/>
+        <text x="14" y="355" fill="var(--ink)" font-weight="600">가맹점수수료</text>
+        <text x="14" y="376" fill="var(--key)" font-size="12.5">정률 0.40~1.45%</text>
+
+        <rect x="182" y="332" width="158" height="58" rx="6" fill="var(--surface)"/>
+        <text x="196" y="355" fill="var(--ink)" font-weight="600">출금 · 충전 비용</text>
+        <text x="196" y="376" fill="var(--late)" font-size="12.5">정액 건당 수십원</text>
+      </g>
+
+      <g stroke="var(--muted)" stroke-width="1.3" fill="none" marker-end="url(#ar)">
+        <path d="M79 390 V 404 H 170 V 420"/>
+        <path d="M261 390 V 404 H 170 V 420"/>
+      </g>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="14.5" font-weight="500">
+        <rect x="0" y="424" width="340" height="42" rx="6" fill="var(--surface)"/>
+        <text x="16" y="450" fill="var(--ink)">가맹점 통장 · 입금 건이 갈라진다</text>
+      </g>
+    </svg>
+    <figcaption>결제 버튼은 하나인데 아래로 갈라지고, 통장에서 다시 여러 건으로 만난다. 원가의 단위가 한쪽은 퍼센트, 한쪽은 원이라는 게 오늘의 전부다.</figcaption>
+  </figure>
+
+  <section>
+    <span class="eyebrow">01 · 갈래</span>
+    <h2>간편결제는 결제수단이 아니다</h2>
+
+    <p class="take">"페이"는 UX 브랜드다. 그 밑에서 실제로 돈이 흐르는 망은 둘로 갈린다.</p>
+
+    <p>삼성페이로 단말에 갖다 대든, 카카오페이 QR을 찍든, 사장님 화면에는 똑같이 승인 완료가 뜬다. 그래서 하나의 결제수단처럼 보이지만 아니다.</p>
+
+    <p><b>카드 기반</b>은 앱에 등록된 카드가 평소처럼 카드사 승인망을 탄다. Day 1에서 본 승인, 매입, 정산 3단계가 그대로 돌아간다. 페이사는 그 앞에 붙은 인증과 UX 레이어일 뿐이다.</p>
+
+    <p><b>계좌 기반</b>은 카드망을 아예 안 탄다. 미리 충전해둔 선불금 잔액에서 차감하거나, 오픈뱅킹으로 계좌에서 바로 출금한다. <span class="hl">이 경로에는 카드사도 VAN도 등장하지 않는다.</span></p>
+
+    <p>인프라로 옮기면, 호출부는 같은 엔드포인트인데 하나는 매니지드 서비스로 프록시되고 하나는 자체 원장에 직접 쓴다. 인터페이스가 같다고 백엔드 비용이 같지는 않다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">02 · 바닥</span>
+    <h2>카드 기반은 내려갈 수 있는 바닥이 정해져 있다</h2>
+
+    <p class="take">카드사 수수료는 페이사 입장에서 협상 불가능한 원가다.</p>
+
+    <p>금융위가 2026년 공시 개편안에서 수수료를 둘로 쪼개 표기하도록 한 게 정확히 이 지점이다. <b>외부수취</b>는 카드사나 상위 PG가 가져가는 몫, <b>자체수취</b>는 페이사 본인 몫.</p>
+
+    <div class="split">
+      <div class="s-now">
+        <h3>카드 기반 원가</h3>
+        <p>영세가맹점 카드 우대수수료율이 0.40%라면, 카드 기반 페이 결제는 구조적으로 그 아래가 불가능하다. 0.40%가 이미 남의 몫이기 때문이다.</p>
+      </div>
+      <div class="s-late">
+        <h3>계좌 기반 원가</h3>
+        <p>은행 출금이체 수수료와 충전금 운용·정산 비용. 카드사 몫이 없으니 바닥 자체가 없다. 대신 건당으로 붙는다.</p>
+      </div>
+    </div>
+
+    <p>그래서 페이사 요율과 카드사 요율을 나란히 놓고 "페이가 3배 비싸다"고 읽으면 틀린다. 연매출 30억 이하 구간 기준으로 카드사가 0.40~1.45%, 네이버페이 0.81~1.77%, 카카오페이 0.56~1.94%인데, 페이 쪽 숫자 안에는 카드사 몫이 이미 들어 있다.</p>
+
+    <p>AWS 위에 얹은 매니지드 서비스가 EC2 정가 아래로는 못 파는 것과 같다. 마진처럼 보이는 구간이 사실은 얇다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 · 단위</span>
+    <h2>퍼센트로 사서 퍼센트로 팔기 vs 원으로 사서 퍼센트로 팔기</h2>
+
+    <p class="take">원가가 정액인데 판매가가 정률이면, 결제금액이 커질수록 마진이 벌어진다.</p>
+
+    <p>5만원짜리 결제를 놓고 보자. 카드 기반이면 원가가 1.45% 기준 725원, 10만원이면 1,450원으로 정직하게 따라 올라간다.</p>
+
+    <p>계좌 기반이면 원가는 건당이다. 오픈뱅킹 출금이체 수수료는 2021년 인하 합의 당시 기존 건당 400~500원에서 10분의 1 수준으로 내리기로 했다. 현재 실제 요율은 계약별 비공개라 <span class="mono">확인 필요</span>지만, 단위가 원이라는 사실은 변하지 않는다.</p>
+
+    <p>즉 결제금액이 두 배가 돼도 계좌 기반 원가는 그대로다. <span class="hl">그런데 가맹점에게는 똑같이 정률로 받는다.</span> 고액 결제일수록 마진이 열린다는 뜻이다.</p>
+
+    <div class="tblscroll">
+      <table class="rates">
+        <caption>2025년 8~10월 결제수수료율 시범공시 평균 (금융위·금감원, 전자금융업자 17곳)</caption>
+        <thead><tr><th>구분</th><th>평균 요율</th><th>전기 대비</th></tr></thead>
+        <tbody>
+          <tr><td>카드 기반</td><td>1.97%</td><td>-0.06%p</td></tr>
+          <tr><td>선불 기반</td><td>1.76%</td><td>-0.09%p</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>원가 격차에 비하면 판매가 격차가 작다는 게 이 표의 핵심이다. 0.21%p 차이로는 원가 구조의 차이가 설명되지 않는다.</p>
+
+    <p>그리고 같은 시범공시에서, 매출 규모와 무관하게 전 구간 같은 요율을 매기는 사례가 여럿 확인됐다. 우대수수료율이 법으로 강제되는 카드와 달리, 선불 쪽은 아직 그 규율이 얇다.</p>
+
+    <dl class="roles">
+      <div><dt>11번가</dt><dd>선불 전 구간 2.00% 동일</dd></div>
+      <div><dt>우아한형제들</dt><dd>선불 전 구간 3.00% 동일</dd></div>
+      <div><dt>티머니</dt><dd>영세부터 일반까지 1.38% 동일</dd></div>
+      <div><dt>한국정보통신</dt><dd>전 구간 선불 1.82%</dd></div>
+    </dl>
+
+    <p>이제 왜 페이사들이 충전 리워드와 포인트 적립으로 계좌·선불 쪽을 미는지 보인다. 마케팅처럼 보이지만 실은 원가 최적화다. 비싼 리전에서 싼 리전으로 트래픽을 옮기는 것과 같은 동기다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 · POS의 문제</span>
+    <h2>수단이 늘면 정산 경로가 늘어난다</h2>
+
+    <p class="take">사장님 통장에 찍히는 입금 건수는 결제수단 개수만큼 늘어난다.</p>
+
+    <p>한국은행 집계 기준 2026년 상반기 간편지급 일평균 이용금액이 1조 2,264억원, 전년 동기 대비 16.8% 늘었다. 간편송금은 1조 1,728억원이다. 오프라인 매장에서도 페이 비중은 계속 올라간다.</p>
+
+    <p>문제는 경로다. 카드 기반은 매입사를 거쳐 D+2에 들어오고, 계좌 기반은 페이사가 정산 주체라 자체 사이클로 들어온다. 날짜도 금액 단위도 다르다.</p>
+
+    <p>하루 매출 100만원이 카드사 입금 한 건이 아니라, 카드사 입금 + 네이버페이 입금 + 카카오페이 입금으로 쪼개져 며칠에 걸쳐 도착한다. <span class="hl">사장님이 장부를 못 맞추는 진짜 이유가 이것이다.</span></p>
+
+    <p>그래서 POS의 실제 가치는 결제를 받는 데 있지 않다. 흩어져 들어온 입금을 원래 주문 건에 다시 붙이는 <b>정산 대사</b>에 있다. 분산 시스템에서 여러 큐로 흩어진 이벤트를 하나의 트랜잭션 ID로 다시 묶는 작업과 구조가 같다.</p>
+
+    <p>Day 1에서 본 첫 번째 이유가 "수수료율은 이미 정부가 정한 상수"였다면, 두 번째 이유가 이거다. POS 사업자들이 정산 경험으로 승부를 거는 자리.</p>
+  </section>
+
+
+  <section>
+    <span class="eyebrow">출처</span>
+    <h2>참조 원본</h2>
+    <ul class="src">
+      <li><a href="https://fsc.go.kr/no010101/85420">전자금융업 결제수수료 공시 확대 및 PG업 규율 강화방안 · 금융위원회</a><small>외부수취와 자체수취 구분, 공시 대상 단계적 확대(2026년 월 5,000억원 이상 → 2028년 전 선불·PG업자)의 1차 출처</small></li>
+      <li><a href="https://v.daum.net/v/20260113060001510">간편결제 수수료 소폭 인하, 배민·11번가 '선불' 평균 웃돌아</a><small>전자금융업자 17곳 시범공시 결과. 카드 1.97% / 선불 1.76% 평균과 업체별 동일요율 사례</small></li>
+      <li><a href="https://www.news1.kr/finance/blockchain-fintech/5854972">페이로 매장 결제하면 수수료 비싸다? "체크카드 수준" · 뉴스1</a><small>연매출 30억 이하 구간 카드사·네이버페이·카카오페이 요율 비교와 카드 원가 포함 구조 설명</small></li>
+      <li><a href="https://www.fnnews.com/news/202609181111376191">간편결제·송금 하루 이용액 2조원 넘어 · 파이낸셜뉴스</a><small>한국은행 2026년 상반기 전자지급서비스 이용현황. 간편지급 일평균 1조 2,264억원, 전년 대비 16.8% 증가</small></li>
+      <li><a href="https://m.etnews.com/20201211000118">오픈뱅킹 조회수수료, 3분의 1로 낮춘다 · 전자신문</a><small>계좌 기반 원가가 건당 정액이라는 근거. 다만 2020년 합의 시점 기준이라 현행 요율은 확인 필요</small></li>
+    </ul>
+  </section>
+
+  <nav class="pager">
+    <a class="prev" href="day-10.html"><small>← DAY 10</small>QR이라는 봉투</a>
+    <a class="next" href="day-12.html"><small>DAY 12 →</small>카드번호가 사라지는 자리</a>
+  </nav>
+
+  <footer>
+    <b>내일 Day 12</b><br>
+    토큰화(Network Token)와 PCI DSS. 오늘 "앱에 등록된 카드"라고 뭉개고 지나간 부분, 실제로 앱에 무엇이 저장되는가를 판다.
+  </footer>
+
+</div>
+
+</body></html>

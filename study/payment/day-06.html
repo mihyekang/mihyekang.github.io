@@ -1,0 +1,463 @@
+<!doctype html><html lang="ko"><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>매출과 입금 사이</title>
+</head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --ground:#FFFFFF;
+  --surface:#F2F6F5;
+  --ink:#0F1513;
+  --ink-soft:#37433F;
+  --muted:#67736F;
+  --line:#DCE5E2;
+  --line-soft:#EBF1EF;
+  --key:#0A6A4C;
+  --key-soft:#E3F2EC;
+  --key-wash:#F0F8F5;
+  --late:#8A5E14;
+  --late-soft:#F7EFDE;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0C110F;
+    --surface:#151D1A;
+    --ink:#EAF1EE;
+    --ink-soft:#C3CFCB;
+    --muted:#8E9D98;
+    --line:#27332F;
+    --line-soft:#1B2522;
+    --key:#54CE9E;
+    --key-soft:#122A22;
+    --key-wash:#101B18;
+    --late:#D8AB57;
+    --late-soft:#282013;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0C110F;
+  --surface:#151D1A;
+  --ink:#EAF1EE;
+  --ink-soft:#C3CFCB;
+  --muted:#8E9D98;
+  --line:#27332F;
+  --line-soft:#1B2522;
+  --key:#54CE9E;
+  --key-soft:#122A22;
+  --key-wash:#101B18;
+  --late:#D8AB57;
+  --late-soft:#282013;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:'IBM Plex Sans KR','Apple SD Gothic Neo',system-ui,sans-serif;
+  font-size:17.5px;
+  line-height:1.9;
+  letter-spacing:-.003em;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{
+  max-width:34rem;
+  margin:0 auto;
+  padding-inline:22px;
+  padding-block:36px 80px;
+}
+
+/* ── masthead ───────────────────────── */
+.masthead{display:flex;flex-direction:column;gap:16px;margin-bottom:38px}
+.daymeta{
+  display:flex;align-items:center;gap:9px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+}
+.daymeta b{color:var(--key);font-size:14px}
+.daymeta s{text-decoration:none;color:var(--line)}
+h1{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:clamp(30px,9vw,40px);
+  line-height:1.3;
+  letter-spacing:-.015em;
+  margin:0;
+  text-wrap:balance;
+}
+.sub{margin:0;color:var(--muted);font-size:15.5px;line-height:1.7}
+
+/* ── 핵심 3줄 ───────────────────────── */
+.gist{
+  background:var(--key-wash);
+  border:1px solid var(--key-soft);
+  border-radius:10px;
+  padding:22px 20px;
+  margin-bottom:40px;
+  counter-reset:g;
+}
+.gist h2{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--key);margin:0 0 14px;border:0;padding:0;
+}
+.gist li{
+  list-style:none;position:relative;
+  padding-left:30px;
+  font-size:16.5px;line-height:1.75;
+  color:var(--ink-soft);
+}
+.gist li + li{margin-top:13px}
+.gist li::before{
+  counter-increment:g;content:counter(g);
+  position:absolute;left:0;top:.28em;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--key);color:var(--ground);
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  line-height:20px;text-align:center;
+}
+.gist ul{margin:0;padding:0}
+.gist b{color:var(--ink);font-weight:600}
+
+/* ── figure ─────────────────────────── */
+figure{margin:0 0 42px;display:flex;flex-direction:column;gap:14px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:14.5px;color:var(--muted);line-height:1.7}
+
+/* ── sections ───────────────────────── */
+section{margin-bottom:46px}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:6px;
+}
+h2{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:25px;
+  line-height:1.45;
+  letter-spacing:-.01em;
+  margin:0 0 20px;
+  text-wrap:balance;
+}
+p{margin:0 0 18px}
+p:last-child{margin-bottom:0}
+b,strong{font-weight:600;color:var(--ink)}
+.hl{background:var(--key-soft);padding:.1em .25em;border-radius:3px;font-weight:600}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:.88em;color:var(--muted)}
+
+/* takeaway line per section */
+.take{
+  display:flex;gap:12px;align-items:flex-start;
+  border-left:3px solid var(--key);
+  padding:2px 0 2px 15px;
+  margin:0 0 22px;
+  font-size:16.5px;line-height:1.7;
+  color:var(--ink-soft);
+}
+
+/* role list */
+.roles{margin:0 0 20px;padding:0}
+.roles div{
+  display:grid;
+  grid-template-columns:7.5rem 1fr;
+  gap:2px 14px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line-soft);
+  align-items:baseline;
+}
+.roles div:first-child{border-top:1px solid var(--line-soft)}
+.roles dt{font-weight:600;font-size:16px;line-height:1.5}
+.roles dd{margin:0;font-size:15.5px;color:var(--muted);line-height:1.65}
+@media(max-width:440px){
+  .roles div{grid-template-columns:1fr;gap:1px}
+}
+
+/* two-card compare */
+.split{display:flex;flex-direction:column;gap:14px;margin:0 0 22px}
+.split > div{
+  border-radius:10px;
+  padding:20px;
+  background:var(--surface);
+}
+.split h3{
+  margin:0 0 8px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+}
+.split p{font-size:16px;line-height:1.75;margin:0;color:var(--ink-soft)}
+.s-now{box-shadow:inset 3px 0 0 var(--key)}
+.s-now h3{color:var(--key)}
+.s-late{box-shadow:inset 3px 0 0 var(--late)}
+.s-late h3{color:var(--late)}
+
+/* rates table */
+.tblscroll{overflow-x:auto;margin:0 0 18px}
+.rates{width:100%;border-collapse:collapse;font-size:16px}
+.rates caption{
+  text-align:left;font-size:13.5px;color:var(--muted);
+  padding-bottom:10px;line-height:1.6;
+}
+.rates th,.rates td{padding:11px 8px;border-bottom:1px solid var(--line-soft);text-align:right;white-space:nowrap}
+.rates th:first-child,.rates td:first-child{text-align:left}
+.rates thead th{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  border-bottom-color:var(--line);
+}
+.rates td{font-variant-numeric:tabular-nums;color:var(--ink-soft)}
+.rates tbody tr:first-child td{color:var(--ink);font-weight:600}
+/* text-heavy variant: left align everything */
+.rates.txt th,.rates.txt td{text-align:left}
+.rates.txt tbody tr:first-child td{color:var(--ink-soft);font-weight:400}
+.rates.txt tbody td:first-child{color:var(--ink);font-weight:600}
+.rates.txt td:last-child{color:var(--muted);font-size:14.5px;white-space:normal}
+
+/* pull quote */
+.pull{
+  background:var(--key-soft);
+  border-radius:10px;
+  padding:26px 22px;
+  margin-bottom:46px;
+}
+.pull span{
+  display:block;margin-bottom:12px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--key);
+}
+.pull q{
+  font-family:'Gowun Batang',serif;
+  font-size:19px;line-height:1.85;quotes:'"' '"';
+  display:block;
+}
+
+/* sources */
+.src{list-style:none;margin:0;padding:0}
+.src li{padding:15px 0;border-bottom:1px solid var(--line-soft)}
+.src li:first-child{border-top:1px solid var(--line-soft)}
+.src a{
+  color:var(--ink);text-decoration:none;font-weight:600;
+  font-size:16px;line-height:1.6;
+  box-shadow:inset 0 -2px 0 var(--key);
+}
+.src a:hover{color:var(--key)}
+.src a:focus-visible{outline:2px solid var(--key);outline-offset:3px}
+.src small{display:block;color:var(--muted);font-size:14.5px;line-height:1.65;margin-top:7px}
+
+footer{
+  margin-top:46px;
+  font-size:15px;color:var(--muted);line-height:1.8;
+  border-top:1px solid var(--line);padding-top:22px;
+}
+footer b{color:var(--ink-soft)}
+/* site nav */
+.back{display:inline-block;margin-bottom:28px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--key)}
+.pager{display:flex;gap:12px;margin-top:46px}
+.pager a{flex:1;min-width:0;display:block;padding:14px 16px;border:1px solid var(--line);border-radius:10px;color:var(--ink);text-decoration:none;font-size:15px;line-height:1.5}
+.pager a:hover{border-color:var(--key);color:var(--key)}
+.pager a small{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted)}
+.pager .next{text-align:right}
+.pager span{flex:1}
+</style>
+
+<div class="wrap">
+
+  <a class="back" href="../payment-domain-map.html">← 결제 도메인 지도</a>
+
+  <header class="masthead">
+    <div class="daymeta"><b>DAY 06</b><s>/</s>21<s>·</s>결제 기본기</div>
+    <h1>매출과 입금 사이</h1>
+    <p class="sub">D+2라는 시차, 그리고 그 시차를 파는 사업</p>
+  </header>
+
+  <div class="gist">
+    <h2>핵심 3줄</h2>
+    <ul>
+      <li>D+2는 서버가 느려서가 아니다. <b>전표 접수일부터 3영업일 이내</b>라는 약관 상한과 배치 주기가 만든 숫자다.</li>
+      <li>기준은 달력일이 아니라 <b>영업일</b>이다. 금요일 매출은 화요일에 들어온다. 사장님이 체감하는 건 평균이 아니라 최악의 주다.</li>
+      <li>선정산은 정산을 앞당기는 게 아니다. <b>정산채권을 담보로 미리 빌려주는 것</b>이다. 시차는 그대로고 리스크만 이동한다.</li>
+    </ul>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 340 214" role="img" aria-label="같은 D+2라도 평일 결제는 달력 2일, 금요일 결제는 주말이 끼어 달력 4일이 걸린다는 것을 보여주는 달력 다이어그램">
+      <text x="0" y="11" fill="var(--key)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.4">영업일 기준 D+2</text>
+
+      <!-- 요일 헤더 -->
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="11.5" fill="var(--muted)" text-anchor="middle">
+        <text x="18" y="40">월</text>
+        <text x="56" y="40">화</text>
+        <text x="94" y="40">수</text>
+        <text x="132" y="40">목</text>
+        <text x="170" y="40">금</text>
+        <text x="208" y="40" fill="var(--late)">토</text>
+        <text x="246" y="40" fill="var(--late)">일</text>
+        <text x="284" y="40">월</text>
+        <text x="322" y="40">화</text>
+      </g>
+
+      <!-- 케이스 A -->
+      <text x="0" y="60" font-family="'IBM Plex Mono',monospace" font-size="11" fill="var(--muted)" letter-spacing="1">월요일 결제<tspan fill="var(--key)" dx="8">달력 2일</tspan></text>
+      <g>
+        <rect x="1" y="68" width="34" height="34" rx="5" fill="var(--key)"/>
+        <rect x="39" y="68" width="34" height="34" rx="5" fill="var(--surface)"/>
+        <rect x="77" y="68" width="34" height="34" rx="5" fill="var(--late-soft)" stroke="var(--late)" stroke-width="1.2"/>
+        <rect x="115" y="68" width="34" height="34" rx="5" fill="var(--surface)" opacity=".4"/>
+        <rect x="153" y="68" width="34" height="34" rx="5" fill="var(--surface)" opacity=".4"/>
+        <rect x="191" y="68" width="34" height="34" rx="5" fill="var(--line-soft)"/>
+        <rect x="229" y="68" width="34" height="34" rx="5" fill="var(--line-soft)"/>
+        <rect x="267" y="68" width="34" height="34" rx="5" fill="var(--surface)" opacity=".4"/>
+        <rect x="305" y="68" width="34" height="34" rx="5" fill="var(--surface)" opacity=".4"/>
+        <g font-family="'IBM Plex Sans KR',sans-serif" font-size="11.5" font-weight="600" text-anchor="middle">
+          <text x="18" y="89" fill="var(--ground)">결제</text>
+          <text x="94" y="89" fill="var(--late)">입금</text>
+        </g>
+      </g>
+
+      <!-- 케이스 B -->
+      <text x="0" y="132" font-family="'IBM Plex Mono',monospace" font-size="11" fill="var(--muted)" letter-spacing="1">금요일 결제<tspan fill="var(--late)" dx="8">달력 4일</tspan></text>
+      <g>
+        <rect x="1" y="140" width="34" height="34" rx="5" fill="var(--surface)" opacity=".4"/>
+        <rect x="39" y="140" width="34" height="34" rx="5" fill="var(--surface)" opacity=".4"/>
+        <rect x="77" y="140" width="34" height="34" rx="5" fill="var(--surface)" opacity=".4"/>
+        <rect x="115" y="140" width="34" height="34" rx="5" fill="var(--surface)" opacity=".4"/>
+        <rect x="153" y="140" width="34" height="34" rx="5" fill="var(--key)"/>
+        <rect x="191" y="140" width="34" height="34" rx="5" fill="var(--line-soft)"/>
+        <rect x="229" y="140" width="34" height="34" rx="5" fill="var(--line-soft)"/>
+        <rect x="267" y="140" width="34" height="34" rx="5" fill="var(--surface)"/>
+        <rect x="305" y="140" width="34" height="34" rx="5" fill="var(--late-soft)" stroke="var(--late)" stroke-width="1.2"/>
+        <g font-family="'IBM Plex Sans KR',sans-serif" font-size="11.5" font-weight="600" text-anchor="middle">
+          <text x="170" y="161" fill="var(--ground)">결제</text>
+          <text x="208" y="161" fill="var(--muted)" font-weight="400">휴</text>
+          <text x="246" y="161" fill="var(--muted)" font-weight="400">휴</text>
+          <text x="322" y="161" fill="var(--late)">입금</text>
+        </g>
+      </g>
+
+      <text x="0" y="203" font-family="'IBM Plex Sans KR',sans-serif" font-size="11.5" fill="var(--muted)">연휴가 끼면 같은 D+2가 달력 일주일이 된다</text>
+    </svg>
+    <figcaption>두 줄 모두 정확히 "D+2"다. 다른 건 달력뿐이다. 정산 제품이 실제로 싸우는 상대는 평균값이 아니라 이 꼬리 구간이다.</figcaption>
+  </figure>
+
+  <section>
+    <span class="eyebrow">01 · 규칙</span>
+    <h2>D+2는 어디서 나온 숫자인가</h2>
+
+    <p class="take">카드사가 느린 게 아니다. 3영업일이라는 상한 안에서 각자 다르게 잡은 값이다.</p>
+
+    <p>신한카드 가맹점 표준약관 제12조 1항은 <span class="hl">매출전표가 카드사에 접수된 날로부터 3영업일 이내</span> 지급을 규정한다. 부속약관은 리스크가 있는 매출에 한해 5영업일까지 늦출 수 있게 열어둔다.</p>
+
+    <p>여기서 초심자가 반드시 한 번 미끄러진다. <b>D는 결제일이 아니라 매출전표 접수일</b>이다. 단말이 하루치를 언제 배치로 넘겼느냐가 D를 정하고, 그 다음에 3영업일 시계가 돌기 시작한다.</p>
+
+    <div class="tblscroll">
+      <table class="rates txt">
+        <caption>각 사 약관·안내 원문 기준 (2026년 9월 확인). 같은 "정산"인데 기준일도 일수도 다르다.</caption>
+        <thead><tr><th>주체</th><th>기준</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td>신한카드 표준약관</td><td>접수일 + 3영업일 이내</td><td>리스크 매출은 5영업일</td></tr>
+          <tr><td>BC 일반 가맹점</td><td>접수일 + 평균 5영업일</td><td>전표 접수 기준</td></tr>
+          <tr><td>BC 자동청구(EDC)</td><td>판매일 + 약 3영업일</td><td>주말·공휴일분은 통합 처리</td></tr>
+          <tr><td>토스페이 오프라인</td><td>D+3 또는 M+1 선택</td><td>매일 00~01시 전날분 집계</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>인프라로 옮기면 익숙한 그림이다. <b>3영업일은 SLA 상한</b>이고, 실제 입금일은 각 사의 배치 cron 주기와 리스크 정책이 정하는 p50이다. 상한과 실측을 같은 숫자로 착각하면 문서가 계속 안 맞는다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">02 · 달력</span>
+    <h2>영업일이라는 함정</h2>
+
+    <p class="take">같은 D+2가 어떤 날엔 2일, 어떤 날엔 6일이다.</p>
+
+    <p>정산 주기는 전부 영업일 기준이다. 토스페이먼츠 용어사전도 "공휴일 및 주말은 포함되지 않는다"고 못 박는다. 금요일 매출은 월요일에 D+1, 화요일에 D+2가 된다.</p>
+
+    <p>BC카드 자동청구 가맹점은 한 단계 더 뭉친다. <span class="hl">토·일·공휴일 매출은 전 영업일 매출분과 통합해 3영업일 후 입금</span>된다. 주말 사흘치가 한 덩어리로 묶여 밀린다는 뜻이다.</p>
+
+    <p>주말 장사가 본업인 업종에게 이건 작은 차이가 아니다. 매출이 가장 큰 사흘이 입금 관점에서는 가장 늦은 사흘이 된다.</p>
+
+    <p>여기에 추석이나 설이 끼면 D+2의 달력 길이가 일주일로 늘어난다. 그런데 재료비 결제와 임대료 납부일은 달력을 따라 그대로 온다.</p>
+
+    <p>익숙한 프레임으로 정리하면 이건 <b>tail latency 문제</b>다. 평균 응답시간이 아니라 p99가 사용자 경험을 정의하는 것과 똑같다. "우리는 D+2입니다"는 p50 자랑이고, 사장님이 기억하는 건 연휴 직전에 결제된 그 매출이다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 · 통제</span>
+    <h2>지급은 기본값이 아니라 조건부다</h2>
+
+    <p class="take">정산 파이프라인은 늘 열린 관이 아니라, 게이트가 여럿 달린 관이다.</p>
+
+    <dl class="roles">
+      <div><dt>제12조 1항</dt><dd>접수일로부터 3영업일 이내 지급</dd></div>
+      <div><dt>제14조 2항</dt><dd>준수사항 위반, 거래취소 증가, 민원 증가 시 지급 보류</dd></div>
+      <div><dt>제13조 2·3항</dt><dd>가맹점 채무를 차회 지급액에서 공제하거나 상계</dd></div>
+      <div><dt>제6조 8항</dt><dd>카드거래 채권을 카드사 외 제3자에게 양도 금지</dd></div>
+    </dl>
+
+    <p>BC카드는 지급거절 사유를 15가지로 열거해 둔다. 거래승인 미실시, 매출일로부터 90일 경과, 5만원 이상 거래의 회원 서명 누락, 부정사용 혐의, 회원 항변 접수 같은 것들이다.</p>
+
+    <p>즉 승인이 났다고 입금이 보장되는 게 아니다. <b>승인은 발급사의 판단이고, 지급은 매입사의 판단</b>이다. 둘은 별개의 게이트다.</p>
+
+    <p>그리고 위 목록에서 제품 설계상 가장 중요한 줄은 마지막 항목이다. 매출채권을 카드사 외의 제3자에게 넘길 수 없다는 조항. <span class="hl">이 한 줄 때문에 선정산이 "채권 매입"이 아니라 "대출" 형태를 띤다.</span> 다음 섹션의 출발점이다.</p>
+
+    <p>서킷브레이커와 쿼터 상계가 동시에 걸린 API 게이트웨이라고 보면 감이 맞는다. 정상 경로는 단순한데, 예외 경로가 제품 복잡도의 대부분을 차지한다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 · 시장</span>
+    <h2>선정산은 정산이 아니라 대출이다</h2>
+
+    <p class="take">시차를 없애는 게 아니라, 시차만큼의 신용을 파는 것이다.</p>
+
+    <p>구조는 단순하다. 판매를 증빙하는 매출채권을 근거로 대출이 실행되고, 플랫폼이 지정한 정산일에 정산금이 들어오면 자동 상환된다. 사장님 통장에는 돈이 빨리 들어오지만, 장부에는 대출이 잡힌다.</p>
+
+    <div class="split">
+      <div class="s-late">
+        <h3>금융사 선정산 대출</h3>
+        <p>은행·캐피털이 정산채권을 담보로 대출. 정산이 안 들어오면 대출은 <b>그대로 가맹점 빚</b>으로 남는다. 2024년 티메프 사태 때 한 은행의 선정산 대출 평균 기간은 약 60일, 최장 67일이었다.</p>
+      </div>
+      <div class="s-now">
+        <h3>플랫폼 자기자금 선지급</h3>
+        <p>네이버 빠른정산은 배송완료 익일 이후 1영업일에 판매대금의 <b>90%</b>를 수수료 없이 지급한다. 대신 3개월 연속 거래액 100만원 이상, 반품율 20% 미만, 연체기록 없음이라는 조건이 붙는다.</p>
+      </div>
+    </div>
+
+    <p>두 번째 박스의 조건 목록이 핵심이다. 수수료를 안 받는 대신 <b>자격 심사로 리스크를 거른다.</b> 이름은 정산 서비스인데 실제로 하는 일은 언더라이팅이다.</p>
+
+    <p>규모도 작지 않다. 선정산 대출은 2023년 총액 1조2300억원, 2024년 상반기에만 7500억원대로 집계됐다. 티메프 정산 지연이 터지자 은행들이 선정산 대출을 일시 중단했고, 그 순간 셀러들의 현금흐름이 같이 끊겼다.</p>
+
+    <p>그래서 규제가 붙었다. 금융위는 PG업자가 보유한 정산자금을 <b>예치·신탁·지급보증보험</b> 중 하나로 외부관리하도록 의무화했다. 공포 후 1년 경과 시점부터 외부관리 비율 60%로 시작해 매년 20%씩 상향한다. 계약상 정산기한을 어기면 시정명령, 미이행 시 5천만원 이하 과태료다.</p>
+
+    <p>POS 사업자 관점에서 보면 그림이 선명해진다. Day 1에서 봤듯 <span class="hl">우대수수료율은 정부가 정한 상수</span>라 가격으로 경쟁할 수 없다. 남는 축이 정산 경험인데, 그 축을 건드리는 순간 결제 사업자가 아니라 신용 사업자가 된다.</p>
+  </section>
+
+
+  <section>
+    <span class="eyebrow">출처</span>
+    <h2>참조 원본</h2>
+    <ul class="src">
+      <li><a href="https://www.shinhancard.com/pconts/html/helpdesk/terms/terms45/1186823_1199.html">신한카드 가맹점 표준약관</a><small>제12조 3영업일 지급, 제14조 지급보류, 제13조 상계, 제6조 채권양도 금지의 1차 출처</small></li>
+      <li><a href="https://merchant.bccard.com/app/merchant/SaleRcpGuid.do?tabNo=9">매출입금안내 · BC카드 가맹점</a><small>일반 D+5 / 자동청구 D+3, 주말 통합 처리, 지급거절 사유 15가지 원문</small></li>
+      <li><a href="https://docs.tosspayments.com/resources/glossary/settlement">정산 · 토스페이먼츠 개발자센터</a><small>D+N이 영업일 기준이라는 정의와 정산 매출일 / 정산 지급일 구분</small></li>
+      <li><a href="https://www.fsc.go.kr/no010101/85751">PG업자 정산자금 보호 방안 · 금융위원회</a><small>예치·신탁·지급보증 외부관리 의무화, 60%에서 매년 20%씩 상향, 과태료 5천만원</small></li>
+      <li><a href="https://www.khan.co.kr/article/202407281743001">티메프 대금 정산에 평균 두 달, 선정산 대출 관행 · 경향신문</a><small>선정산 대출의 실행·상환 구조와 규모(1조2300억, 상반기 7500억대)</small></li>
+      <li><a href="https://docs-pay.toss.im/offline/operation/settlement">정산 가이드 · 토스페이 오프라인</a><small>D+3 / M+1 정산 주기, 00~01시 집계, 지급보류 조건</small></li>
+    </ul>
+  </section>
+
+  <nav class="pager">
+    <a class="prev" href="day-05.html"><small>← DAY 05</small>적격비용이라는 상수</a>
+    <a class="next" href="day-07.html"><small>DAY 07 →</small>결제 한 건의 일생</a>
+  </nav>
+
+  <footer>
+    <b>내일 Day 7</b><br>
+    1주차 복습. 4자 모델부터 정산 사이클까지 여섯 날을 한 장으로 접는다. 결제 한 건이 승인에서 입금까지 가는 전체 경로를 끊김 없이 말할 수 있는지 점검한다.
+  </footer>
+
+</div>
+
+</body></html>

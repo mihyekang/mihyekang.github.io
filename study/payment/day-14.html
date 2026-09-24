@@ -1,0 +1,525 @@
+<!doctype html><html lang="ko"><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>꽂고, 대고, 찍고</title>
+</head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --ground:#FFFFFF;
+  --surface:#F2F6F5;
+  --ink:#0F1513;
+  --ink-soft:#37433F;
+  --muted:#67736F;
+  --line:#DCE5E2;
+  --line-soft:#EBF1EF;
+  --key:#0A6A4C;
+  --key-soft:#E3F2EC;
+  --key-wash:#F0F8F5;
+  --late:#8A5E14;
+  --late-soft:#F7EFDE;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0C110F;
+    --surface:#151D1A;
+    --ink:#EAF1EE;
+    --ink-soft:#C3CFCB;
+    --muted:#8E9D98;
+    --line:#27332F;
+    --line-soft:#1B2522;
+    --key:#54CE9E;
+    --key-soft:#122A22;
+    --key-wash:#101B18;
+    --late:#D8AB57;
+    --late-soft:#282013;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0C110F;
+  --surface:#151D1A;
+  --ink:#EAF1EE;
+  --ink-soft:#C3CFCB;
+  --muted:#8E9D98;
+  --line:#27332F;
+  --line-soft:#1B2522;
+  --key:#54CE9E;
+  --key-soft:#122A22;
+  --key-wash:#101B18;
+  --late:#D8AB57;
+  --late-soft:#282013;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:'IBM Plex Sans KR','Apple SD Gothic Neo',system-ui,sans-serif;
+  font-size:17.5px;
+  line-height:1.9;
+  letter-spacing:-.003em;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{
+  max-width:34rem;
+  margin:0 auto;
+  padding-inline:22px;
+  padding-block:36px 80px;
+}
+
+/* ── masthead ───────────────────────── */
+.masthead{display:flex;flex-direction:column;gap:16px;margin-bottom:38px}
+.daymeta{
+  display:flex;align-items:center;gap:9px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+}
+.daymeta b{color:var(--key);font-size:14px}
+.daymeta s{text-decoration:none;color:var(--line)}
+h1{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:clamp(30px,9vw,40px);
+  line-height:1.3;
+  letter-spacing:-.015em;
+  margin:0;
+  text-wrap:balance;
+}
+.sub{margin:0;color:var(--muted);font-size:15.5px;line-height:1.7}
+
+/* ── 핵심 3줄 ───────────────────────── */
+.gist{
+  background:var(--key-wash);
+  border:1px solid var(--key-soft);
+  border-radius:10px;
+  padding:22px 20px;
+  margin-bottom:40px;
+  counter-reset:g;
+}
+.gist h2{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--key);margin:0 0 14px;border:0;padding:0;
+}
+.gist li{
+  list-style:none;position:relative;
+  padding-left:30px;
+  font-size:16.5px;line-height:1.75;
+  color:var(--ink-soft);
+}
+.gist li + li{margin-top:13px}
+.gist li::before{
+  counter-increment:g;content:counter(g);
+  position:absolute;left:0;top:.28em;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--key);color:var(--ground);
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  line-height:20px;text-align:center;
+}
+.gist ul{margin:0;padding:0}
+.gist b{color:var(--ink);font-weight:600}
+
+/* ── figure ─────────────────────────── */
+figure{margin:0 0 42px;display:flex;flex-direction:column;gap:14px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:14.5px;color:var(--muted);line-height:1.7}
+
+/* ── sections ───────────────────────── */
+section{margin-bottom:46px}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:6px;
+}
+h2{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:25px;
+  line-height:1.45;
+  letter-spacing:-.01em;
+  margin:0 0 20px;
+  text-wrap:balance;
+}
+p{margin:0 0 18px}
+p:last-child{margin-bottom:0}
+b,strong{font-weight:600;color:var(--ink)}
+.hl{background:var(--key-soft);padding:.1em .25em;border-radius:3px;font-weight:600}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:.88em;color:var(--muted)}
+
+/* takeaway line per section */
+.take{
+  display:flex;gap:12px;align-items:flex-start;
+  border-left:3px solid var(--key);
+  padding:2px 0 2px 15px;
+  margin:0 0 22px;
+  font-size:16.5px;line-height:1.7;
+  color:var(--ink-soft);
+}
+
+/* role list */
+.roles{margin:0 0 20px;padding:0}
+.roles div{
+  display:grid;
+  grid-template-columns:7.5rem 1fr;
+  gap:2px 14px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line-soft);
+  align-items:baseline;
+}
+.roles div:first-child{border-top:1px solid var(--line-soft)}
+.roles dt{font-weight:600;font-size:16px;line-height:1.5}
+.roles dd{margin:0;font-size:15.5px;color:var(--muted);line-height:1.65}
+@media(max-width:440px){
+  .roles div{grid-template-columns:1fr;gap:1px}
+}
+
+/* two-card compare */
+.split{display:flex;flex-direction:column;gap:14px;margin:0 0 22px}
+.split > div{
+  border-radius:10px;
+  padding:20px;
+  background:var(--surface);
+}
+.split h3{
+  margin:0 0 8px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+}
+.split p{font-size:16px;line-height:1.75;margin:0;color:var(--ink-soft)}
+.s-now{box-shadow:inset 3px 0 0 var(--key)}
+.s-now h3{color:var(--key)}
+.s-late{box-shadow:inset 3px 0 0 var(--late)}
+.s-late h3{color:var(--late)}
+
+/* rates table */
+.tblscroll{overflow-x:auto;margin:0 0 18px}
+.rates{width:100%;border-collapse:collapse;font-size:16px}
+.rates caption{
+  text-align:left;font-size:13.5px;color:var(--muted);
+  padding-bottom:10px;line-height:1.6;
+}
+.rates th,.rates td{padding:11px 8px;border-bottom:1px solid var(--line-soft);text-align:right;white-space:nowrap}
+.rates th:first-child,.rates td:first-child{text-align:left}
+.rates thead th{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  border-bottom-color:var(--line);
+}
+.rates td{font-variant-numeric:tabular-nums;color:var(--ink-soft)}
+.rates tbody tr:first-child td{color:var(--ink);font-weight:600}
+
+/* error code list */
+.codes{width:100%;border-collapse:collapse;font-size:15.5px}
+.codes caption{
+  text-align:left;font-size:13.5px;color:var(--muted);
+  padding-bottom:10px;line-height:1.6;
+}
+.codes th,.codes td{padding:11px 8px;border-bottom:1px solid var(--line-soft);text-align:left;vertical-align:top}
+.codes thead th{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  border-bottom-color:var(--line);
+}
+.codes td:first-child{
+  font-family:'IBM Plex Mono',monospace;font-size:12.5px;
+  color:var(--ink);white-space:nowrap;padding-right:14px;
+}
+.codes td:last-child{color:var(--muted);line-height:1.6}
+
+/* pull quote */
+.pull{
+  background:var(--key-soft);
+  border-radius:10px;
+  padding:26px 22px;
+  margin-bottom:46px;
+}
+.pull span{
+  display:block;margin-bottom:12px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--key);
+}
+.pull q{
+  font-family:'Gowun Batang',serif;
+  font-size:19px;line-height:1.85;quotes:'"' '"';
+  display:block;
+}
+
+/* sources */
+.src{list-style:none;margin:0;padding:0}
+.src li{padding:15px 0;border-bottom:1px solid var(--line-soft)}
+.src li:first-child{border-top:1px solid var(--line-soft)}
+.src a{
+  color:var(--ink);text-decoration:none;font-weight:600;
+  font-size:16px;line-height:1.6;
+  box-shadow:inset 0 -2px 0 var(--key);
+}
+.src a:hover{color:var(--key)}
+.src a:focus-visible{outline:2px solid var(--key);outline-offset:3px}
+.src small{display:block;color:var(--muted);font-size:14.5px;line-height:1.65;margin-top:7px}
+
+footer{
+  margin-top:46px;
+  font-size:15px;color:var(--muted);line-height:1.8;
+  border-top:1px solid var(--line);padding-top:22px;
+}
+footer b{color:var(--ink-soft)}
+/* site nav */
+.back{display:inline-block;margin-bottom:28px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--key)}
+.pager{display:flex;gap:12px;margin-top:46px}
+.pager a{flex:1;min-width:0;display:block;padding:14px 16px;border:1px solid var(--line);border-radius:10px;color:var(--ink);text-decoration:none;font-size:15px;line-height:1.5}
+.pager a:hover{border-color:var(--key);color:var(--key)}
+.pager a small{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted)}
+.pager .next{text-align:right}
+.pager span{flex:1}
+</style>
+
+<div class="wrap">
+
+  <a class="back" href="../payment-domain-map.html">← 결제 도메인 지도</a>
+
+  <header class="masthead">
+    <div class="daymeta"><b>DAY 14</b><s>/</s>21<s>·</s>결제 수단별 프로토콜</div>
+    <h1>꽂고, 대고, 찍고</h1>
+    <p class="sub">2주차 복습. 카드정보가 단말에 닿는 방법들, 그리고 닿은 뒤에 벌어지는 일</p>
+  </header>
+
+  <div class="gist">
+    <h2>핵심 3줄</h2>
+    <ul>
+      <li>결제수단의 차이는 결국 <b>카드번호를 무엇으로 대체해 어디까지 보내느냐</b>의 차이다. 뒷단 승인 전문은 거의 똑같다.</li>
+      <li>꽂느냐 대느냐는 <b>입력 방식</b>일 뿐이고, 수수료와 정산을 가르는 건 그 뒤의 <b>자금 경로</b>다. 카드망이냐 계좌망이냐.</li>
+      <li>승인은 거절될 수 있다. 더 나쁜 건 <b>결과를 모르는 것</b>이고, 망취소는 그걸 위한 보상 트랜잭션이다.</li>
+    </ul>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 340 500" role="img" aria-label="결제 흐름도: 네 가지 입력 방식이 토큰화 계층을 거쳐 카드망 또는 계좌망으로 갈라지고, 승인 전문의 결말이 승인·거절·무응답 세 가지로 나뉘며 무응답은 망취소로 이어진다">
+      <defs>
+        <marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/>
+        </marker>
+        <marker id="arl" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--late)"/>
+        </marker>
+      </defs>
+
+      <text x="0" y="11" fill="var(--muted)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.4">입력 · 카드정보를 어떻게 넘기나</text>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="13.5" font-weight="500">
+        <rect x="0" y="22" width="164" height="40" rx="6" fill="var(--surface)"/>
+        <text x="14" y="41" fill="var(--ink)">IC 접촉</text>
+        <text x="14" y="56" fill="var(--muted)" font-size="11">칩이 직접 연산</text>
+
+        <rect x="176" y="22" width="164" height="40" rx="6" fill="var(--surface)"/>
+        <text x="190" y="41" fill="var(--ink)">NFC 컨택리스</text>
+        <text x="190" y="56" fill="var(--muted)" font-size="11">EMV · 애플페이</text>
+
+        <rect x="0" y="70" width="164" height="40" rx="6" fill="var(--surface)"/>
+        <text x="14" y="89" fill="var(--ink)">MST</text>
+        <text x="14" y="104" fill="var(--muted)" font-size="11">자기장으로 흉내</text>
+
+        <rect x="176" y="70" width="164" height="40" rx="6" fill="var(--surface)"/>
+        <text x="190" y="89" fill="var(--ink)">QR · 바코드</text>
+        <text x="190" y="104" fill="var(--muted)" font-size="11">화면이 곧 매체</text>
+      </g>
+
+      <g stroke="var(--muted)" stroke-width="1.3" fill="none">
+        <path d="M82 110 V 128 H 170 V 146" marker-end="url(#ar2)"/>
+        <path d="M258 110 V 128 H 170" />
+      </g>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="13.5" font-weight="500">
+        <rect x="0" y="148" width="340" height="44" rx="6" fill="var(--key-soft)"/>
+        <text x="14" y="168" fill="var(--ink)">토큰화 계층</text>
+        <text x="14" y="184" fill="var(--key)" font-size="11">네트워크 토큰 · 앱카드 토큰 · 빌링키</text>
+      </g>
+
+      <g stroke="var(--muted)" stroke-width="1.3" fill="none" marker-end="url(#ar2)">
+        <path d="M170 192 V 208 H 82 V 226"/>
+        <path d="M170 192 V 208 H 258 V 226"/>
+      </g>
+
+      <text x="0" y="221" fill="var(--muted)" font-family="'IBM Plex Mono',monospace" font-size="10.5" letter-spacing="1.2">자금 경로</text>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="13.5" font-weight="500">
+        <rect x="0" y="228" width="164" height="52" rx="6" fill="var(--surface)"/>
+        <text x="14" y="248" fill="var(--ink)">카드망</text>
+        <text x="14" y="263" fill="var(--muted)" font-size="11">VAN · 매입사 · 발급사</text>
+        <text x="14" y="276" fill="var(--muted)" font-size="11">수수료 상한 규제</text>
+
+        <rect x="176" y="228" width="164" height="52" rx="6" fill="var(--surface)"/>
+        <text x="190" y="248" fill="var(--ink)">계좌망</text>
+        <text x="190" y="263" fill="var(--muted)" font-size="11">오픈뱅킹 · 이체</text>
+        <text x="190" y="276" fill="var(--muted)" font-size="11">규제 밖, 이체수수료</text>
+      </g>
+
+      <g stroke="var(--muted)" stroke-width="1.3" fill="none" marker-end="url(#ar2)">
+        <path d="M82 280 V 296 H 170 V 314"/>
+        <path d="M258 280 V 296 H 170"/>
+      </g>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="13.5" font-weight="500">
+        <rect x="0" y="316" width="340" height="40" rx="6" fill="var(--surface)"/>
+        <text x="14" y="335" fill="var(--ink)">승인 요청</text>
+        <text x="14" y="350" fill="var(--muted)" font-size="11">전문 한 건, 응답 대기 수 초</text>
+      </g>
+
+      <path d="M170 356 V 370" fill="none" stroke="var(--muted)" stroke-width="1.3"/>
+      <path d="M52 370 H 288" fill="none" stroke="var(--muted)" stroke-width="1.3"/>
+      <g stroke="var(--muted)" stroke-width="1.3" fill="none" marker-end="url(#ar2)">
+        <line x1="52" y1="370" x2="52" y2="386"/>
+        <line x1="170" y1="370" x2="170" y2="386"/>
+      </g>
+      <line x1="288" y1="370" x2="288" y2="386" stroke="var(--late)" stroke-width="1.3" marker-end="url(#arl)"/>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="13" font-weight="500">
+        <rect x="0" y="388" width="104" height="44" rx="6" fill="var(--key-wash)" stroke="var(--key-soft)"/>
+        <text x="13" y="407" fill="var(--key)">승인</text>
+        <text x="13" y="422" fill="var(--muted)" font-size="10.5">한도 홀드</text>
+
+        <rect x="118" y="388" width="104" height="44" rx="6" fill="var(--surface)"/>
+        <text x="131" y="407" fill="var(--ink)">거절</text>
+        <text x="131" y="422" fill="var(--muted)" font-size="10.5">코드가 남음</text>
+
+        <rect x="236" y="388" width="104" height="44" rx="6" fill="var(--late-soft)"/>
+        <text x="249" y="407" fill="var(--late)">무응답</text>
+        <text x="249" y="422" fill="var(--muted)" font-size="10.5">알 수 없음</text>
+      </g>
+
+      <path d="M288 432 V 456" fill="none" stroke="var(--late)" stroke-width="1.3" marker-end="url(#arl)"/>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="13.5" font-weight="500">
+        <rect x="110" y="458" width="230" height="40" rx="6" fill="var(--late-soft)"/>
+        <text x="124" y="477" fill="var(--ink)">망취소</text>
+        <text x="124" y="491" fill="var(--muted)" font-size="11">같은 요청ID로 되돌리기</text>
+      </g>
+    </svg>
+    <figcaption>위쪽 네 개는 입력 방식이고, 아래로 갈수록 돈의 문제가 된다. 2주차에 배운 것들의 자리를 한 장에 찍어두면 3주차 POS 이야기가 훨씬 빨리 붙는다.</figcaption>
+  </figure>
+
+  <section>
+    <span class="eyebrow">01 · 입구</span>
+    <h2>왜 우리는 아직 꽂고 있나</h2>
+
+    <p class="take">IC는 카드가 계산을 하고, MSR과 MST는 카드번호를 그대로 흘린다. 이 차이가 전부다.</p>
+
+    <p>마그네틱(MSR)은 카드번호와 유효기간을 자기 띠에 <b>평문으로</b> 적어둔 것이다. 읽으면 그대로 복제된다. IC 칩은 다르다. 단말이 보낸 난수에 카드 안의 키로 서명해서 <span class="hl">거래마다 다른 인증값</span>을 만들어 돌려준다.</p>
+
+    <p>인프라 비유가 정확히 맞는다. MSR은 하드코딩된 API 키, IC는 챌린지-리스폰스다. 복제본을 떠도 다음 거래에는 못 쓴다.</p>
+
+    <p>한국은 여신전문금융업법 개정으로 IC 단말 전환을 강제하면서 "꽂는 나라"가 됐다. 반대로 해외는 NFC 컨택리스로 넘어갔는데, 전송 방식만 무선일 뿐 <b>안에서 도는 건 똑같은 EMV 프로토콜</b>이다.</p>
+
+    <p>삼성페이의 MST는 이 흐름 밖의 물건이다. 단말의 자기 헤드에 대고 자기장을 쏴서 "카드를 긁은 척"하는 기술이다. 영리하지만 본질적으로 MSR의 한계를 그대로 물려받는다.</p>
+
+    <p>그래서 MST는 지금 정리되는 중이다. 카드사 앱카드의 MST 오프라인 결제는 <b>2026년 1월 1일부로 중단</b>됐다. 주요 가맹점 NFC 전환이 끝났고, 삼성전자에 내는 라이선스 비용이 부담이었다는 게 업계 설명이다.</p>
+
+    <p>애플페이 이후 컨택리스는 빠르게 늘었다. 현대카드 기준 EMV 컨택리스 결제는 <b>2022년 500만 건에서 2025년 1억 6천만 건</b>이 됐다. 다만 국내 오프라인 단말 중 컨택리스가 가능한 비중은 아직 <span class="hl">10% 안팎</span>으로 추정된다. 3년째 "이제 곧"인 상태다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">02 · 갈림길</span>
+    <h2>같은 QR인데 수수료가 다른 이유</h2>
+
+    <p class="take">간편결제의 정체는 UI가 아니라, 그 뒤에 어떤 망을 태우느냐다.</p>
+
+    <p>사용자 눈에는 둘 다 "앱 열고 QR 찍기"다. 그런데 하나는 카드 승인 전문을 타고, 하나는 계좌에서 계좌로 이체된다. 가맹점 입장에서는 완전히 다른 상품이다.</p>
+
+    <div class="split">
+      <div class="s-now">
+        <h3>카드 기반</h3>
+        <p>앱에 등록된 카드로 결제한다. 결국 카드망을 타므로 가맹점 수수료 체계가 그대로 적용되고, 그 위에 간편결제사 몫이 얹힌다. 대신 할부, 카드 혜택, 취소 절차가 카드와 동일하게 작동한다.</p>
+      </div>
+      <div class="s-late">
+        <h3>계좌 · 선불 기반</h3>
+        <p>충전잔액이나 계좌이체로 처리한다. 카드망을 안 타니 매입사도 발급사도 없고, 우대수수료율 규제도 적용 대상이 아니다. 제로페이가 "수수료 0%"를 말할 수 있는 이유가 여기 있다.</p>
+      </div>
+    </div>
+
+    <p>금융감독원이 반기마다 전자금융업자 결제수수료를 공시하는데, 18개사 기준 평균이 <b>카드 기반 1.98%, 선불 기반 1.74%</b>였다(2025년 9월 ~ 2026년 2월 거래분).</p>
+
+    <p>선불 쪽 평균이 낮아 보이지만 편차가 훨씬 크다. 쇼핑몰과 배달 플랫폼 사업자의 선불 수수료는 평균을 크게 웃돈다. 규제가 없다는 건 낮아질 자유와 높아질 자유를 동시에 뜻한다.</p>
+
+    <p>POS 사업자에게 이 갈림길은 곧 제품 설계 문제다. 계좌 기반 결제 비중을 올리면 가맹점 원가가 내려가지만, 소비자는 카드 혜택을 포기해야 한다. <span class="hl">이 줄다리기를 누가 어떻게 푸느냐</span>가 국내 결제 시장의 오래된 숙제다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 · 대역</span>
+    <h2>카드번호를 안 보내는 기술</h2>
+
+    <p class="take">토큰화는 "진짜 값을 시스템에 들이지 않는다"는 원칙을 결제에 적용한 것이다.</p>
+
+    <p>네트워크 토큰은 카드 브랜드(비자, 마스터 등)가 발급하는 대체번호다. 실제 카드번호 대신 토큰이 단말과 가맹점 시스템을 지나가고, 브랜드망 안에서만 원래 번호로 되돌려진다.</p>
+
+    <p>애플페이나 삼성월렛에서 카드를 등록할 때 기기 안에 저장되는 값도 카드번호가 아니라 이 계열의 토큰이다. 기기를 잃어버리면 토큰만 폐기하면 되고, 카드를 재발급할 필요가 없다.</p>
+
+    <p>한 단계 아래에는 PG가 발급하는 토큰이 있다. 정기결제용 <b>빌링키</b>가 대표적이다. 가맹점 서버는 빌링키만 들고 있고 카드번호는 PG 금고 안에 남는다.</p>
+
+    <p>둘을 섞어 쓰면 안 된다. 네트워크 토큰은 <b>카드번호의 대역</b>이고, 빌링키는 <b>그 PG 안에서만 유효한 참조키</b>다.</p>
+
+    <p>쿠버네티스 쪽 언어로 옮기면 명확하다. 카드번호를 컨테이너 이미지에 박아 넣는 대신 시크릿 저장소에 두고, 워크로드에는 <span class="mono">ServiceAccount</span> 토큰만 내려보내는 구조다. 감사 범위가 줄어드는 것도 같은 이유고, PCI DSS 대응 비용이 실제로 여기서 갈린다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 · 실패</span>
+    <h2>제일 무서운 건 거절이 아니라 무응답</h2>
+
+    <p class="take">거절은 결과다. 결과가 있으면 처리할 수 있다. 진짜 문제는 결과를 모를 때다.</p>
+
+    <p>거절은 코드로 돌아온다. 토스페이먼츠 API 기준으로 몇 개만 봐도 성격이 갈린다.</p>
+
+    <div class="tblscroll">
+      <table class="codes">
+        <caption>승인 실패 코드의 네 가지 성격 (토스페이먼츠 API 에러 코드)</caption>
+        <thead><tr><th>코드</th><th>뜻과 대응</th></tr></thead>
+        <tbody>
+          <tr><td>REJECT_CARD_PAYMENT</td><td>한도초과 또는 잔액부족. 사용자가 해결해야 하고, 재시도해도 같은 결과다</td></tr>
+          <tr><td>INVALID_STOPPED_CARD</td><td>정지된 카드. 다른 수단을 권하는 것 말고 방법이 없다</td></tr>
+          <tr><td>PROVIDER_ERROR</td><td>일시적 오류. 여기만 재시도가 의미 있다</td></tr>
+          <tr><td>ALREADY_PROCESSING_REQUEST</td><td>이미 처리중인 요청. 중복 요청이 이미 날아갔다는 신호다</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>제품 관점에서 중요한 건 코드 암기가 아니라 <b>사용자에게 뭐라고 말할지</b>가 코드마다 다르다는 사실이다. 잔액부족에 "잠시 후 다시 시도해주세요"를 띄우면 계산대 앞 줄이 길어진다.</p>
+
+    <p>그리고 타임아웃이 있다. 요청은 보냈는데 응답이 안 왔다. 승인이 난 건지 안 난 건지 가맹점은 모르고, 카드사 쪽에는 승인이 기록돼 있을 수 있다. 그대로 두면 <span class="hl">손님은 안 샀는데 청구되는</span> 사고가 된다.</p>
+
+    <p>그래서 나온 게 <b>망취소</b>, 영어로 net-cancel이다. 응답을 못 받은 거래를 같은 요청 식별자로 되돌려 달라고 보내는 반대 방향 전문이다.</p>
+
+    <p>KICC 개발자문서도 같은 규격을 명시한다. 취소 API가 타임아웃이나 네트워크 오류로 끝나면 실제로는 취소가 처리됐을 수 있으니 <b>반드시 망취소 API로 상태를 확인</b>하라고 되어 있다. 취소마저 결과를 모를 수 있다는 뜻이다.</p>
+
+    <p>설계 규칙은 하나로 요약된다. 결제 요청을 보낼 때 <span class="hl">가맹점이 만든 요청ID를 같이 보낸다.</span> 승인번호를 못 받아도 그 ID로 되돌릴 수 있어야 한다. 멱등키를 먼저 쥐고 호출하는 것과 완전히 같은 패턴이다.</p>
+
+    <p>분산 시스템을 해본 사람에게 이건 낯선 개념이 아니다. 보상 트랜잭션이고, 사가 패턴이고, at-least-once 환경에서의 멱등성 문제다. 다른 점은 롤백 대상이 재고 행이 아니라 <b>남의 돈</b>이라는 것뿐이다.</p>
+  </section>
+
+
+  <section>
+    <span class="eyebrow">출처</span>
+    <h2>참조 원본</h2>
+    <ul class="src">
+      <li><a href="https://docs.tosspayments.com/reference/error-codes">API 에러 코드 · 토스페이먼츠 개발자센터</a><small>위 표의 승인 실패 코드와 문구의 1차 출처. 실제 연동 시 계속 돌아오게 되는 문서</small></li>
+      <li><a href="https://docs.kicc.co.kr/docs/van-payment/simple/cancel/">결제 취소 · KICC 개발자센터</a><small>VAN 사업자가 쓴 망취소 규격. 타임아웃 시 망취소 API로 상태를 확인하라는 원문</small></li>
+      <li><a href="https://www.etnews.com/20260513000186">현대카드 애플페이 도입 후 EMV 컨택리스 결제 30배 · 전자신문</a><small>2022년 500만 건에서 2025년 1억 6천만 건, 단말 보급률 10% 안팎의 출처</small></li>
+      <li><a href="https://www.fsc.go.kr/no010101/86029">전자금융업자의 결제수수료 현황 및 향후 계획 · 금융위원회</a><small>카드 기반과 선불 기반 수수료를 나눠 공시하는 제도의 근거 자료</small></li>
+      <li><a href="https://taes-k.github.io/2022/09/23/net-cancel/">망취소 환경 구축 · Taes-k DevLog</a><small>요청ID 설계와 재시도 전략을 구현자 시점에서 정리한 글</small></li>
+    </ul>
+  </section>
+
+  <nav class="pager">
+    <a class="prev" href="day-13.html"><small>← DAY 13</small>무응답이라는 세 번째 답</a>
+    <span></span>
+  </nav>
+
+  <footer>
+    <b>내일 Day 15</b><br>
+    3주차 시작. POS가 실제로 하는 일을 주문, 결제, 정산, 재고 네 축으로 쪼갠다. 지금까지는 결제 한 건의 이야기였고, 이제 매장 하나의 이야기가 된다.
+  </footer>
+
+</div>
+
+</body></html>
