@@ -1,0 +1,507 @@
+<!doctype html><html lang="ko"><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>할인이 내려가는 길</title>
+</head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --ground:#FFFFFF;
+  --surface:#F2F6F5;
+  --ink:#0F1513;
+  --ink-soft:#37433F;
+  --muted:#67736F;
+  --line:#DCE5E2;
+  --line-soft:#EBF1EF;
+  --key:#0A6A4C;
+  --key-soft:#E3F2EC;
+  --key-wash:#F0F8F5;
+  --late:#8A5E14;
+  --late-soft:#F7EFDE;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0C110F;
+    --surface:#151D1A;
+    --ink:#EAF1EE;
+    --ink-soft:#C3CFCB;
+    --muted:#8E9D98;
+    --line:#27332F;
+    --line-soft:#1B2522;
+    --key:#54CE9E;
+    --key-soft:#122A22;
+    --key-wash:#101B18;
+    --late:#D8AB57;
+    --late-soft:#282013;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0C110F;
+  --surface:#151D1A;
+  --ink:#EAF1EE;
+  --ink-soft:#C3CFCB;
+  --muted:#8E9D98;
+  --line:#27332F;
+  --line-soft:#1B2522;
+  --key:#54CE9E;
+  --key-soft:#122A22;
+  --key-wash:#101B18;
+  --late:#D8AB57;
+  --late-soft:#282013;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:'IBM Plex Sans KR','Apple SD Gothic Neo',system-ui,sans-serif;
+  font-size:17.5px;
+  line-height:1.9;
+  letter-spacing:-.003em;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{
+  max-width:34rem;
+  margin:0 auto;
+  padding-inline:22px;
+  padding-block:36px 80px;
+}
+
+/* ── masthead ───────────────────────── */
+.masthead{display:flex;flex-direction:column;gap:16px;margin-bottom:38px}
+.daymeta{
+  display:flex;align-items:center;gap:9px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+}
+.daymeta b{color:var(--key);font-size:14px}
+.daymeta s{text-decoration:none;color:var(--line)}
+h1{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:clamp(30px,9vw,40px);
+  line-height:1.3;
+  letter-spacing:-.015em;
+  margin:0;
+  text-wrap:balance;
+}
+.sub{margin:0;color:var(--muted);font-size:15.5px;line-height:1.7}
+
+/* ── 핵심 3줄 ───────────────────────── */
+.gist{
+  background:var(--key-wash);
+  border:1px solid var(--key-soft);
+  border-radius:10px;
+  padding:22px 20px;
+  margin-bottom:40px;
+  counter-reset:g;
+}
+.gist h2{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--key);margin:0 0 14px;border:0;padding:0;
+}
+.gist li{
+  list-style:none;position:relative;
+  padding-left:30px;
+  font-size:16.5px;line-height:1.75;
+  color:var(--ink-soft);
+}
+.gist li + li{margin-top:13px}
+.gist li::before{
+  counter-increment:g;content:counter(g);
+  position:absolute;left:0;top:.28em;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--key);color:var(--ground);
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  line-height:20px;text-align:center;
+}
+.gist ul{margin:0;padding:0}
+.gist b{color:var(--ink);font-weight:600}
+
+/* ── figure ─────────────────────────── */
+figure{margin:0 0 42px;display:flex;flex-direction:column;gap:14px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:14.5px;color:var(--muted);line-height:1.7}
+
+/* ── sections ───────────────────────── */
+section{margin-bottom:46px}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:6px;
+}
+h2{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:25px;
+  line-height:1.45;
+  letter-spacing:-.01em;
+  margin:0 0 20px;
+  text-wrap:balance;
+}
+p{margin:0 0 18px}
+p:last-child{margin-bottom:0}
+b,strong{font-weight:600;color:var(--ink)}
+.hl{background:var(--key-soft);padding:.1em .25em;border-radius:3px;font-weight:600}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:.88em;color:var(--muted)}
+
+/* takeaway line per section */
+.take{
+  display:flex;gap:12px;align-items:flex-start;
+  border-left:3px solid var(--key);
+  padding:2px 0 2px 15px;
+  margin:0 0 22px;
+  font-size:16.5px;line-height:1.7;
+  color:var(--ink-soft);
+}
+
+/* role list */
+.roles{margin:0 0 20px;padding:0}
+.roles div{
+  display:grid;
+  grid-template-columns:9.5rem 1fr;
+  gap:2px 14px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line-soft);
+  align-items:baseline;
+}
+.roles div:first-child{border-top:1px solid var(--line-soft)}
+.roles dt{font-weight:600;font-size:15px;line-height:1.5;font-family:'IBM Plex Mono',monospace}
+.roles dd{margin:0;font-size:15.5px;color:var(--muted);line-height:1.65}
+@media(max-width:440px){
+  .roles div{grid-template-columns:1fr;gap:1px}
+}
+
+/* two-card compare */
+.split{display:flex;flex-direction:column;gap:14px;margin:0 0 22px}
+.split > div{
+  border-radius:10px;
+  padding:20px;
+  background:var(--surface);
+}
+.split h3{
+  margin:0 0 8px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+}
+.split p{font-size:16px;line-height:1.75;margin:0;color:var(--ink-soft)}
+.split .num{
+  display:block;margin-top:10px;
+  font-family:'IBM Plex Mono',monospace;font-size:15px;
+  font-variant-numeric:tabular-nums;color:var(--ink);font-weight:500;
+}
+.s-now{box-shadow:inset 3px 0 0 var(--key)}
+.s-now h3{color:var(--key)}
+.s-late{box-shadow:inset 3px 0 0 var(--late)}
+.s-late h3{color:var(--late)}
+
+/* rates table */
+.tblscroll{overflow-x:auto;margin:0 0 18px}
+.rates{width:100%;border-collapse:collapse;font-size:16px}
+.rates caption{
+  text-align:left;font-size:13.5px;color:var(--muted);
+  padding-bottom:10px;line-height:1.6;
+}
+.rates th,.rates td{padding:11px 8px;border-bottom:1px solid var(--line-soft);text-align:right;white-space:nowrap}
+.rates th:first-child,.rates td:first-child{text-align:left}
+.rates thead th{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  border-bottom-color:var(--line);
+}
+.rates td{font-variant-numeric:tabular-nums;color:var(--ink-soft)}
+.rates tfoot td{color:var(--ink);font-weight:600;border-top:1px solid var(--line)}
+
+/* pull quote */
+.pull{
+  background:var(--key-soft);
+  border-radius:10px;
+  padding:26px 22px;
+  margin-bottom:46px;
+}
+.pull span{
+  display:block;margin-bottom:12px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--key);
+}
+.pull q{
+  font-family:'Gowun Batang',serif;
+  font-size:19px;line-height:1.85;quotes:'"' '"';
+  display:block;
+}
+
+/* sources */
+.src{list-style:none;margin:0;padding:0}
+.src li{padding:15px 0;border-bottom:1px solid var(--line-soft)}
+.src li:first-child{border-top:1px solid var(--line-soft)}
+.src a{
+  color:var(--ink);text-decoration:none;font-weight:600;
+  font-size:16px;line-height:1.6;
+  box-shadow:inset 0 -2px 0 var(--key);
+}
+.src a:hover{color:var(--key)}
+.src a:focus-visible{outline:2px solid var(--key);outline-offset:3px}
+.src small{display:block;color:var(--muted);font-size:14.5px;line-height:1.65;margin-top:7px}
+
+footer{
+  margin-top:46px;
+  font-size:15px;color:var(--muted);line-height:1.8;
+  border-top:1px solid var(--line);padding-top:22px;
+}
+footer b{color:var(--ink-soft)}
+/* site nav */
+.back{display:inline-block;margin-bottom:28px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--key)}
+.pager{display:flex;gap:12px;margin-top:46px}
+.pager a{flex:1;min-width:0;display:block;padding:14px 16px;border:1px solid var(--line);border-radius:10px;color:var(--ink);text-decoration:none;font-size:15px;line-height:1.5}
+.pager a:hover{border-color:var(--key);color:var(--key)}
+.pager a small{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted)}
+.pager .next{text-align:right}
+.pager span{flex:1}
+</style>
+
+<div class="wrap">
+
+  <a class="back" href="../payment-domain-map.html">← 결제 도메인 지도</a>
+
+  <header class="masthead">
+    <div class="daymeta"><b>DAY 16</b><s>/</s>21<s>·</s>POS 도메인</div>
+    <h1>할인이 내려가는 길</h1>
+    <p class="sub">주문 트리 안에서 할인이 라인아이템까지 내려가야 하는 이유</p>
+  </header>
+
+  <div class="gist">
+    <h2>핵심 3줄</h2>
+    <ul>
+      <li>주문은 금액 하나가 아니라 <b>트리</b>다. 최종 금액은 루트에 적힌 값이 아니라 잎에서 올라온 합계다.</li>
+      <li>주문 단위로 들어온 할인도 <b>라인아이템에 쪼개서 저장</b>해야 한다. 안 그러면 부분취소도 세금 분리도 불가능하다.</li>
+      <li>할인 <b>적용 순서는 취향이 아니라 스펙</b>이다. 쿠폰 두 장의 순서만 바꿔도 최종 금액이 달라진다.</li>
+    </ul>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 340 558" role="img" aria-label="주문 도메인 트리 다이어그램. Order 아래에 두 개의 라인아이템이 있고, 주문 단위 할인이 소계 기여율에 따라 각 라인아이템으로 비례 배분된 뒤 청구 금액으로 집계된다.">
+      <defs>
+        <marker id="d16a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--key)"/>
+        </marker>
+      </defs>
+
+      <g font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.2">
+        <text x="0" y="10" fill="var(--key)">ORDER</text>
+      </g>
+
+      <!-- Order header -->
+      <rect x="0" y="18" width="340" height="38" rx="6" fill="var(--key-wash)" stroke="var(--key-soft)" stroke-width="1"/>
+      <g font-family="'IBM Plex Sans KR',sans-serif">
+        <text x="14" y="42" font-size="13" fill="var(--ink)">source POS · state OPENED</text>
+        <text x="326" y="42" font-size="13" fill="var(--muted)" text-anchor="end" font-family="'IBM Plex Mono',monospace">15,500</text>
+      </g>
+
+      <!-- tree spine -->
+      <path d="M16 56 V 176" fill="none" stroke="var(--line)" stroke-width="1.3"/>
+      <path d="M16 92 H 26" fill="none" stroke="var(--line)" stroke-width="1.3"/>
+      <path d="M16 168 H 26" fill="none" stroke="var(--line)" stroke-width="1.3"/>
+
+      <!-- lineItems[0] -->
+      <rect x="26" y="66" width="314" height="66" rx="6" fill="var(--surface)"/>
+      <g font-family="'IBM Plex Sans KR',sans-serif">
+        <text x="40" y="88" font-size="13.5" fill="var(--ink)">lineItems[0] 아메리카노 × 2</text>
+        <text x="40" y="107" font-size="11.5" fill="var(--muted)">itemPrice 4,000 + 옵션 500 = 4,500</text>
+        <text x="40" y="123" font-size="11.5" fill="var(--muted)">과세 10% · diningOption HERE</text>
+        <text x="326" y="88" font-size="13.5" fill="var(--ink)" text-anchor="end" font-family="'IBM Plex Mono',monospace">9,000</text>
+      </g>
+
+      <!-- lineItems[1] -->
+      <rect x="26" y="142" width="314" height="50" rx="6" fill="var(--surface)"/>
+      <g font-family="'IBM Plex Sans KR',sans-serif">
+        <text x="40" y="164" font-size="13.5" fill="var(--ink)">lineItems[1] 티라미수 × 1</text>
+        <text x="40" y="183" font-size="11.5" fill="var(--muted)">itemPrice 6,500 · 과세 10%</text>
+        <text x="326" y="164" font-size="13.5" fill="var(--ink)" text-anchor="end" font-family="'IBM Plex Mono',monospace">6,500</text>
+      </g>
+
+      <!-- order-level discounts -->
+      <rect x="0" y="206" width="340" height="56" rx="6" fill="var(--late-soft)"/>
+      <g font-family="'IBM Plex Mono',monospace">
+        <text x="14" y="226" font-size="11" fill="var(--late)" letter-spacing="1.2">DISCOUNTS[ ] 주문 단위</text>
+      </g>
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="13" fill="var(--ink)">
+        <text x="14" y="249">① 정률 10% −1,550</text>
+        <text x="326" y="249" text-anchor="end">② 정액 −2,000</text>
+      </g>
+
+      <!-- allocation arrow -->
+      <path d="M170 262 V 282" fill="none" stroke="var(--key)" stroke-width="1.5" marker-end="url(#d16a)"/>
+      <text x="180" y="278" font-family="'IBM Plex Mono',monospace" font-size="11" fill="var(--key)" letter-spacing="1.1">소계 기여율로 배분</text>
+
+      <!-- appliedDiscounts -->
+      <rect x="0" y="292" width="340" height="92" rx="6" fill="var(--key-wash)" stroke="var(--key-soft)" stroke-width="1"/>
+      <text x="14" y="313" font-family="'IBM Plex Mono',monospace" font-size="11" fill="var(--key)" letter-spacing="1.2">LINEITEM.APPLIEDDISCOUNTS[ ]</text>
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="13" fill="var(--ink-soft)">
+        <text x="14" y="340">[0] 58.06%</text>
+        <text x="326" y="340" text-anchor="end" font-family="'IBM Plex Mono',monospace">−900 −1,161 → 6,939</text>
+        <text x="14" y="368">[1] 41.94%</text>
+        <text x="326" y="368" text-anchor="end" font-family="'IBM Plex Mono',monospace">−650 −839 → 5,011</text>
+      </g>
+
+      <path d="M170 384 V 404" fill="none" stroke="var(--key)" stroke-width="1.5" marker-end="url(#d16a)"/>
+
+      <!-- chargePrice -->
+      <rect x="0" y="414" width="340" height="138" rx="6" fill="var(--surface)"/>
+      <text x="14" y="435" font-family="'IBM Plex Mono',monospace" font-size="11" fill="var(--key)" letter-spacing="1.2">CHARGEPRICE</text>
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="13" fill="var(--muted)">
+        <text x="14" y="459">listPrice</text>
+        <text x="14" y="481">discountAmount</text>
+        <text x="14" y="503">supplyAmount / taxAmount</text>
+      </g>
+      <g font-family="'IBM Plex Mono',monospace" font-size="13" fill="var(--ink-soft)" text-anchor="end">
+        <text x="326" y="459">15,500</text>
+        <text x="326" y="481">−3,550</text>
+        <text x="326" y="503">10,863 / 1,087</text>
+      </g>
+      <path d="M14 516 H 326" fill="none" stroke="var(--line)" stroke-width="1"/>
+      <text x="14" y="539" font-family="'IBM Plex Sans KR',sans-serif" font-size="13.5" fill="var(--ink)" font-weight="600">totalAmount</text>
+      <text x="326" y="539" font-family="'IBM Plex Mono',monospace" font-size="14" fill="var(--key)" text-anchor="end" font-weight="600">11,950</text>
+    </svg>
+    <figcaption>숫자는 위에서 아래로 한 번만 흐르지 않는다. 라인에서 올라가 주문 할인을 만나고, 다시 라인으로 내려와 배분된 뒤에야 세금과 최종 금액이 나온다. 한 국내 POS 사업자의 공개 Open API Order 모델 필드명을 그대로 썼다.</figcaption>
+  </figure>
+
+  <section>
+    <span class="eyebrow">01 · 구조</span>
+    <h2>주문은 금액이 아니라 트리다</h2>
+
+    <p class="take">최종 금액은 루트에 저장된 값이 아니라, 잎에서 올라온 합계다.</p>
+
+    <p>한 국내 POS 사업자가 공개한 Open API의 <span class="mono">Order</span> 객체를 열어보면 구조가 한눈에 보인다.</p>
+
+    <dl class="roles">
+      <div><dt>lineItems[]</dt><dd>주문에 포함된 개별 상품 주문 건</dd></div>
+      <div><dt>discounts[]</dt><dd>주문 단위로 적용된 할인 내역</dd></div>
+      <div><dt>payments[]</dt><dd>결제 내역. 배열이다</dd></div>
+      <div><dt>chargePrice</dt><dd>원금액·할인·세액·봉사료·팁을 집계한 청구 금액</dd></div>
+      <div><dt>orderKey</dt><dd>주문 식별자. 중복되면 생성이 거부된다</dd></div>
+      <div><dt>source</dt><dd>주문 채널. POS, KIOSK, PLUGIN_{appId}</dd></div>
+    </dl>
+
+    <p>쿠버네티스의 Deployment, ReplicaSet, Pod 관계와 같다. 상위 오브젝트에 적힌 리소스 총량은 선언이고, 실제로 스케줄링되는 단위는 잎이다. <span class="hl">주문에서 계산이 실제로 일어나는 단위는 라인아이템</span>이고, 주문은 그 집계다.</p>
+
+    <p>재미있는 건 없는 필드다. <b>테이블 번호나 좌석 정보가 Order에 없다.</b> 대신 주문 채널을 뜻하는 <span class="mono">source</span>와, 라인아이템에 붙는 <span class="mono">diningOption</span>(HERE, TOGO, DELIVERY, PICKUP)만 있다.</p>
+
+    <p>테이블은 주문의 속성이 아니라 매장 운영의 별도 축이라는 뜻이다. 공개 Open API 스펙 기준이라 POS 내부 모델이 테이블 엔티티를 어떻게 들고 있는지는 <b>확인 필요</b>지만, 설계 의도는 읽힌다.</p>
+
+    <p>그리고 <span class="mono">payments</span>가 배열인 이유도 여기서 나온다. 테이블 QR 주문은 선불과 후불로 갈리는데, 후불 매장은 QR로 주문만 쌓고 결제는 나갈 때 카운터에서 한 번 한다. 주문과 결제는 <span class="hl">1:1이 아니다.</span></p>
+  </section>
+
+  <section>
+    <span class="eyebrow">02 · 최소 단위</span>
+    <h2>같은 메뉴라도 라인은 갈린다</h2>
+
+    <p class="take">수량은 라인의 속성이지, 라인을 합칠 이유가 아니다.</p>
+
+    <p><span class="mono">OrderLineItem</span>이 들고 있는 것은 diningOption, item, itemPrice, optionChoices[], appliedDiscounts[], quantity, memo다. 상품 하나가 아니라 <b>"이 조건으로 이만큼 산 건"</b>이 한 줄이다.</p>
+
+    <p>아메리카노 2잔을 시켰는데 한 잔만 샷을 추가했다면 라인은 두 줄이 된다. 한 잔만 쿠폰을 적용해도, 한 잔만 포장해도 마찬가지다. 합쳐 놓으면 <b>나중에 한 잔만 환불할 방법이 없다.</b></p>
+
+    <p>주문 생성 API를 보면 라인의 <span class="mono">targetType</span>이 세 가지다. 카탈로그 상품인 ITEM, 세트 상품인 COMBO, 그리고 <span class="mono">AD_HOC</span>. 마지막 하나가 현장의 냄새다.</p>
+
+    <p>사장님이 "그냥 5천원만 받을게요" 하는 순간이 실제로 존재하고, 도메인은 그걸 허용해야 한다. 카탈로그에 없는 상품을 라인으로 만들되, 집계와 정산에서는 똑같이 취급하는 탈출구다.</p>
+
+    <p>주목할 점 하나 더. <span class="mono">diningOption</span>이 주문이 아니라 <b>라인에 붙어 있다.</b> 한 주문 안에서 커피는 포장, 케이크는 매장 식사가 가능하다는 뜻이고, 그러면 세율이나 봉사료가 라인마다 갈릴 수 있다. 주문 단위로 뭉뚱그리면 이게 표현이 안 된다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 · 순서</span>
+    <h2>적용 순서는 취향이 아니라 스펙이다</h2>
+
+    <p class="take">같은 쿠폰 두 장이라도 태우는 순서가 바뀌면 최종 금액이 바뀐다.</p>
+
+    <p>소계 15,500원짜리 주문에 쿠폰이 두 장 있다. 하나는 10% 정률, 하나는 2,000원 정액.</p>
+
+    <div class="split">
+      <div class="s-now">
+        <h3>정률 먼저</h3>
+        <p>15,500에서 10%를 깎고, 남은 금액에서 2,000원을 뺀다.</p>
+        <span class="num">15,500 → 13,950 → 11,950</span>
+      </div>
+      <div class="s-late">
+        <h3>정액 먼저</h3>
+        <p>2,000원을 먼저 빼고, 줄어든 금액에 10%를 적용한다.</p>
+        <span class="num">15,500 → 13,500 → 12,150</span>
+      </div>
+    </div>
+
+    <p>200원 차이다. 하루 500건이면 10만원이고, 한 달이면 300만원이다. 정산 담당자가 대조하다가 발견하면 그때부터 <b>전수 재계산</b>이다.</p>
+
+    <p>그래서 스펙으로 고정한다. Square Orders API는 순서를 문서에 못 박아 뒀다. <span class="hl">항목 정률 → 주문 정률 → 주문 정액 → 항목 정액</span>. 취향이 아니라 계약이다.</p>
+
+    <p>같은 API의 <span class="mono">Discount</span> 객체에는 아예 <span class="mono">precedence</span>, 할인 적용 우선순위 필드가 있다. 순서를 코드에 숨기지 않고 <b>데이터로 들고 다니겠다</b>는 선언이다. 쿠폰 정책이 마케팅 쪽에서 계속 바뀌는 걸 아는 설계다.</p>
+
+    <p>iptables 체인이나 admission webhook을 떠올리면 된다. 룰 집합이 같아도 순서가 결과를 정하고, 순서를 하드코딩하면 정책이 바뀔 때마다 배포가 필요하다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 · 배분</span>
+    <h2>주문 할인은 라인까지 내려와야 한다</h2>
+
+    <p class="take">주문 단위로 받은 할인도 라인 단위로 쪼개 저장하지 않으면, 나중에 아무것도 못 한다.</p>
+
+    <p>Square 문서의 표현이 정확하다. <span class="hl">정액 주문 할인은 0이 아닌 모든 라인아이템에 분배되고, 각 라인이 받는 금액은 그 라인이 주문 소계에 기여한 비율에 비례한다.</span></p>
+
+    <div class="tblscroll">
+      <table class="rates">
+        <caption>2,000원 정액 + 10% 정률 주문 할인을 소계 기여율로 배분한 결과</caption>
+        <thead><tr><th>라인</th><th>소계</th><th>기여율</th><th>배분</th><th>최종</th></tr></thead>
+        <tbody>
+          <tr><td>[0] 아메리카노 ×2</td><td>9,000</td><td>58.06%</td><td>−2,061</td><td>6,939</td></tr>
+          <tr><td>[1] 티라미수 ×1</td><td>6,500</td><td>41.94%</td><td>−1,489</td><td>5,011</td></tr>
+        </tbody>
+        <tfoot>
+          <tr><td>합계</td><td>15,500</td><td>100%</td><td>−3,550</td><td>11,950</td></tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <p>그래서 두 API 모두 할인을 <b>두 번 적는다.</b> Square는 선언 금액인 <span class="mono">amount_money</span>와 실제 적용 금액인 <span class="mono">applied_money</span>를 따로 두고, 국내 사업자 API는 <span class="mono">Order.discounts[]</span>와 <span class="mono">OrderLineItem.appliedDiscounts[]</span>를 따로 둔다. 중복이 아니라 서로 다른 질문에 답하는 값이다.</p>
+
+    <p>내려 보내지 않으면 막히는 게 세 가지다.</p>
+
+    <p><b>부분취소.</b> 티라미수만 환불하면 그 라인이 먹은 1,489원도 같이 되돌려야 한다. 배분값이 없으면 환불 금액을 그 자리에서 다시 계산해야 하고, 그 사이 정책이 바뀌었으면 원래 금액과 안 맞는다.</p>
+
+    <p><b>세금.</b> <span class="mono">chargePrice</span>에는 supplyAmount, taxAmount, taxExemptAmount가 따로 있다. <span class="mono">OrderItemPrice</span>에도 isTaxFree, taxPercentage, taxInclusive가 라인마다 붙어 있다. 과세 상품과 면세 상품이 섞인 주문에서 할인을 라인에 안 내리면 <span class="hl">공급가액을 어떻게 나눌지 결정할 수가 없다.</span></p>
+
+    <p><b>부담 주체.</b> 배달앱 쿠폰처럼 할인 비용을 플랫폼이 내는지 가맹점이 내는지 갈릴 때, 정산은 라인 단위로 따진다. 주문 총액에만 적힌 할인은 정산에서 쓸모가 없다.</p>
+
+    <p>마지막으로 현실적인 함정. 비례 배분은 <b>원 단위로 안 떨어진다.</b> 2,000원을 9,000 / 6,500 / 3,000 세 라인에 나누면 972.97, 702.70, 324.32다. 절사하면 합이 1,998이라 2원이 뜨고, 반올림하면 합이 넘칠 수도 있다.</p>
+
+    <p>그래서 <span class="hl">남은 1원을 누구에게 줄지 규칙이 필요하다.</span> 보통 가장 큰 라인이나 마지막 라인에 몰아준다. 쿠버네티스에서 쿼터를 파드에 비례 분배할 때 millicore 잔여를 처리하는 문제와 완전히 같고, 여기서 틀리면 정산이 1원씩 안 맞는다. 하루 수만 건이면 1원도 안 맞는 게 맞다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">출처</span>
+    <h2>참조 원본</h2>
+    <ul class="src">
+      <li><a href="https://docs.tossplace.com/reference/open-api/order/order-model.html">주문 개념 상세 · 토스플레이스 연동 가이드</a><small>Order, OrderLineItem, OrderChargePrice, Discount 필드표의 1차 출처. 오늘 쓴 필드명은 전부 여기서 가져왔다</small></li>
+      <li><a href="https://docs.tossplace.com/reference/open-api/order/order-create.html">주문 생성 API · 토스플레이스 연동 가이드</a><small>targetType(ITEM / COMBO / AD_HOC), orderKey 중복 거부, 주문 단위와 항목 단위 할인의 분리</small></li>
+      <li><a href="https://developer.squareup.com/docs/orders-api/discounts">Order Discounts · Square Developer</a><small>할인 적용 순서를 문서로 못 박은 사례. 항목 정률 → 주문 정률 → 주문 정액 → 항목 정액</small></li>
+      <li><a href="https://developer.squareup.com/reference/square/objects/OrderLineItemDiscount">OrderLineItemDiscount · Square API Reference</a><small>amount_money와 applied_money의 차이, 그리고 소계 기여율 비례 배분 규칙의 원문</small></li>
+      <li><a href="https://tossplace.gitbook.io/guide/sector/postpaid-store/toss-order-table">토스오더 테이블주문 · 토스플레이스 가이드</a><small>선불과 후불 테이블주문의 차이. 주문과 결제가 왜 1:1이 아닌지의 현장 근거</small></li>
+    </ul>
+  </section>
+
+  <nav class="pager">
+    <a class="prev" href="day-15.html"><small>← DAY 15</small>포스 안의 네 시계</a>
+    <span></span>
+  </nav>
+
+  <footer>
+    <b>내일 Day 17</b><br>
+    분리결제, 부분취소, 환불이 도메인에서 유독 어려운 이유. 오늘 배분해 둔 할인이 실제로 어떻게 회수되는지 판다.
+  </footer>
+
+</div>
+
+</body></html>
