@@ -60,26 +60,48 @@ def build_day(n, src):
         s = s.replace('<div class="wrap">',
                       '<div class="wrap">\n\n  <a class="back" href="../payment-domain-map.html">← 결제 도메인 지도</a>', 1)
     s = re.sub(r'\s*<nav class="pager">.*?</nav>\n', "\n", s, flags=re.S)
-    prev = day_path(n - 1)
-    prev_link = (f'<a class="prev" href="{prev.name}"><small>← DAY {n-1:02d}</small>'
-                 f'{title_of(prev.read_text(encoding="utf-8"))}</a>') if prev.exists() else "<span></span>"
-    nxt = day_path(n + 1)
-    next_link = (f'<a class="next" href="{nxt.name}"><small>DAY {n+1:02d} →</small>'
-                 f'{title_of(nxt.read_text(encoding="utf-8"))}</a>') if nxt.exists() else "<span></span>"
+    p = neighbour(n, -1)
+    prev_link = (f'<a class="prev" href="{day_path(p).name}"><small>← DAY {p:02d}</small>'
+                 f'{title_of(day_path(p).read_text(encoding="utf-8"))}</a>') if p else "<span></span>"
+    q = neighbour(n, 1)
+    next_link = (f'<a class="next" href="{day_path(q).name}"><small>DAY {q:02d} →</small>'
+                 f'{title_of(day_path(q).read_text(encoding="utf-8"))}</a>') if q else "<span></span>"
     pager = f'  <nav class="pager">\n    {prev_link}\n    {next_link}\n  </nav>\n\n'
     k = s.rindex("  <footer>")
     return s[:k] + pager + s[k:], t
 
 
-def link_prev_to(n, title):
-    prev = day_path(n - 1)
-    if not prev.exists():
-        return
-    s = prev.read_text(encoding="utf-8")
-    s = re.sub(r'(<nav class="pager">\s*(?:<a class="prev".*?</a>|<span></span>)\s*)(?:<a class="next".*?</a>|<span></span>)',
-               lambda m: m.group(1) + f'<a class="next" href="day-{n:02d}.html"><small>DAY {n:02d} →</small>{title}</a>',
-               s, count=1, flags=re.S)
-    prev.write_text(s, encoding="utf-8")
+def neighbour(n, step):
+    """Nearest imported day before (step=-1) or after (step=1) day n, or None.
+
+    Days can be missing when the source routine skips one, so the pager links
+    across the gap instead of dead-ending."""
+    k = n + step
+    while 1 <= k <= TOTAL:
+        if day_path(k).exists():
+            return k
+        k += step
+    return None
+
+
+def relink_neighbours(n, title):
+    """Point the neighbouring days' pager buttons at the newly imported day n."""
+    link = {
+        "next": f'<a class="next" href="day-{n:02d}.html"><small>DAY {n:02d} →</small>{title}</a>',
+        "prev": f'<a class="prev" href="day-{n:02d}.html"><small>← DAY {n:02d}</small>{title}</a>',
+    }
+    for step, side in ((-1, "next"), (1, "prev")):
+        k = neighbour(n, step)
+        if not k:
+            continue
+        path = day_path(k)
+        s = path.read_text(encoding="utf-8")
+        slot = r'(?:<a class="%s".*?</a>|<span></span>)' % side
+        other = r'(?:<a class="%s".*?</a>|<span></span>)' % ("prev" if side == "next" else "next")
+        pattern = (r'(<nav class="pager">\s*)' + slot + r'(\s*' + other + ')') if side == "prev" \
+            else (r'(<nav class="pager">\s*' + other + r'\s*)' + slot + '()')
+        s = re.sub(pattern, lambda m: m.group(1) + link[side] + m.group(2), s, count=1, flags=re.S)
+        path.write_text(s, encoding="utf-8")
 
 
 def update_map(n, title):
@@ -124,7 +146,7 @@ def main():
         sys.exit(f"day {n} is outside the {TOTAL}-day course; not imported")
     html, title = build_day(n, src.read_text(encoding="utf-8"))
     day_path(n).write_text(html, encoding="utf-8")
-    link_prev_to(n, title)
+    relink_neighbours(n, title)
     done = update_map(n, title)
     print(f"imported day {n:02d} '{title}', map now {done} / {TOTAL}")
     hits = [(i, l.strip()[:160]) for i, l in enumerate(html.splitlines(), 1)

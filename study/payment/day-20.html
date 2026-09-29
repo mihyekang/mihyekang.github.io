@@ -1,0 +1,446 @@
+<!doctype html><html lang="ko"><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>승인 없이 파는 법</title>
+</head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --ground:#FFFFFF;
+  --surface:#F2F6F5;
+  --ink:#0F1513;
+  --ink-soft:#37433F;
+  --muted:#67736F;
+  --line:#DCE5E2;
+  --line-soft:#EBF1EF;
+  --key:#0A6A4C;
+  --key-soft:#E3F2EC;
+  --key-wash:#F0F8F5;
+  --late:#8A5E14;
+  --late-soft:#F7EFDE;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0C110F;
+    --surface:#151D1A;
+    --ink:#EAF1EE;
+    --ink-soft:#C3CFCB;
+    --muted:#8E9D98;
+    --line:#27332F;
+    --line-soft:#1B2522;
+    --key:#54CE9E;
+    --key-soft:#122A22;
+    --key-wash:#101B18;
+    --late:#D8AB57;
+    --late-soft:#282013;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0C110F;
+  --surface:#151D1A;
+  --ink:#EAF1EE;
+  --ink-soft:#C3CFCB;
+  --muted:#8E9D98;
+  --line:#27332F;
+  --line-soft:#1B2522;
+  --key:#54CE9E;
+  --key-soft:#122A22;
+  --key-wash:#101B18;
+  --late:#D8AB57;
+  --late-soft:#282013;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:'IBM Plex Sans KR','Apple SD Gothic Neo',system-ui,sans-serif;
+  font-size:17.5px;
+  line-height:1.9;
+  letter-spacing:-.003em;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{
+  max-width:34rem;
+  margin:0 auto;
+  padding-inline:22px;
+  padding-block:36px 80px;
+}
+
+/* ── masthead ───────────────────────── */
+.masthead{display:flex;flex-direction:column;gap:16px;margin-bottom:38px}
+.daymeta{
+  display:flex;align-items:center;gap:9px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+}
+.daymeta b{color:var(--key);font-size:14px}
+.daymeta s{text-decoration:none;color:var(--line)}
+h1{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:clamp(30px,9vw,40px);
+  line-height:1.3;
+  letter-spacing:-.015em;
+  margin:0;
+  text-wrap:balance;
+}
+.sub{margin:0;color:var(--muted);font-size:15.5px;line-height:1.7}
+
+/* ── 핵심 3줄 ───────────────────────── */
+.gist{
+  background:var(--key-wash);
+  border:1px solid var(--key-soft);
+  border-radius:10px;
+  padding:22px 20px;
+  margin-bottom:40px;
+  counter-reset:g;
+}
+.gist h2{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--key);margin:0 0 14px;border:0;padding:0;
+}
+.gist li{
+  list-style:none;position:relative;
+  padding-left:30px;
+  font-size:16.5px;line-height:1.75;
+  color:var(--ink-soft);
+}
+.gist li + li{margin-top:13px}
+.gist li::before{
+  counter-increment:g;content:counter(g);
+  position:absolute;left:0;top:.28em;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--key);color:var(--ground);
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  line-height:20px;text-align:center;
+}
+.gist ul{margin:0;padding:0}
+.gist b{color:var(--ink);font-weight:600}
+
+/* ── figure ─────────────────────────── */
+figure{margin:0 0 42px;display:flex;flex-direction:column;gap:14px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:14.5px;color:var(--muted);line-height:1.7}
+
+/* ── sections ───────────────────────── */
+section{margin-bottom:46px}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:6px;
+}
+h2{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:25px;
+  line-height:1.45;
+  letter-spacing:-.01em;
+  margin:0 0 20px;
+  text-wrap:balance;
+}
+p{margin:0 0 18px}
+p:last-child{margin-bottom:0}
+b,strong{font-weight:600;color:var(--ink)}
+.hl{background:var(--key-soft);padding:.1em .25em;border-radius:3px;font-weight:600}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:.88em;color:var(--muted)}
+
+/* takeaway line per section */
+.take{
+  display:flex;gap:12px;align-items:flex-start;
+  border-left:3px solid var(--key);
+  padding:2px 0 2px 15px;
+  margin:0 0 22px;
+  font-size:16.5px;line-height:1.7;
+  color:var(--ink-soft);
+}
+
+/* role list */
+.roles{margin:0 0 20px;padding:0}
+.roles div{
+  display:grid;
+  grid-template-columns:7.5rem 1fr;
+  gap:2px 14px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line-soft);
+  align-items:baseline;
+}
+.roles div:first-child{border-top:1px solid var(--line-soft)}
+.roles dt{font-weight:600;font-size:16px;line-height:1.5}
+.roles dd{margin:0;font-size:15.5px;color:var(--muted);line-height:1.65}
+@media(max-width:440px){
+  .roles div{grid-template-columns:1fr;gap:1px}
+}
+
+/* two-card compare */
+.split{display:flex;flex-direction:column;gap:14px;margin:0 0 22px}
+.split > div{
+  border-radius:10px;
+  padding:20px;
+  background:var(--surface);
+}
+.split h3{
+  margin:0 0 8px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+}
+.split p{font-size:16px;line-height:1.75;margin:0;color:var(--ink-soft)}
+.s-now{box-shadow:inset 3px 0 0 var(--key)}
+.s-now h3{color:var(--key)}
+.s-late{box-shadow:inset 3px 0 0 var(--late)}
+.s-late h3{color:var(--late)}
+
+/* rates table */
+.tblscroll{overflow-x:auto;margin:0 0 18px}
+.rates{width:100%;border-collapse:collapse;font-size:16px;min-width:0}
+.rates caption{
+  text-align:left;font-size:13.5px;color:var(--muted);
+  padding-bottom:10px;line-height:1.6;
+}
+.rates th,.rates td{padding:11px 8px;border-bottom:1px solid var(--line-soft);text-align:right;white-space:nowrap}
+.rates th:first-child,.rates td:first-child{text-align:left}
+.rates thead th{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  border-bottom-color:var(--line);
+}
+.rates td{font-variant-numeric:tabular-nums;color:var(--ink-soft)}
+.rates tbody tr:first-child td{color:var(--ink);font-weight:600}
+
+/* pull quote */
+.pull{
+  background:var(--key-soft);
+  border-radius:10px;
+  padding:26px 22px;
+  margin-bottom:46px;
+}
+.pull span{
+  display:block;margin-bottom:12px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--key);
+}
+.pull q{
+  font-family:'Gowun Batang',serif;
+  font-size:19px;line-height:1.85;quotes:'"' '"';
+  display:block;
+}
+
+/* sources */
+.src{list-style:none;margin:0;padding:0}
+.src li{padding:15px 0;border-bottom:1px solid var(--line-soft)}
+.src li:first-child{border-top:1px solid var(--line-soft)}
+.src a{
+  color:var(--ink);text-decoration:none;font-weight:600;
+  font-size:16px;line-height:1.6;
+  box-shadow:inset 0 -2px 0 var(--key);
+}
+.src a:hover{color:var(--key)}
+.src a:focus-visible{outline:2px solid var(--key);outline-offset:3px}
+.src small{display:block;color:var(--muted);font-size:14.5px;line-height:1.65;margin-top:7px}
+
+footer{
+  margin-top:46px;
+  font-size:15px;color:var(--muted);line-height:1.8;
+  border-top:1px solid var(--line);padding-top:22px;
+}
+footer b{color:var(--ink-soft)}
+/* site nav */
+.back{display:inline-block;margin-bottom:28px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--key)}
+.pager{display:flex;gap:12px;margin-top:46px}
+.pager a{flex:1;min-width:0;display:block;padding:14px 16px;border:1px solid var(--line);border-radius:10px;color:var(--ink);text-decoration:none;font-size:15px;line-height:1.5}
+.pager a:hover{border-color:var(--key);color:var(--key)}
+.pager a small{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted)}
+.pager .next{text-align:right}
+.pager span{flex:1}
+</style>
+
+<div class="wrap">
+
+  <a class="back" href="../payment-domain-map.html">← 결제 도메인 지도</a>
+
+  <header class="masthead">
+    <div class="daymeta"><b>DAY 20</b><s>/</s>21<s>·</s>POS 도메인</div>
+    <h1>승인 없이 파는 법</h1>
+    <p class="sub">인터넷이 끊긴 매장에서 카드가 긁히는 이유, 그리고 그 대가</p>
+  </header>
+
+  <div class="gist">
+    <h2>핵심 3줄</h2>
+    <ul>
+      <li>오프라인 결제는 승인을 받는 게 아니다. <b>승인 없이 먼저 팔고 나중에 물어본다.</b> 리스크가 사라지는 게 아니라 가맹점으로 옮겨간다.</li>
+      <li>층이 둘이다. <b>칩이 대신 판단하는 EMV 오프라인 승인</b>과 <b>단말이 큐에 쌓아두는 store-and-forward</b>. 책임 주체가 다르다.</li>
+      <li>클라우드 POS는 장애 도메인을 옮겼다. 죽는 건 가게 인터넷이 아니라 <b>벤더 서버</b>다. 그래서 오프라인 모드는 백업이 아니라 핵심 기능이다.</li>
+    </ul>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 340 480" role="img" aria-label="평시 온라인 승인 경로와, 통신이 끊겼을 때 단말이 자체 판단해 로컬 큐에 저장하고 복구 후 일괄 전송하는 오프라인 경로 비교. 오프라인 경로 끝에서 승인과 거절로 갈라지고 거절은 가맹점 손실로 이어진다.">
+      <defs>
+        <marker id="ar20" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/>
+        </marker>
+      </defs>
+
+      <text x="0" y="11" fill="var(--key)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.4">온라인 · 평시</text>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="14.5" font-weight="500">
+        <rect x="0" y="24" width="340" height="42" rx="6" fill="var(--surface)"/>
+        <text x="16" y="50" fill="var(--ink)">카드 제시 → VAN → 발급사</text>
+        <text x="324" y="50" fill="var(--key)" font-size="11.5" font-weight="400" text-anchor="end">수 초</text>
+      </g>
+
+      <line x1="0" y1="92" x2="340" y2="92" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 6"/>
+
+      <text x="0" y="116" fill="var(--late)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.4">통신 단절 · 오프라인</text>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="14.5" font-weight="500">
+        <rect x="0" y="128" width="240" height="42" rx="6" fill="var(--surface)"/>
+        <text x="16" y="154" fill="var(--ink)">① 카드 제시</text>
+
+        <rect x="0" y="202" width="240" height="42" rx="6" fill="var(--surface)"/>
+        <text x="16" y="228" fill="var(--ink)">② 단말이 자체 판단</text>
+        <text x="332" y="228" fill="var(--late)" font-size="11.5" font-weight="400" text-anchor="end">floor limit</text>
+
+        <rect x="0" y="276" width="240" height="42" rx="6" fill="var(--surface)"/>
+        <text x="16" y="302" fill="var(--ink)">③ 로컬 큐에 저장</text>
+        <text x="332" y="302" fill="var(--late)" font-size="11.5" font-weight="400" text-anchor="end">영수증 먼저</text>
+
+        <rect x="0" y="350" width="240" height="42" rx="6" fill="var(--surface)"/>
+        <text x="16" y="376" fill="var(--ink)">④ 복구 후 일괄 전송</text>
+
+        <rect x="0" y="432" width="156" height="42" rx="6" fill="var(--key-soft)"/>
+        <text x="16" y="458" fill="var(--ink)">승인</text>
+
+        <rect x="184" y="432" width="156" height="42" rx="6" fill="var(--late-soft)"/>
+        <text x="200" y="458" fill="var(--ink)">거절 · 손실</text>
+      </g>
+
+      <g stroke="var(--muted)" stroke-width="1.3" marker-end="url(#ar20)">
+        <line x1="34" y1="170" x2="34" y2="199"/>
+        <line x1="34" y1="244" x2="34" y2="273"/>
+        <line x1="34" y1="318" x2="34" y2="347"/>
+        <line x1="34" y1="412" x2="34" y2="429"/>
+        <line x1="262" y1="412" x2="262" y2="429"/>
+      </g>
+      <path d="M34 392 V 412 H 262" fill="none" stroke="var(--muted)" stroke-width="1.3"/>
+    </svg>
+    <figcaption>오프라인 경로에는 ②와 ③ 사이에 발급사가 없다. 영수증은 이미 손님 손에 갔고, 승인 여부는 ④에서야 결정된다. 그 시차 안에서 벌어지는 모든 일이 가맹점 리스크다.</figcaption>
+  </figure>
+
+  <section>
+    <span class="eyebrow">01 · 전제가 깨질 때</span>
+    <h2>결제는 원래 온라인 전제다</h2>
+
+    <p class="take">카드결제는 발급사에 물어봐야 완성된다. 그 전제가 깨지는 순간을 제품이 미리 정의해둬야 한다.</p>
+
+    <p>Day 1에서 봤듯 승인은 발급사까지 갔다 오는 실시간 왕복이다. 선이 끊기면 물어볼 상대가 없다.</p>
+
+    <p>그런데 가게는 멈출 수 없다. 점심 피크에 카드가 안 긁히면 손님은 그냥 나간다. 사장님 입장에서 "승인 실패"와 "매출 손실"은 같은 말이다.</p>
+
+    <p>그래서 결제 업계는 승인 없이 파는 예외 경로를 오래전에 규칙으로 만들어뒀다. 미국 페이먼츠 포럼 백서는 통신 단절 시 선택지를 셋으로 정리한다.</p>
+
+    <dl class="roles">
+      <div><dt>오프라인 승인 <span class="mono">EMV</span></dt><dd>발급사 대신 칩카드가 판단한다. 승인이면 TC, 거절이면 AAC 크립토그램을 돌려준다</dd></div>
+      <div><dt>지연 승인 <span class="mono">Deferred</span></dt><dd>거래를 보관하고, 복구되면 ARQC 포함 원본 EMV 데이터로 승인을 요청한다</dd></div>
+      <div><dt>강제 전송 <span class="mono">Force Post</span></dt><dd>승인을 아예 건너뛰고 정산에 밀어넣는다. 차지백 책임은 전부 가맹점</dd></div>
+    </dl>
+
+    <p>인프라 언어로 옮기면 익숙한 문제다. 업스트림이 죽었을 때 <span class="mono">503</span>을 던질 건가, 스테일 캐시를 서브할 건가. <span class="hl">오프라인 결제는 결제 도메인 버전의 graceful degradation 정책</span>이고, 정확성을 팔아 가용성을 사는 거래다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">02 · 두 개의 층</span>
+    <h2>칩이 판단하는 층, 단말이 쌓아두는 층</h2>
+
+    <p class="take">"오프라인 모드"는 하나의 기능이 아니다. 신뢰 모델이 전혀 다른 두 메커니즘이 같은 이름을 쓰고 있다.</p>
+
+    <div class="split">
+      <div class="s-now">
+        <h3>EMV 오프라인 승인</h3>
+        <p>칩 안에 발급사가 미리 심어둔 리스크 파라미터가 있다. 단말은 자기 floor limit과 카드 파라미터를 비교하고, 둘 다 밑이면 칩에게 묻는다. 발급사를 부르지 않지만 <b>발급사가 위임한 판단</b>이라는 점이 중요하다. 승인율이 높은 대신, 대부분의 체크카드와 모바일 수단은 지원하지 않는다.</p>
+      </div>
+      <div class="s-late">
+        <h3>Store-and-Forward</h3>
+        <p>칩에도 발급사에도 묻지 않는다. 단말이 자기 기준으로 통과시키고 카드 데이터와 거래를 로컬에 저장한다. 영수증은 먼저 나간다. Adyen 문서는 이 방식의 승인율을 업종에 따라 <b>95% 수준</b>으로 적는다. 나머지 5%는 그냥 사라지는 돈이다.</p>
+      </div>
+    </div>
+
+    <p>공통 제약이 하나 있다. <b>마그네틱은 오프라인에서 대체로 금지된다.</b> 칩 대화가 없으니 카드가 진짜인지 확인할 수단이 아예 없기 때문이다. Day 8에서 "왜 카드를 꽂아야 하는가"를 봤는데, 그 답이 여기서 한 번 더 쓰인다.</p>
+
+    <p>부작용도 있다. 오프라인이나 지연 승인이 끼면 카드의 거래 카운터(<span class="mono">ATC</span>)가 순서를 잃는다. 백서는 발급사에게 ATC 불일치만으로 거절하지 말라고 권고한다. <span class="hl">분산 시스템의 시퀀스 번호 충돌</span>과 정확히 같은 문제다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 · 숫자</span>
+    <h2>오프라인 정책은 리스크 예산이다</h2>
+
+    <p class="take">결국 "얼마까지 떼여도 되는가"를 숫자로 적는 일이다. 그리고 그 숫자를 적는 사람은 PM이다.</p>
+
+    <div class="tblscroll">
+      <table class="rates">
+        <caption>해외 결제사 공개 문서 기준. 국내 VAN·카드사 규칙은 공개 원문을 찾지 못해 확인 필요.</caption>
+        <thead><tr><th>제품</th><th>건당 한도</th><th>보관 한계</th><th>실패 시</th></tr></thead>
+        <tbody>
+          <tr><td>Square</td><td>$1~50,000 설정</td><td>72시간</td><td>가맹점</td></tr>
+          <tr><td>Adyen</td><td>수단별 4종 설정</td><td>단말당 건수</td><td>가맹점</td></tr>
+          <tr><td>국내 VAN</td><td>확인 필요</td><td>확인 필요</td><td>확인 필요</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Square는 오프라인 결제를 <b>72시간</b> 안에 업로드하지 않으면 영구 만료시킨다. 24시간 내 업로드를 권고한다. 건당 한도는 가맹점이 1달러에서 5만 달러 사이로 직접 정한다.</p>
+
+    <p>Adyen은 한도를 넷으로 쪼갠다. 칩 floor limit, 컨택리스 floor limit, SAF 최대금액, 단말당 최대 건수. 수단별로 리스크가 다르니 노브도 따로 준 것이다.</p>
+
+    <p>세 회사 문서가 같은 문장을 적는다. <span class="hl">만료·거절·분쟁 손실은 전부 가맹점이 진다.</span> 오프라인 결제의 진짜 가격이 이것이고, 결제사는 가용성을 팔면서 리스크는 넘긴다.</p>
+
+    <p>그래서 이건 error budget과 구조가 같다. 다만 예산 단위가 9의 개수가 아니라 원화다. 한도를 올리면 피크에 더 많이 팔고 더 많이 떼인다. 업종별로 최적값이 다르고, 이걸 튜닝하는 게 POS PM의 실제 업무가 된다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 · 클라우드 POS</span>
+    <h2>장애 도메인이 옮겨갔다</h2>
+
+    <p class="take">이제 오프라인 설계의 어려움은 가게 회선이 아니라 벤더 서버에 있다.</p>
+
+    <p>2026년 6월 26일, 한 대형 클라우드 POS가 하루에 두 번 멈췄다. 오전 11시 40분에 1차, 12시 10분 복구 발표, 그리고 오후 5시 45분에 2차. <b>점심과 저녁 피크를 둘 다 맞았다.</b> 일부 단말에는 "네트워크 연결에 문제가 생겼다"는 메시지가 떴다.</p>
+
+    <p>규모가 문제다. 보도 기준 전국 약 <b>30만 가맹점</b>이 이 제품을 쓴다. 로컬 POS 시대에 장애는 가게 하나였다. 클라우드 POS에서 장애는 전국이다.</p>
+
+    <p>인프라 하는 사람에겐 익숙한 그림이다. 단일 장애점을 벤더 쪽으로 모은 대가로 blast radius가 커졌다. <span class="hl">그래서 클라우드 POS에서 오프라인 모드는 부가 기능이 아니라 가용성 설계의 본체</span>다. 주문은 로컬에서 받아야 하고, 결제는 큐에 쌓여야 하고, 복구 시 서버와 합쳐져야 한다.</p>
+
+    <p>진짜 난도는 마지막 단계다. 같은 주문을 단말과 서버가 각자 갖고 있으면 누가 정본인가. 큐를 재전송할 때 멱등성 키가 없으면 이중 결제가 난다. 오프라인 모드는 결제 문제처럼 보이지만 실제로는 <b>분산 합의와 컨플릭트 해소 문제</b>다. 사장님 화면에서 매출이 두 번 잡히는 순간 신뢰가 끝난다.</p>
+
+    <p>그 사업자의 공개 Open API에 단서가 하나 있다. 결제 엔드포인트가 "승인된 결제를 기록"하는 모양(<span class="mono">POST /payment/payments</span>)이고, 승인·취소는 웹훅으로 통보된다. 승인은 단말·VAN 경로에서 나고 서버는 사후에 기록하는 구조로 읽힌다. 다만 공개 문서에 멱등성 키, 타임아웃, 재시도 가이드는 없다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">출처</span>
+    <h2>참조 원본</h2>
+    <ul class="src">
+      <li><a href="https://docs.adyen.com/point-of-sale/offline-payment">Offline payments · Adyen Docs</a><small>오프라인 EMV와 store-and-forward의 차이, 4종 한도 설정, SAF 승인율 95%와 책임 귀속의 1차 출처</small></li>
+      <li><a href="https://www.emv-connection.com/downloads/2016/04/Merchant-Processing-during-Communication-Disruption-FINAL-April-2016.pdf">Merchant Processing During Communications Disruptions · EMV Migration Forum</a><small>오프라인 승인·지연 승인·강제 전송 세 갈래, TC/AAC 크립토그램, ATC 순서 이탈 권고의 원문</small></li>
+      <li><a href="https://squareup.com/help/us/en/article/7777-process-card-payments-with-offline-mode">Process offline payments · Square Support</a><small>72시간 만료, 건당 $1~50,000 설정, 만료·거절·분쟁 손실이 가맹점에 귀속된다는 명시</small></li>
+      <li><a href="https://www.fnnews.com/news/202606262016502108">점심 이어 저녁에도 '먹통' · 파이낸셜뉴스</a><small>2026년 6월 26일 토스 포스 2회 장애의 시각, 메시지, 약 30만 가맹점 규모</small></li>
+      <li><a href="https://docs.tossplace.com/reference/open-api/payment.html">Payment API · 토스플레이스 연동 가이드</a><small>승인된 결제를 기록하는 엔드포인트 구조와 승인·취소 웹훅 2종. 멱등성 관련 기술은 없음</small></li>
+    </ul>
+  </section>
+
+  <nav class="pager">
+    <a class="prev" href="day-18.html"><small>← DAY 18</small>세 번째 전문</a>
+    <span></span>
+  </nav>
+
+  <footer>
+    <b>내일 Day 21</b><br>
+    3주차 복습. POS가 실제로 하는 일부터 오프라인 우선 설계까지, 주문·결제·정산·재고 4축을 한 장으로 다시 정리한다.
+  </footer>
+
+</div>
+
+</body></html>
