@@ -1,0 +1,457 @@
+<!doctype html><html lang="ko"><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>주문 위에 얹힌 결제</title>
+</head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --ground:#FFFFFF;
+  --surface:#F2F6F5;
+  --ink:#0F1513;
+  --ink-soft:#37433F;
+  --muted:#67736F;
+  --line:#DCE5E2;
+  --line-soft:#EBF1EF;
+  --key:#0A6A4C;
+  --key-soft:#E3F2EC;
+  --key-wash:#F0F8F5;
+  --late:#8A5E14;
+  --late-soft:#F7EFDE;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0C110F;
+    --surface:#151D1A;
+    --ink:#EAF1EE;
+    --ink-soft:#C3CFCB;
+    --muted:#8E9D98;
+    --line:#27332F;
+    --line-soft:#1B2522;
+    --key:#54CE9E;
+    --key-soft:#122A22;
+    --key-wash:#101B18;
+    --late:#D8AB57;
+    --late-soft:#282013;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0C110F;
+  --surface:#151D1A;
+  --ink:#EAF1EE;
+  --ink-soft:#C3CFCB;
+  --muted:#8E9D98;
+  --line:#27332F;
+  --line-soft:#1B2522;
+  --key:#54CE9E;
+  --key-soft:#122A22;
+  --key-wash:#101B18;
+  --late:#D8AB57;
+  --late-soft:#282013;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:'IBM Plex Sans KR','Apple SD Gothic Neo',system-ui,sans-serif;
+  font-size:17.5px;
+  line-height:1.9;
+  letter-spacing:-.003em;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{
+  max-width:34rem;
+  margin:0 auto;
+  padding-inline:22px;
+  padding-block:36px 80px;
+}
+
+/* ── masthead ───────────────────────── */
+.masthead{display:flex;flex-direction:column;gap:16px;margin-bottom:38px}
+.daymeta{
+  display:flex;align-items:center;gap:9px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+}
+.daymeta b{color:var(--key);font-size:14px}
+.daymeta s{text-decoration:none;color:var(--line)}
+h1{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:clamp(30px,9vw,40px);
+  line-height:1.3;
+  letter-spacing:-.015em;
+  margin:0;
+  text-wrap:balance;
+}
+.sub{margin:0;color:var(--muted);font-size:15.5px;line-height:1.7}
+
+/* ── 핵심 3줄 ───────────────────────── */
+.gist{
+  background:var(--key-wash);
+  border:1px solid var(--key-soft);
+  border-radius:10px;
+  padding:22px 20px;
+  margin-bottom:40px;
+  counter-reset:g;
+}
+.gist h2{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--key);margin:0 0 14px;border:0;padding:0;
+}
+.gist li{
+  list-style:none;position:relative;
+  padding-left:30px;
+  font-size:16.5px;line-height:1.75;
+  color:var(--ink-soft);
+}
+.gist li + li{margin-top:13px}
+.gist li::before{
+  counter-increment:g;content:counter(g);
+  position:absolute;left:0;top:.28em;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--key);color:var(--ground);
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  line-height:20px;text-align:center;
+}
+.gist ul{margin:0;padding:0}
+.gist b{color:var(--ink);font-weight:600}
+
+/* ── figure ─────────────────────────── */
+figure{margin:0 0 42px;display:flex;flex-direction:column;gap:14px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:14.5px;color:var(--muted);line-height:1.7}
+
+/* ── sections ───────────────────────── */
+section{margin-bottom:46px}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:6px;
+}
+h2{
+  font-family:'Gowun Batang',serif;
+  font-weight:700;
+  font-size:25px;
+  line-height:1.45;
+  letter-spacing:-.01em;
+  margin:0 0 20px;
+  text-wrap:balance;
+}
+p{margin:0 0 18px}
+p:last-child{margin-bottom:0}
+b,strong{font-weight:600;color:var(--ink)}
+.hl{background:var(--key-soft);padding:.1em .25em;border-radius:3px;font-weight:600}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:.88em;color:var(--muted)}
+.chk{color:var(--late);font-weight:600}
+
+/* takeaway line per section */
+.take{
+  display:flex;gap:12px;align-items:flex-start;
+  border-left:3px solid var(--key);
+  padding:2px 0 2px 15px;
+  margin:0 0 22px;
+  font-size:16.5px;line-height:1.7;
+  color:var(--ink-soft);
+}
+
+/* role list */
+.roles{margin:0 0 20px;padding:0}
+.roles div{
+  display:grid;
+  grid-template-columns:7.5rem 1fr;
+  gap:2px 14px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line-soft);
+  align-items:baseline;
+}
+.roles div:first-child{border-top:1px solid var(--line-soft)}
+.roles dt{font-weight:600;font-size:16px;line-height:1.5}
+.roles dd{margin:0;font-size:15.5px;color:var(--muted);line-height:1.65}
+@media(max-width:440px){
+  .roles div{grid-template-columns:1fr;gap:1px}
+}
+
+/* two-card compare */
+.split{display:flex;flex-direction:column;gap:14px;margin:0 0 22px}
+.split > div{
+  border-radius:10px;
+  padding:20px;
+  background:var(--surface);
+}
+.split h3{
+  margin:0 0 8px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+}
+.split p{font-size:16px;line-height:1.75;margin:0;color:var(--ink-soft)}
+.s-now{box-shadow:inset 3px 0 0 var(--key)}
+.s-now h3{color:var(--key)}
+.s-late{box-shadow:inset 3px 0 0 var(--late)}
+.s-late h3{color:var(--late)}
+
+/* rates table */
+.tblscroll{overflow-x:auto;margin:0 0 18px}
+.rates{width:100%;border-collapse:collapse;font-size:16px}
+.rates caption{
+  text-align:left;font-size:13.5px;color:var(--muted);
+  padding-bottom:10px;line-height:1.6;
+}
+.rates th,.rates td{padding:11px 8px;border-bottom:1px solid var(--line-soft);text-align:right;white-space:nowrap}
+.rates th:first-child,.rates td:first-child{text-align:left}
+.rates thead th{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;
+  font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  border-bottom-color:var(--line);
+}
+.rates td{font-variant-numeric:tabular-nums;color:var(--ink-soft)}
+.rates tbody tr:first-child td{color:var(--ink);font-weight:600}
+
+/* pull quote */
+.pull{
+  background:var(--key-soft);
+  border-radius:10px;
+  padding:26px 22px;
+  margin-bottom:46px;
+}
+.pull span{
+  display:block;margin-bottom:12px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--key);
+}
+.pull q{
+  font-family:'Gowun Batang',serif;
+  font-size:19px;line-height:1.85;quotes:'"' '"';
+  display:block;
+}
+
+/* sources */
+.src{list-style:none;margin:0;padding:0}
+.src li{padding:15px 0;border-bottom:1px solid var(--line-soft)}
+.src li:first-child{border-top:1px solid var(--line-soft)}
+.src a{
+  color:var(--ink);text-decoration:none;font-weight:600;
+  font-size:16px;line-height:1.6;
+  box-shadow:inset 0 -2px 0 var(--key);
+}
+.src a:hover{color:var(--key)}
+.src a:focus-visible{outline:2px solid var(--key);outline-offset:3px}
+.src small{display:block;color:var(--muted);font-size:14.5px;line-height:1.65;margin-top:7px}
+
+footer{
+  margin-top:46px;
+  font-size:15px;color:var(--muted);line-height:1.8;
+  border-top:1px solid var(--line);padding-top:22px;
+}
+footer b{color:var(--ink-soft)}
+/* site nav */
+.back{display:inline-block;margin-bottom:28px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--key)}
+.pager{display:flex;gap:12px;margin-top:46px}
+.pager a{flex:1;min-width:0;display:block;padding:14px 16px;border:1px solid var(--line);border-radius:10px;color:var(--ink);text-decoration:none;font-size:15px;line-height:1.5}
+.pager a:hover{border-color:var(--key);color:var(--key)}
+.pager a small{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted)}
+.pager .next{text-align:right}
+.pager span{flex:1}
+</style>
+
+<div class="wrap">
+
+  <a class="back" href="../payment-domain-map.html">← 결제 도메인 지도</a>
+
+  <header class="masthead">
+    <div class="daymeta"><b>DAY 21</b><s>/</s>21<s>·</s>POS 도메인</div>
+    <h1>주문 위에 얹힌 결제</h1>
+    <p class="sub">3주차 복습: POS의 난이도가 실제로 어디 있는지</p>
+  </header>
+
+  <div class="gist">
+    <h2>핵심 3줄</h2>
+    <ul>
+      <li>POS의 중심은 결제가 아니라 <b>주문</b>이다. 결제는 주문 상태를 확정하는 이벤트 하나일 뿐이다.</li>
+      <li>정방향은 쉽다. <b>역방향(부분취소·환불)</b>이 도메인을 부순다. 게다가 우리 코드가 완벽해도 카드사 정책이 부분취소 자체를 막는다.</li>
+      <li>POS는 <b>인터넷이 끊겨도 장사가 되어야</b> 하는데, 카드 승인과 국세청 통보는 온라인이 필수다. 이 모순이 3주차 내내 나온 긴장의 정체다.</li>
+    </ul>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 340 400" role="img" aria-label="POS 주문 흐름도: 테이블 생성부터 주문 확정까지 정방향 흐름, 확정이 만드는 재고·매출·국세청 부수효과, 그리고 부분취소가 이 전체를 거꾸로 되감아야 한다는 역방향 경로">
+      <defs>
+        <marker id="ar21" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/>
+        </marker>
+        <marker id="arl21" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--late)"/>
+        </marker>
+      </defs>
+
+      <text x="0" y="11" fill="var(--key)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.4">정방향 · 주문에서 결제로</text>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="14.5" font-weight="500">
+        <rect x="0" y="24" width="240" height="42" rx="6" fill="var(--surface)"/>
+        <text x="16" y="50" fill="var(--ink)">테이블 · 오더 생성</text>
+
+        <rect x="0" y="98" width="240" height="42" rx="6" fill="var(--surface)"/>
+        <text x="16" y="124" fill="var(--ink)">라인아이템 · 할인 · 쿠폰</text>
+
+        <rect x="0" y="172" width="240" height="42" rx="6" fill="var(--key-soft)"/>
+        <text x="16" y="198" fill="var(--ink)">결제 승인</text>
+        <text x="226" y="198" fill="var(--key)" font-size="11.5" font-weight="400" text-anchor="end">이벤트 하나</text>
+
+        <rect x="0" y="246" width="240" height="42" rx="6" fill="var(--surface)"/>
+        <text x="16" y="272" fill="var(--ink)">주문 확정</text>
+      </g>
+
+      <g stroke="var(--muted)" stroke-width="1.3" marker-end="url(#ar21)">
+        <line x1="34" y1="66" x2="34" y2="95"/>
+        <line x1="34" y1="140" x2="34" y2="169"/>
+        <line x1="34" y1="214" x2="34" y2="243"/>
+        <line x1="120" y1="288" x2="120" y2="306"/>
+      </g>
+
+      <path d="M240 267 H 288 V 45 H 240" fill="none" stroke="var(--late)" stroke-width="1.5" marker-end="url(#arl21)"/>
+      <text x="302" y="156" fill="var(--late)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.2" transform="rotate(-90 302 156)" text-anchor="middle">부분취소 되감기</text>
+
+      <line x1="0" y1="314" x2="340" y2="314" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 6"/>
+
+      <text x="0" y="340" fill="var(--late)" font-family="'IBM Plex Mono',monospace" font-size="11" letter-spacing="1.4">확정이 만드는 부수효과</text>
+
+      <g font-family="'IBM Plex Sans KR',sans-serif" font-size="12.5" font-weight="500">
+        <rect x="0" y="352" width="106" height="42" rx="6" fill="var(--late-soft)"/>
+        <text x="53" y="378" fill="var(--ink)" text-anchor="middle">재고 차감</text>
+        <rect x="117" y="352" width="106" height="42" rx="6" fill="var(--late-soft)"/>
+        <text x="170" y="378" fill="var(--ink)" text-anchor="middle">매출 집계</text>
+        <rect x="234" y="352" width="106" height="42" rx="6" fill="var(--late-soft)"/>
+        <text x="287" y="378" fill="var(--ink)" text-anchor="middle">국세청 통보</text>
+      </g>
+    </svg>
+    <figcaption>위쪽 네 칸을 내려가는 건 쉽다. 어려운 건 오른쪽 갈색 화살표, 그리고 점선 아래 세 칸까지 같이 되감는 일이다. 부분취소 한 건이 재고, 매출, 세무 신고를 동시에 건드린다.</figcaption>
+  </figure>
+
+  <section>
+    <span class="eyebrow">01 · 네 개의 축</span>
+    <h2>결제만 남의 것이다</h2>
+
+    <p class="take">네 축 중 결제 하나만 외부 계약에 묶여 있고, 나머지 셋은 전부 내 도메인이다.</p>
+
+    <dl class="roles">
+      <div><dt>주문</dt><dd>테이블, 오더, 라인아이템의 상태기계</dd></div>
+      <div><dt>결제</dt><dd>카드사·VAN·PG에 붙는 유일한 외부 의존</dd></div>
+      <div><dt>정산</dt><dd>하루치를 모아 집계하고 맞추는 배치</dd></div>
+      <div><dt>재고</dt><dd>주문 확정이 만드는 부수효과의 소비자</dd></div>
+    </dl>
+
+    <p>여기서 초심자가 자주 뒤집는 게 있다. POS를 "결제 단말기에 화면 붙인 것"으로 보면 설계가 전부 틀어진다. <span class="hl">POS는 주문 시스템이고, 결제는 그 상태기계의 전이 조건 하나다.</span></p>
+
+    <p>국내 한 클라우드 POS 제품 페이지의 기능 목록도 정확히 이 순서로 읽힌다. QR 테이블 오더와 키오스크 모드는 주문, 바코드 기반 상품 등록은 재고, 실시간 매출 통합과 달력 분석은 정산이다. 결제는 그중 한 칸일 뿐인데 제품 이름은 결제 단말기로 불린다.</p>
+
+    <p>쿠버네티스로 옮기면 익숙하다. 주문은 <span class="mono">Deployment</span> 스펙과 상태, 재고는 그 스펙이 소비하는 <span class="mono">ResourceQuota</span>, 정산은 사용량을 긁어모으는 메트릭 파이프라인이다. 결제만 외부 클라우드 API고, 그래서 유일하게 SLA를 내가 못 정한다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">02 · 역방향</span>
+    <h2>취소는 도메인의 시험지</h2>
+
+    <p class="take">부분취소는 구현 난이도 문제가 아니다. 애초에 불가능한 조합이 존재한다.</p>
+
+    <p>정방향 주문은 누구나 짤 수 있다. 문제는 손님이 넷이서 먹고 각자 카드를 내밀었다가, 한 명이 "저는 저 메뉴 안 먹었어요"라고 말하는 순간이다.</p>
+
+    <p>분리결제로 한 주문에 결제 세 건이 달려 있으면, 부분취소는 먼저 <b>어느 결제 건에서 얼마를 뺄지</b>를 결정해야 한다. 그 금액은 할인과 쿠폰을 어떤 순서로 적용했는지에 따라 달라진다. 할인 적용 순서를 저장 안 해두면 취소 금액을 재현할 수가 없다.</p>
+
+    <p>그리고 여기서 초심자가 반드시 한 번 벽을 만난다. 코드를 완벽하게 짜도 <span class="hl">부분취소가 정책적으로 막혀 있는 조합이 있다.</span></p>
+
+    <div class="split">
+      <div class="s-now">
+        <h3>되는 세계</h3>
+        <p>일반 개인 신용·체크카드, 원화 단일 결제. 이 경우는 부분취소 API가 그대로 동작한다. POS 입장에서 기본 시나리오.</p>
+      </div>
+      <div class="s-late">
+        <h3>막히는 세계</h3>
+        <p>포트원 문서 기준: 선불카드·기프트카드·구매전용카드, 해외 카드, 에스크로 거래는 부분취소 불가. 카드사 포인트가 섞인 복합결제는 국민·삼성·하나·신한·현대를 제외하면 정책적으로 불가. 휴대폰 결제는 이니시스 외 불가, 가상계좌는 다날의 경우 환불 자체가 불가.</p>
+      </div>
+    </div>
+
+    <p>그러니까 POS는 "부분취소 가능 여부"를 <b>결제수단 × 카드사 × PG 조합별로 미리 알고 있어야</b> 한다. 모르고 버튼을 열어두면, 사장님이 손님 앞에서 실패 화면을 보게 된다.</p>
+
+    <p>인프라 감각으로 보면 이건 멱등성과 보상 트랜잭션 문제다. 취소는 롤백이 아니라 <b>반대 방향 거래를 하나 더 만드는 사가(saga)</b>이고, 그 보상 단계 중 일부는 외부 시스템이 거부할 권리를 가진다. 재시도로 해결되는 종류의 실패가 아니다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 · 외부 의존</span>
+    <h2>들어오는 주문, 나가는 신고</h2>
+
+    <p class="take">POS는 통제할 수 없는 외부 시스템 여러 개 사이에 끼어 있으면서, 장애 책임은 혼자 진다.</p>
+
+    <p>주문은 POS 화면에서만 생기지 않는다. 요즘 POS는 배달의민족, 쿠팡이츠, 요기요 같은 배달앱을 연결한다. 이건 <b>주문의 소유권이 외부에 있는 주문</b>을 내 주문 도메인 모델로 매핑하는 일이다.</p>
+
+    <p>외부 주문에는 내 테이블 개념이 없고, 내 할인 규칙도 안 맞고, 취소 권한도 내게 없다. 미러링하는 읽기 전용 리소스에 가깝다. 그런데 매출 집계와 재고 차감에는 똑같이 들어가야 한다.</p>
+
+    <p>반대 방향으로는 국세청이 있다. 현금영수증은 결제 단말기를 통해 국세청에 자동 통보되고, 발급 다음날 오전 9시경부터 홈택스에서 조회된다. <span class="hl">POS는 세무 신고 파이프라인의 한 구간이다.</span></p>
+
+    <div class="tblscroll">
+      <table class="rates">
+        <caption>현금영수증 의무발행업종 기준 (볼타 정리, 2026년 기준)</caption>
+        <thead><tr><th>항목</th><th>기준</th></tr></thead>
+        <tbody>
+          <tr><td>의무발행 기준</td><td>건당 10만원 이상 현금거래</td></tr>
+          <tr><td>미발급 가산세</td><td>미발급 금액의 20%</td></tr>
+          <tr><td>자진발급 기한</td><td>현금 받은 날부터 5일 이내</td></tr>
+          <tr><td>2026년 추가 업종</td><td>4개 업종</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>미발급 가산세가 거래금액의 20%라는 숫자를 보면, 이게 왜 "있으면 좋은 기능"이 아닌지 바로 이해된다. POS가 현금영수증을 놓치면 사장님이 세금으로 맞는다. 제품 결함이 고객의 과태료로 번역되는 도메인이다.</p>
+
+    <p>발급 의무 대상도 넓다. 토스페이먼츠 용어집 기준으로 소비자상대업종, 직전 과세기간 수입 2,400만원 이상인 개인사업자, 그리고 <b>모든 법인사업자</b>다. 사실상 POS를 쓰는 대부분이 해당된다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 · 오프라인 우선</span>
+    <h2>끊겨도 장사는 된다, 결제만 빼고</h2>
+
+    <p class="take">주문은 로컬에서 계속 돌 수 있다. 카드 승인은 그럴 수 없다.</p>
+
+    <p>3주차의 마지막 긴장은 여기다. 매장 인터넷이 끊겼을 때 사장님은 장사를 멈추지 않는다. 주문은 받고, 음식은 나가고, 나중에 계산한다.</p>
+
+    <p>그래서 주문 도메인은 오프라인 우선으로 설계할 수 있다. 로컬에 쓰고, 연결이 돌아오면 동기화한다. 충돌 해결 규칙만 정해두면 되는, 분산 시스템에서 익숙한 문제다.</p>
+
+    <p>카드 승인은 다르다. 발급사에 물어보지 않으면 한도가 남았는지 알 방법이 없다. 단말기가 거래를 캐싱해뒀다가 연결 복구 시 전송하는 store-and-forward 방식이 일반적으로 존재하긴 하는데, 위키피디아 단말기 문서도 단점을 명확히 적어둔다. 카드를 처리한 그 시점에 즉시 승인을 받을 수 없어서 결과적으로 결제가 실패할 수 있다.</p>
+
+    <p><span class="chk">확인 필요:</span> 국내 카드 결제에서 오프라인 승인이 실무적으로 어디까지 허용되는지는 1차 자료를 못 찾았다. 여신금융협회나 카드사 가맹점 약관에서 확인해야 한다. 체감상 국내는 실시간 온라인 승인 원칙이 강해서 거의 안 쓰일 것으로 보이지만, 단정하지 말고 "국내에서는 실시간 승인이 원칙이라 오프라인 폴백은 제한적"까지만 정리해 두는 게 안전하다.</p>
+
+    <p>그래서 현실적인 POS의 오프라인 전략은 이렇게 갈린다. <b>주문은 계속, 결제는 현금 폴백 또는 재시도 큐</b>. 결제를 억지로 오프라인화하려다 미수금을 만드는 것보다, 주문 기능을 살려두는 게 사장님에게 훨씬 가치 있다.</p>
+
+    <p>같은 장애 격리 사고방식이 한 POS의 플러그인 구조에도 나온다. 플러그인을 웹 워커에서 돌리고 메시지 기반 비동기로만 통신하게 해서, 플러그인이 죽어도 POS 기본 기능은 살아 있게 만들었다. <span class="mono">posPluginSdk.order.add()</span> 같은 메서드로 주문·결제·테이블 리소스에만 접근하게 열어뒀다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">출처</span>
+    <h2>참조 원본</h2>
+    <ul class="src">
+      <li><a href="https://help.portone.io/content/impossible-partial-cancel">부분 취소가 불가한 케이스 · 포트원 헬프센터</a><small>결제수단·카드사별 부분취소 불가 조건의 1차 출처. 이 문서 하나가 2번 섹션 전체의 근거다</small></li>
+      <li><a href="https://tossplace.com/product/pos">포스 · 토스플레이스 제품 페이지</a><small>배달앱 3사 연동, QR 테이블 오더, 키오스크, 바코드 재고, 실시간 매출 집계 등 기능 범위 원문</small></li>
+      <li><a href="https://bolta.io/insight/cash-receipt-mandatory-issue-business-types-2026">현금영수증 의무발행업종 2026년 기준 · 볼타</a><small>10만원 기준, 가산세 20%, 자진발급 5일의 출처. 국세청 원문 페이지는 링크만 있어 확인 실패</small></li>
+      <li><a href="https://docs.tosspayments.com/resources/glossary/cash-receipt">현금영수증 · 토스페이먼츠 용어집</a><small>발급 의무 대상 범위와 단말기를 통한 국세청 자동 통보, 홈택스 조회 시점</small></li>
+      <li><a href="https://toss.tech/article/toss-pos-plugin">포스를 확장하는 가장 빠른 방법, 포스 플러그인 · Toss Tech</a><small>웹 워커 장애 격리와 플러그인이 접근 가능한 리소스 범위. Day 25용 핵심 문서</small></li>
+    </ul>
+  </section>
+
+  <nav class="pager">
+    <a class="prev" href="day-20.html"><small>← DAY 20</small>승인 없이 파는 법</a>
+    <span></span>
+  </nav>
+
+  <footer>
+    <b>21일 과정 끝</b><br>
+    결제 한 건의 길에서 시작해 매장 하나의 POS까지 왔다. 처음부터 다시 보려면 <a href="../payment-domain-map.html" style="color:inherit">결제 도메인 지도</a>로.
+  </footer>
+
+</div>
+
+</body></html>
